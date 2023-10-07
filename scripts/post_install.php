@@ -44,13 +44,16 @@ function post_install()
         }
         $configurator->handleOverride();
 
-        if (createJOB('Campaigner- Prompt', 'function::siPreparePrompt', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner- Prompt job created');
+        if (createJOB('Campaigner - Prepare Email', 'function::siPrepareEmail', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('Campaigner - Prepare Email job created');
         }
-        //Campaigner- Drive
-        if (createJOB('Campaigner- Send Emails', 'function::siSendEmails', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner- Send Emails job created');
+        if (createJOB('Campaigner - Send Emails', 'function::siSendEmails', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('Campaigner - Send Emails job created');
         }
+        if (createJOB('Campaigner - Sync Replies', 'function::siSSyncReplies', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('Campaigner - Sync Replies job created');
+        }
+
         require 'custom/include/ModuleInstaller/CustomModuleInstaller.php';
         $installer_func = new CustomModuleInstaller();
         //add gmail id field in users' editview
@@ -59,7 +62,9 @@ function post_install()
         $installer_func->addFieldsToLayout(['Accounts' => 'si_linkedin_profile_c']);
         $installer_func->removeFieldsFromLayout(['Accounts' => 'si_linkedin_bio_c']);
         $installer_func->addFieldsToLayout(['Accounts' => 'si_linkedin_bio_c']);
-        $installer_func->removeFieldsFromLayout(['Accounts' => 'si_linkedin_profile_c']);
+        $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_status_c']);
+        $installer_func->addFieldsToLayout(['Leads' => 'si_email_status_c']);
+        $installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile_c']);
         $installer_func->addFieldsToLayout(['Leads' => 'si_linkedin_profile_c']);
         $installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_bio_c']);
         $installer_func->addFieldsToLayout(['Leads' => 'si_linkedin_bio_c']);
@@ -73,9 +78,9 @@ function post_install()
         $installer_func->addFieldsToLayout(['Leads' => 'si_email_body_c']);
         $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject_c']);
         $installer_func->addFieldsToLayout(['Leads' => 'si_email_subject_c']);
-        repair_and_rebuild();
         $installer_func->removeFieldsFromLayout(['Users' => 'si_gmail_id_c']);
         $installer_func->addFieldsToLayout(['Users' => 'si_gmail_id_c']);
+        repair_and_rebuild();
         $GLOBALS['log']->fatal("SICampaigner installed successfully...");
     } catch (Exception $ex) {
         $GLOBALS['log']->fatal("SICampaigner Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
@@ -87,7 +92,7 @@ function post_install()
 }
 
 /**
- * That function replace content of File 'vendor/zf1/zend-xml/library/Zend/Xml/Security.php' with file 'custom/include/vendor_replace/Security.php'.
+ * This function replaces contents of File 'vendor/zf1/zend-xml/library/Zend/Xml/Security.php' with file 'custom/include/vendor_replace/Security.php'.
  * In file 'vendor/zf1/zend-xml/library/Zend/Xml/Security.php' on line 172 version_compare function is called with gte operator, php8 does not support
  * gte operator in version_compare function. That function will only be executed when php version is 8.
  */
