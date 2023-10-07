@@ -26,7 +26,6 @@ $manifest = [
   'remove_tables' => 'prompt',
 ];
 
-
 $installdefs = [
   'id' => 'StackImagine_Campaigner',
   'beans' => [
@@ -46,6 +45,10 @@ $installdefs = [
       'from' => '<basepath>/modules/si_campaigner',
       'to' => 'modules/si_campaigner',
     ],
+    [
+      'from' => '<basepath>/custom',
+      'to' => 'custom',
+    ],
   ],
   'language' => [
     [
@@ -56,48 +59,58 @@ $installdefs = [
   ],
   'custom_fields' => [
     [
+      'name'           => 'si_gmail_id_c',
+      'label'          => 'LBL_SI_GMAIL_ID',
+      'type'           => 'varchar',
+      'default'        => '',
+      'reportable'     => true,
+      'massupdate'     => false,
+      'importable'     => true,
+      'module'         => 'Users',
+    ],
+    [
       'name'           => 'si_linkedin_profile',
-      'label'          => 'LBL_LINKEDIN_PROFILE',
+      'label'          => 'LBL_SI_LINKEDIN_PROFILE',
       'type'           => 'varchar',
       'default'        => '',
       'reportable'     => false,
       'massupdate'     => false,
-      'importable'     => false,
+      'importable'     => true,
       'module'         => 'Leads',
     ],
     [
       'name'           => 'si_linkedin_bio',
-      'label'          => 'LBL_LINKEDIN_BIO',
+      'label'          => 'LBL_SI_LINKEDIN_BIO',
       'type'           => 'text',
       'default'        => '',
       'reportable'     => false,
       'massupdate'     => false,
-      'importable'     => false,
+      'importable'     => true,
       'module'         => 'Leads',
     ],
     [
       'name'           => 'si_linkedin_profile',
-      'label'          => 'LBL_LINKEDIN_PROFILE',
+      'label'          => 'LBL_SI_LINKEDIN_PROFILE',
       'type'           => 'varchar',
       'default'        => '',
-      'reportable'     => false,
+      'reportable'     => true,
       'massupdate'     => false,
-      'importable'     => false,
+      'importable'     => true,
       'module'         => 'Accounts',
     ],
     [
       'name'           => 'si_linkedin_bio',
-      'label'          => 'LBL_LINKEDIN_BIO',
+      'label'          => 'LBL_SI_LINKEDIN_BIO',
       'type'           => 'text',
       'default'        => '',
       'reportable'     => false,
       'massupdate'     => false,
-      'importable'     => false,
+      'importable'     => true,
       'module'         => 'Accounts',
     ],
     [
       'name'           => 'si_company_linkedin_profile',
-      'label'          => 'LBL_COMPANY_LINKEDIN_PROFILE',
+      'label'          => 'LBL_SI_COMPANY_LINKEDIN_PROFILE',
       'type'           => 'varchar',
       'default'        => '',
       'reportable'     => false,
@@ -107,7 +120,7 @@ $installdefs = [
     ],
     [
       'name'           => 'si_company_linkedin_bio',
-      'label'          => 'LBL_COMPANY_LINKEDIN_BIO',
+      'label'          => 'LBL_SI_COMPANY_LINKEDIN_BIO',
       'type'           => 'text',
       'default'        => '',
       'reportable'     => false,
@@ -117,7 +130,7 @@ $installdefs = [
     ],
     [
       'name'           => 'si_prompt',
-      'vname'          => 'LBL_PROMPT',
+      'vname'          => 'LBL_SI_PROMPT',
       'type'           => 'text',
       'default'        => '',
       'reportable'     => false,
@@ -127,7 +140,7 @@ $installdefs = [
     ],
     [
       'name'           => 'si_email_body',
-      'vname'          => 'LBL_EMAIL_BODY',
+      'vname'          => 'LBL_SI_EMAIL_BODY',
       'type'           => 'text',
       'default'        => '',
       'reportable'     => false,
@@ -137,24 +150,16 @@ $installdefs = [
     ],
     [
       'name'           => 'si_email_subject',
-      'vname'          => 'LBL_EMAIL_SUBJECT',
+      'vname'          => 'LBL_SI_EMAIL_SUBJECT',
       'type'           => 'varchar',
       'default'        => '',
       'reportable'     => false,
       'massupdate'     => false,
       'importable'     => false,
       'module'         => 'Leads',
-    ],
-    [
-      'name'           => 'si_gmail_id',
-      'vname'          => 'LBL_GMAIL_ID',
-      'type'           => 'varchar',
-      'reportable'     => false,
-      'importable'     => false,
-      'studio'         => false,
-      'default'        => '',
-      'module'         => 'Users',
-
-    ],
+    ]
+  ],
+  'post_uninstall' => [
+    '<basepath>/scripts/post_uninstall.php',
   ],
 ];
