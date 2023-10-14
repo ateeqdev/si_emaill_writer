@@ -31,9 +31,9 @@ $installdefs = [
   'beans' => [
     0 =>
     [
-      'module' => 'si_campaigner',
-      'class' => 'si_campaigner',
-      'path' => 'modules/si_campaigner/si_campaigner.php',
+      'module' => 'si_Campaigner',
+      'class' => 'si_Campaigner',
+      'path' => 'modules/si_Campaigner/si_Campaigner.php',
       'tab' => true,
     ],
   ],
@@ -42,8 +42,8 @@ $installdefs = [
   'image_dir' => '<basepath>/custom/themes/default',
   'copy' => [
     [
-      'from' => '<basepath>/modules/si_campaigner',
-      'to' => 'modules/si_campaigner',
+      'from' => '<basepath>/modules/si_Campaigner',
+      'to' => 'modules/si_Campaigner',
     ],
     [
       'from' => '<basepath>/custom',

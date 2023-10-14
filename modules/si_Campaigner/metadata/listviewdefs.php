@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SugarCRM Community Edition is a customer relationship management program developed by
@@ -38,13 +39,24 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 
-$module_name = 'si_campaigner';
-$metafiles[$module_name] = array(
-    'detailviewdefs' => 'modules/' . $module_name . '/metadata/detailviewdefs.php',
-    'editviewdefs' => 'modules/' . $module_name . '/metadata/editviewdefs.php',
-    'listviewdefs' => 'modules/' . $module_name . '/metadata/listviewdefs.php',
-    'searchdefs' => 'modules/' . $module_name . '/metadata/searchdefs.php',
-    'popupdefs' => 'modules/' . $module_name . '/metadata/popupdefs.php',
-    'searchfields' => 'modules/' . $module_name . '/metadata/SearchFields.php',
-    'subpaneldefs' => 'modules/' . $module_name . '/metadata/subpaneldefs.php',
+if (!defined('sugarEntry') || !sugarEntry) {
+    die('Not A Valid Entry Point');
+}
+
+$module_name = 'si_Campaigner';
+$listViewDefs[$module_name] = array(
+    'NAME' => array(
+        'width' => '32',
+        'label' => 'LBL_NAME',
+        'default' => true,
+        'link' => true
+    ),
+    'ASSIGNED_USER_NAME' => array(
+        'width' => '9',
+        'label' => 'LBL_ASSIGNED_TO_NAME',
+        'module' => 'Employees',
+        'id' => 'ASSIGNED_USER_ID',
+        'default' => true
+    ),
+
 );

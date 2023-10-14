@@ -1,5 +1,5 @@
 <?php
-$module_name = 'si_campaigner';
+$module_name = 'si_Campaigner';
 $layout_defs[$module_name]['subpanel_setup']['securitygroups'] = array(
     'top_buttons' => array(array('widget_class' => 'SubPanelTopSelectButton', 'popup_module' => 'SecurityGroups', 'mode' => 'MultiSelect')),
     'order' => 900,

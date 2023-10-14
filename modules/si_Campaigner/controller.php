@@ -4,7 +4,11 @@ class si_CampaignerController extends SugarController
 {
 	public function action_getCompanyData()
 	{
-		$id = $_REQUEST['id'];
+		if (!$this->acl())
+			return;
+
+		header('Content-Type: application/json');
+		$id = $_REQUEST['leadId'];
 		$lead = \BeanFactory::getBean('Leads', $id);
 
 		if (!$lead) {
@@ -17,16 +21,22 @@ class si_CampaignerController extends SugarController
 			echo json_encode(['error' => 'No related account found']);
 			return;
 		}
-		$account = reset($relatedAccount);
-
-		$linkedinProfile = $account->linkedin_profile_c;
-		$linkedinBio = $account->linkedin_bio_c;
+		$account = \BeanFactory::getBean('Accounts', $relatedAccount[0]);
 
 		$response = [
-			'company_linkedin_profile_c' => $linkedinProfile,
-			'company_linkedin_bio_c' => $linkedinBio
+			'si_company_linkedin_profile_c' => $account->si_linkedin_profile_c,
+			'si_company_linkedin_bio_c' => $account->si_linkedin_bio_c
 		];
 		header('Content-Type: application/json');
 		echo json_encode($response);
+	}
+
+	public function acl()
+	{
+		global $current_user;
+		if (!$current_user->id) {
+			return false;
+		}
+		return true;
 	}
 }

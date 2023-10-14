@@ -1,11 +1,21 @@
 <?php
-$module_name = 'si_campaigner';
+$module_name = 'si_Campaigner';
 $viewdefs [$module_name] = 
 array (
-  'QuickCreate' => 
+  'DetailView' => 
   array (
     'templateMeta' => 
     array (
+      'form' => 
+      array (
+        'buttons' => 
+        array (
+          0 => 'EDIT',
+          1 => 'DUPLICATE',
+          2 => 'DELETE',
+          3 => 'FIND_DUPLICATES',
+        ),
+      ),
       'maxColumns' => '2',
       'widths' => 
       array (
@@ -29,6 +39,7 @@ array (
           'panelDefault' => 'expanded',
         ),
       ),
+      'syncDetailEditViews' => true,
     ),
     'panels' => 
     array (
@@ -41,6 +52,10 @@ array (
         ),
         1 => 
         array (
+          0 => 'description',
+        ),
+        2 => 
+        array (
           0 => 
           array (
             'name' => 'anthropic_key',
@@ -52,7 +67,7 @@ array (
             'label' => 'LBL_OPENAI_KEY',
           ),
         ),
-        2 => 
+        3 => 
         array (
           0 => 
           array (
@@ -66,9 +81,17 @@ array (
             'label' => 'LBL_MAX_FOLLOW_UPS',
           ),
         ),
+        4 => 
+        array (
+          0 => 
+          array (
+            'name' => 'prompt',
+            'studio' => 'visible',
+            'label' => 'LBL_PROMPT',
+          ),
+        ),
       ),
     ),
   ),
 );
 ;
-?>

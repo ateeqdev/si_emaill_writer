@@ -1,5 +1,5 @@
 <?php
-$module_name = 'si_campaigner';
+$module_name = 'si_Campaigner';
 $viewdefs [$module_name] = 
 array (
   'EditView' => 
@@ -85,4 +85,3 @@ array (
   ),
 );
 ;
-?>

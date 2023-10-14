@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SugarCRM Community Edition is a customer relationship management program developed by
@@ -38,28 +39,26 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 
-if (!defined('sugarEntry') || !sugarEntry) {
-    die('Not A Valid Entry Point');
-}
-
-require_once('include/Dashlets/DashletGeneric.php');
-require_once('modules/si_campaigner/si_campaigner.php');
-
-class si_campaignerDashlet extends DashletGeneric {
-    function __construct($id, $def = null)
-    {
-        global $current_user, $app_strings;
-        require('modules/si_campaigner/metadata/dashletviewdefs.php');
-
-        parent::__construct($id, $def);
-
-        if (empty($def['title'])) {
-            $this->title = translate('LBL_HOMEPAGE_TITLE', 'si_campaigner');
-        }
-
-        $this->searchFields = $dashletData['si_campaignerDashlet']['searchFields'];
-        $this->columns = $dashletData['si_campaignerDashlet']['columns'];
-
-        $this->seedBean = new si_campaigner();        
-    }
-}
+$module_name = 'si_Campaigner';
+$searchdefs[$module_name] = array(
+    'templateMeta' => array(
+        'maxColumns' => '3',
+        'maxColumnsBasic' => '4',
+        'widths' => array('label' => '10', 'field' => '30'),
+    ),
+    'layout' => array(
+        'basic_search' => array(
+            'name',
+            array('name' => 'current_user_only', 'label' => 'LBL_CURRENT_USER_FILTER', 'type' => 'bool'),
+        ),
+        'advanced_search' => array(
+            'name',
+            array(
+                'name' => 'assigned_user_id',
+                'label' => 'LBL_ASSIGNED_TO',
+                'type' => 'enum',
+                'function' => array('name' => 'get_user_array', 'params' => array(false))
+            ),
+        ),
+    ),
+);

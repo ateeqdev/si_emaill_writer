@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SugarCRM Community Edition is a customer relationship management program developed by
@@ -38,15 +39,40 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 
- if (!defined('sugarEntry') || !sugarEntry) {
+if (!defined('sugarEntry') || !sugarEntry) {
     die('Not A Valid Entry Point');
 }
 
-global $mod_strings, $app_strings, $sugar_config;
- 
-if(ACLController::checkAccess('si_campaigner', 'edit', true)){
-    $module_menu[]=array('index.php?module=si_campaigner&action=EditView&return_module=si_campaigner&return_action=DetailView', $mod_strings['LNK_NEW_RECORD'], 'Add', 'si_campaigner');
-}
-if(ACLController::checkAccess('si_campaigner', 'list', true)){
-    $module_menu[]=array('index.php?module=si_campaigner&action=index&return_module=si_campaigner&return_action=DetailView', $mod_strings['LNK_LIST'],'View', 'si_campaigner');
-}
+$module_name = 'si_Campaigner';
+$subpanel_layout = array(
+    'top_buttons' => array(
+        array('widget_class' => 'SubPanelTopCreateButton'),
+        array('widget_class' => 'SubPanelTopSelectButton', 'popup_module' => $module_name),
+    ),
+
+    'where' => '',
+
+    'list_fields' => array(
+        'name' => array(
+            'vname' => 'LBL_NAME',
+            'widget_class' => 'SubPanelDetailViewLink',
+            'width' => '45%',
+        ),
+        'date_modified' => array(
+            'vname' => 'LBL_DATE_MODIFIED',
+            'width' => '45%',
+        ),
+        'edit_button' => array(
+            'vname' => 'LBL_EDIT_BUTTON',
+            'widget_class' => 'SubPanelEditButton',
+            'module' => $module_name,
+            'width' => '4%',
+        ),
+        'remove_button' => array(
+            'vname' => 'LBL_REMOVE',
+            'widget_class' => 'SubPanelRemoveButton',
+            'module' => $module_name,
+            'width' => '5%',
+        ),
+    ),
+);

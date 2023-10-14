@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SugarCRM Community Edition is a customer relationship management program developed by
@@ -42,20 +43,11 @@ if (!defined('sugarEntry') || !sugarEntry) {
     die('Not A Valid Entry Point');
 }
 
-$module_name = 'si_campaigner';
-$listViewDefs[$module_name] = array(
-    'NAME' => array(
-        'width' => '32',
-        'label' => 'LBL_NAME',
-        'default' => true,
-        'link' => true
-    ),
-    'ASSIGNED_USER_NAME' => array(
-        'width' => '9',
-        'label' => 'LBL_ASSIGNED_TO_NAME',
-        'module' => 'Employees',
-        'id' => 'ASSIGNED_USER_ID',
-        'default' => true
-    ),
+global $mod_strings, $app_strings, $sugar_config;
 
-);
+if (ACLController::checkAccess('si_Campaigner', 'edit', true)) {
+    $module_menu[] = array('index.php?module=si_Campaigner&action=EditView&return_module=si_Campaigner&return_action=DetailView', $mod_strings['LNK_NEW_RECORD'], 'Add', 'si_Campaigner');
+}
+if (ACLController::checkAccess('si_Campaigner', 'list', true)) {
+    $module_menu[] = array('index.php?module=si_Campaigner&action=index&return_module=si_Campaigner&return_action=DetailView', $mod_strings['LNK_LIST'], 'View', 'si_Campaigner');
+}
