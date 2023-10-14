@@ -112,11 +112,11 @@ $dictionary['si_Campaigner'] = array(
       'len' => '255',
       'size' => '20',
     ),
-    'max_follow_ups' =>
+    'max_followups' =>
     array(
       'required' => false,
-      'name' => 'max_follow_ups',
-      'vname' => 'LBL_MAX_FOLLOW_UPS',
+      'name' => 'max_followups',
+      'vname' => 'LBL_MAX_FOLLOWUPS',
       'type' => 'int',
       'massupdate' => 0,
       'default' => '5',
@@ -138,11 +138,11 @@ $dictionary['si_Campaigner'] = array(
       'min' => false,
       'max' => false,
     ),
-    'follow_ups_counter' =>
+    'followups_counter' =>
     array(
       'required' => false,
-      'name' => 'follow_ups_counter',
-      'vname' => 'LBL_FOLLOW_UPS_COUNTER',
+      'name' => 'followups_counter',
+      'vname' => 'LBL_FOLLOWUPS_COUNTER',
       'type' => 'int',
       'massupdate' => 0,
       'default' => '0',

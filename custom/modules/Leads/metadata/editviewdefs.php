@@ -123,23 +123,12 @@ $viewdefs['Leads'] =
           array(
             0 =>
             array(
-              'name' => 'account_name',
-              'type' => 'varchar',
-              'validateDependency' => false,
-              'customCode' => '<input name="account_name" id="EditView_account_name" {if ($fields.converted.value == 1)}disabled="true"{/if} size="30" maxlength="255" type="text" value="{$fields.account_name.value}">',
-            ),
-            1 => 'website',
-          ),
-          7 =>
-          array(
-            0 =>
-            array(
               'name' => 'si_linkedin_bio',
               'studio' => 'visible',
               'label' => 'LBL_SI_LINKEDIN_BIO',
             ),
           ),
-          8 =>
+          7 =>
           array(
             0 =>
             array(
@@ -147,6 +136,17 @@ $viewdefs['Leads'] =
               'studio' => 'visible',
               'label' => 'LBL_SI_COMPANY_LINKEDIN_BIO',
             ),
+          ),
+          8 =>
+          array(
+            0 =>
+            array(
+              'name' => 'account_name',
+              'type' => 'varchar',
+              'validateDependency' => false,
+              'customCode' => '<input name="account_name" id="EditView_account_name" {if ($fields.converted.value == 1)}disabled="true"{/if} size="30" maxlength="255" type="text" value="{$fields.account_name.value}">',
+            ),
+            1 => 'website',
           ),
           9 =>
           array(

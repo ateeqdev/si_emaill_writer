@@ -6,15 +6,15 @@ $popupMeta = array(
   'whereClauses' => array(
     'name' => 'si_Campaigner.name',
     'large_language_model' => 'si_Campaigner.large_language_model',
-    'follow_ups_counter' => 'si_Campaigner.follow_ups_counter',
-    'max_follow_ups' => 'si_Campaigner.max_follow_ups',
+    'followups_counter' => 'si_Campaigner.followups_counter',
+    'max_followups' => 'si_Campaigner.max_followups',
     'assigned_user_id' => 'si_Campaigner.assigned_user_id',
   ),
   'searchInputs' => array(
     1 => 'name',
     4 => 'large_language_model',
-    5 => 'follow_ups_counter',
-    6 => 'max_follow_ups',
+    5 => 'followups_counter',
+    6 => 'max_followups',
     7 => 'assigned_user_id',
   ),
   'searchdefs' => array(
@@ -31,19 +31,19 @@ $popupMeta = array(
       'width' => '10%',
       'name' => 'large_language_model',
     ),
-    'follow_ups_counter' =>
+    'followups_counter' =>
     array(
       'type' => 'int',
-      'label' => 'LBL_FOLLOW_UPS_COUNTER',
+      'label' => 'LBL_FOLLOWUPS_COUNTER',
       'width' => '10%',
-      'name' => 'follow_ups_counter',
+      'name' => 'followups_counter',
     ),
-    'max_follow_ups' =>
+    'max_followups' =>
     array(
       'type' => 'int',
-      'label' => 'LBL_MAX_FOLLOW_UPS',
+      'label' => 'LBL_MAX_FOLLOWUPS',
       'width' => '10%',
-      'name' => 'max_follow_ups',
+      'name' => 'max_followups',
     ),
     'assigned_user_id' =>
     array(
@@ -78,18 +78,18 @@ $popupMeta = array(
       'label' => 'LBL_LARGE_LANGUAGE_MODEL',
       'width' => '10%',
     ),
-    'MAX_FOLLOW_UPS' =>
+    'MAX_FOLLOWUPS' =>
     array(
       'type' => 'int',
       'default' => true,
-      'label' => 'LBL_MAX_FOLLOW_UPS',
+      'label' => 'LBL_MAX_FOLLOWUPS',
       'width' => '10%',
     ),
-    'FOLLOW_UPS_COUNTER' =>
+    'FOLLOWUPS_COUNTER' =>
     array(
       'type' => 'int',
       'default' => true,
-      'label' => 'LBL_FOLLOW_UPS_COUNTER',
+      'label' => 'LBL_FOLLOWUPS_COUNTER',
       'width' => '10%',
     ),
     'ASSIGNED_USER_NAME' =>

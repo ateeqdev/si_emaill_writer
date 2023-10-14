@@ -28,7 +28,8 @@ $app_list_strings = array(
         'meeting_done' => 'Meeting Done',
         'closed_won' => 'Closed Won',
         'closed_lost' => 'Closed Lost',
-        'error' => 'error',
-        'false_lead' => 'false_lead',
+        'error' => 'Error',
+        'false_lead' => 'False Lead',
+        'do_not_contact' => 'Do Not Contact',
     ),
 );

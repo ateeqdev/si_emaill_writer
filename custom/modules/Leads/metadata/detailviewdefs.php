@@ -160,20 +160,12 @@ $viewdefs['Leads'] = array(
         array(
           0 =>
           array(
-            'name' => 'account_name',
-          ),
-          1 => 'website',
-        ),
-        7 =>
-        array(
-          0 =>
-          array(
             'name' => 'si_linkedin_bio',
             'studio' => 'visible',
             'label' => 'LBL_SI_LINKEDIN_BIO',
           ),
         ),
-        8 =>
+        7 =>
         array(
           0 =>
           array(
@@ -181,6 +173,14 @@ $viewdefs['Leads'] = array(
             'studio' => 'visible',
             'label' => 'LBL_SI_COMPANY_LINKEDIN_BIO',
           ),
+        ),
+        8 =>
+        array(
+          0 =>
+          array(
+            'name' => 'account_name',
+          ),
+          1 => 'website',
         ),
         9 =>
         array(

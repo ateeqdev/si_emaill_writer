@@ -7,3 +7,5 @@ $mod_strings['LBL_SI_PROMPT'] = 'Prompt';
 $mod_strings['LBL_SI_EMAIL_BODY'] = 'Email Body';
 $mod_strings['LBL_SI_EMAIL_SUBJECT'] = 'Email Subject';
 $mod_strings['LBL_SI_EMAIL_STATUS'] = 'Email Status';
+$mod_strings['LBL_SI_EMAILED_AT'] = 'Emailed At';
+$mod_strings['LBL_SI_FOLLOWUPS_COUNTER'] = 'Followups Counter';

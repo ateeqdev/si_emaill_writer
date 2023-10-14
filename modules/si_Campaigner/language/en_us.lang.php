@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SugarCRM Community Edition is a customer relationship management program developed by
@@ -37,7 +38,7 @@
  * reasonably feasible for technical reasons, the Appropriate Legal Notices must
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
-$mod_strings = array (
+$mod_strings = array(
   'LBL_ASSIGNED_TO_ID' => 'Assigned User Id',
   'LBL_ASSIGNED_TO_NAME' => 'Assigned to',
   'LBL_SECURITYGROUPS' => 'Security Groups',
@@ -77,7 +78,7 @@ $mod_strings = array (
   'LBL_LARGE_LANGUAGE_MODEL' => 'Large Language Model',
   'LBL_OPENAI_KEY' => 'OpenAI Key',
   'LBL_ANTHROPIC_KEY' => 'Anthropic Key',
-  'LBL_MAX_FOLLOW_UPS' => 'Max Number of Follow Ups',
-  'LBL_FOLLOW_UPS_COUNTER' => 'Current Follow Ups Counter',
+  'LBL_MAX_FOLLOWUPS' => 'Max Number of Follow Ups',
+  'LBL_FOLLOWUPS_COUNTER' => 'Current Follow Ups Counter',
   'LBL_PROMPT' => 'Prompt',
 );

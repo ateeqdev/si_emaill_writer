@@ -1,71 +1,71 @@
 <?php
-$dashletData['si_campaignerDashlet']['searchFields'] = array (
-  'name' => 
-  array (
+$dashletData['si_campaignerDashlet']['searchFields'] = array(
+  'name' =>
+  array(
     'default' => '',
   ),
-  'max_follow_ups' => 
-  array (
+  'max_followups' =>
+  array(
     'default' => '',
   ),
-  'follow_ups_counter' => 
-  array (
+  'followups_counter' =>
+  array(
     'default' => '',
   ),
-  'date_entered' => 
-  array (
+  'date_entered' =>
+  array(
     'default' => '',
   ),
-  'date_modified' => 
-  array (
+  'date_modified' =>
+  array(
     'default' => '',
   ),
-  'assigned_user_id' => 
-  array (
+  'assigned_user_id' =>
+  array(
     'default' => '',
   ),
 );
-$dashletData['si_campaignerDashlet']['columns'] = array (
-  'name' => 
-  array (
+$dashletData['si_campaignerDashlet']['columns'] = array(
+  'name' =>
+  array(
     'width' => '40%',
     'label' => 'LBL_LIST_NAME',
     'link' => true,
     'default' => true,
     'name' => 'name',
   ),
-  'date_modified' => 
-  array (
+  'date_modified' =>
+  array(
     'width' => '15%',
     'label' => 'LBL_DATE_MODIFIED',
     'name' => 'date_modified',
     'default' => false,
   ),
-  'created_by' => 
-  array (
+  'created_by' =>
+  array(
     'width' => '8%',
     'label' => 'LBL_CREATED',
     'name' => 'created_by',
     'default' => false,
   ),
-  'follow_ups_counter' => 
-  array (
+  'followups_counter' =>
+  array(
     'type' => 'int',
     'default' => false,
-    'label' => 'LBL_FOLLOW_UPS_COUNTER',
+    'label' => 'LBL_FOLLOWUPS_COUNTER',
     'width' => '10%',
-    'name' => 'follow_ups_counter',
+    'name' => 'followups_counter',
   ),
-  'max_follow_ups' => 
-  array (
+  'max_followups' =>
+  array(
     'type' => 'int',
     'default' => false,
-    'label' => 'LBL_MAX_FOLLOW_UPS',
+    'label' => 'LBL_MAX_FOLLOWUPS',
     'width' => '10%',
-    'name' => 'max_follow_ups',
+    'name' => 'max_followups',
   ),
-  'large_language_model' => 
-  array (
+  'large_language_model' =>
+  array(
     'type' => 'enum',
     'default' => false,
     'studio' => 'visible',
@@ -73,8 +73,8 @@ $dashletData['si_campaignerDashlet']['columns'] = array (
     'width' => '10%',
     'name' => 'large_language_model',
   ),
-  'assigned_user_name' => 
-  array (
+  'assigned_user_name' =>
+  array(
     'width' => '8%',
     'label' => 'LBL_LIST_ASSIGNED_USER',
     'name' => 'assigned_user_name',
