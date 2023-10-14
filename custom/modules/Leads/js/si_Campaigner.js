@@ -9,23 +9,19 @@ document.addEventListener("DOMContentLoaded", function () {
   approveButton.value = "Approve";
   approveButton.id = "APPROVE";
 
-  var buttonsElement = document.querySelector(".buttons");
+  var buttonsElement =
+    document.querySelector("ul.nav.nav-tabs") ||
+    document.querySelector(".buttons");
   buttonsElement.appendChild(approveButton);
 });
 
 function getCompanyData() {
-  var id = document.querySelector('input[name="record"]').value;
+  var leadId = document.querySelector('input[name="record"]').value;
   const request = new Request(
-    "index.php?module=si_Campaigner&action=leadscontroller&to_pdf=1&sugar_body_only=true",
+    "index.php?module=si_Campaigner&action=getCompanyData&to_pdf=1&leadId=" +
+      leadId,
     {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        method: "getCompanyData",
-        id: id,
-      }),
+      method: "GET",
     }
   );
 
@@ -38,9 +34,31 @@ function getCompanyData() {
       }
     })
     .then((data) => {
-      if (data && data.si_company_linkedin_profile_c) {
-        document.getElementById("si_company_linkedin_profile_c").value =
-          data.si_company_linkedin_profile_c;
+      if (!data) return;
+      if (data.si_company_linkedin_profile_c) {
+        var companyProfileElement = document.getElementById(
+          "si_company_linkedin_profile_c"
+        );
+
+        if (companyProfileElement.tagName === "INPUT") {
+          // In EditView, update the input field value
+          companyProfileElement.value = data.si_company_linkedin_profile_c;
+        } else {
+          // In DetailView, update the innerHTML
+          companyProfileElement.innerHTML =
+            "<a target='_blank' href='" +
+            data.si_company_linkedin_profile_c +
+            "'>" +
+            data.si_company_linkedin_profile_c +
+            "</a>";
+        }
+      }
+
+      if (data && data.si_company_linkedin_bio_c) {
+        var companyBioElement = document.getElementById(
+          "si_company_linkedin_bio_c"
+        );
+        companyBioElement.innerHTML = data.si_company_linkedin_bio_c;
       }
     })
     .catch((error) => {

@@ -73,24 +73,48 @@ $viewdefs['Leads'] =
               'name' => 'first_name',
               'customCode' => '{html_options name="salutation" id="salutation" options=$fields.salutation.options selected=$fields.salutation.value}&nbsp;<input name="first_name"  id="first_name" size="25" maxlength="25" type="text" value="{$fields.first_name.value}">',
             ),
-            1 => '',
+            1 => 'last_name',
           ),
           1 =>
           array(
-            0 => 'last_name',
-            1 => 'phone_work',
+            0 => 'title',
+            1 => 'department',
           ),
           2 =>
           array(
-            0 => 'title',
-            1 => 'phone_mobile',
+            0 => 'email1',
           ),
           3 =>
           array(
-            0 => 'department',
-            1 => 'phone_fax',
+            0 =>
+            array(
+              'name' => 'si_email_subject_c',
+              'label' => 'LBL_SI_EMAIL_SUBJECT',
+            ),
           ),
           4 =>
+          array(
+            0 =>
+            array(
+              'name' => 'si_email_body_c',
+              'studio' => 'visible',
+              'label' => 'LBL_SI_EMAIL_BODY',
+            ),
+          ),
+          5 =>
+          array(
+            0 =>
+            array(
+              'name' => 'si_linkedin_profile_c',
+              'label' => 'LBL_SI_LINKEDIN_PROFILE',
+            ),
+            1 =>
+            array(
+              'name' => 'si_company_linkedin_profile_c',
+              'label' => 'LBL_SI_COMPANY_LINKEDIN_PROFILE',
+            ),
+          ),
+          6 =>
           array(
             0 =>
             array(
@@ -101,7 +125,25 @@ $viewdefs['Leads'] =
             ),
             1 => 'website',
           ),
-          5 =>
+          7 =>
+          array(
+            0 =>
+            array(
+              'name' => 'si_linkedin_bio_c',
+              'studio' => 'visible',
+              'label' => 'LBL_SI_LINKEDIN_BIO',
+            ),
+          ),
+          8 =>
+          array(
+            0 =>
+            array(
+              'name' => 'si_company_linkedin_bio_c',
+              'studio' => 'visible',
+              'label' => 'LBL_SI_COMPANY_LINKEDIN_BIO',
+            ),
+          ),
+          9 =>
           array(
             0 =>
             array(
@@ -131,13 +173,14 @@ $viewdefs['Leads'] =
               ),
             ),
           ),
-          6 =>
-          array(
-            0 => 'email1',
-          ),
-          7 =>
+          10 =>
           array(
             0 => 'description',
+          ),
+          11 =>
+          array(
+            0 => 'phone_mobile',
+            1 => 'phone_work',
           ),
         ),
         'LBL_PANEL_ADVANCED' =>

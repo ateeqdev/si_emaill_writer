@@ -3,7 +3,7 @@
 $app_list_strings = array(
     'moduleList' =>
     array(
-        'si_campaigner' => 'SI Campaigner',
+        'si_Campaigner' => 'SI Campaigner',
     ),
     'large_language_model_list' =>
     array(
