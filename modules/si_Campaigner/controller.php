@@ -24,8 +24,8 @@ class si_CampaignerController extends SugarController
 		$account = \BeanFactory::getBean('Accounts', $relatedAccount[0]);
 
 		$response = [
-			'si_company_linkedin_profile_c' => $account->si_linkedin_profile_c,
-			'si_company_linkedin_bio_c' => $account->si_linkedin_bio_c
+			'si_company_linkedin_profile' => $account->si_linkedin_profile,
+			'si_company_linkedin_bio' => $account->si_linkedin_bio
 		];
 		header('Content-Type: application/json');
 		echo json_encode($response);

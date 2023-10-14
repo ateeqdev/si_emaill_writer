@@ -88,15 +88,20 @@ $viewdefs['Leads'] =
           array(
             0 =>
             array(
-              'name' => 'si_email_subject_c',
+              'name' => 'si_email_subject',
               'label' => 'LBL_SI_EMAIL_SUBJECT',
+            ),
+            1 =>
+            array(
+              'name' => 'si_email_status',
+              'label' => 'LBL_SI_EMAIL_STATUS',
             ),
           ),
           4 =>
           array(
             0 =>
             array(
-              'name' => 'si_email_body_c',
+              'name' => 'si_email_body',
               'studio' => 'visible',
               'label' => 'LBL_SI_EMAIL_BODY',
             ),
@@ -105,12 +110,12 @@ $viewdefs['Leads'] =
           array(
             0 =>
             array(
-              'name' => 'si_linkedin_profile_c',
+              'name' => 'si_linkedin_profile',
               'label' => 'LBL_SI_LINKEDIN_PROFILE',
             ),
             1 =>
             array(
-              'name' => 'si_company_linkedin_profile_c',
+              'name' => 'si_company_linkedin_profile',
               'label' => 'LBL_SI_COMPANY_LINKEDIN_PROFILE',
             ),
           ),
@@ -129,7 +134,7 @@ $viewdefs['Leads'] =
           array(
             0 =>
             array(
-              'name' => 'si_linkedin_bio_c',
+              'name' => 'si_linkedin_bio',
               'studio' => 'visible',
               'label' => 'LBL_SI_LINKEDIN_BIO',
             ),
@@ -138,7 +143,7 @@ $viewdefs['Leads'] =
           array(
             0 =>
             array(
-              'name' => 'si_company_linkedin_bio_c',
+              'name' => 'si_company_linkedin_bio',
               'studio' => 'visible',
               'label' => 'LBL_SI_COMPANY_LINKEDIN_BIO',
             ),

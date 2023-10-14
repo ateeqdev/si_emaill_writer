@@ -35,30 +35,30 @@ function getCompanyData() {
     })
     .then((data) => {
       if (!data) return;
-      if (data.si_company_linkedin_profile_c) {
+      if (data.si_company_linkedin_profile) {
         var companyProfileElement = document.getElementById(
-          "si_company_linkedin_profile_c"
+          "si_company_linkedin_profile"
         );
 
         if (companyProfileElement.tagName === "INPUT") {
           // In EditView, update the input field value
-          companyProfileElement.value = data.si_company_linkedin_profile_c;
+          companyProfileElement.value = data.si_company_linkedin_profile;
         } else {
           // In DetailView, update the innerHTML
           companyProfileElement.innerHTML =
             "<a target='_blank' href='" +
-            data.si_company_linkedin_profile_c +
+            data.si_company_linkedin_profile +
             "'>" +
-            data.si_company_linkedin_profile_c +
+            data.si_company_linkedin_profile +
             "</a>";
         }
       }
 
-      if (data && data.si_company_linkedin_bio_c) {
+      if (data && data.si_company_linkedin_bio) {
         var companyBioElement = document.getElementById(
-          "si_company_linkedin_bio_c"
+          "si_company_linkedin_bio"
         );
-        companyBioElement.innerHTML = data.si_company_linkedin_bio_c;
+        companyBioElement.innerHTML = data.si_company_linkedin_bio;
       }
     })
     .catch((error) => {

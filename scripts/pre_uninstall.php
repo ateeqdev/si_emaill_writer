@@ -15,17 +15,17 @@ function removeFieldsFromLayout()
 {
 	require "ModuleInstall/ModuleInstaller.php";
 	$installer_func = new ModuleInstaller();
-	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_linkedin_profile_c']);
-	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_linkedin_bio_c']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_status_c']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile_c']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_bio_c']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_profile_c']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_bio_c']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_prompt_c']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body_c']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject_c']);
-	$installer_func->removeFieldsFromLayout(['Users' => 'si_gmail_id_c']);
+	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_linkedin_profile']);
+	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_linkedin_bio']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_status']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_bio']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_profile']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_bio']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_prompt']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
+	$installer_func->removeFieldsFromLayout(['Users' => 'si_gmail_id']);
 }
 
 function deleteSchedulerJobs()
