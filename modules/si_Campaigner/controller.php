@@ -25,7 +25,7 @@ class si_CampaignerController extends SugarController
 
 		$response = [
 			'si_company_linkedin_profile' => $account->si_linkedin_profile,
-			'si_company_linkedin_bio' => $account->si_linkedin_bio
+			'si_company_description' => $account->description
 		];
 		header('Content-Type: application/json');
 		echo json_encode($response);

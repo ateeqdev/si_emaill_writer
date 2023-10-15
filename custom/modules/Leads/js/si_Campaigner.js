@@ -54,11 +54,11 @@ function getCompanyData() {
         }
       }
 
-      if (data && data.si_company_linkedin_bio) {
+      if (data && data.si_company_description) {
         var companyBioElement = document.getElementById(
-          "si_company_linkedin_bio"
+          "si_company_description"
         );
-        companyBioElement.innerHTML = data.si_company_linkedin_bio;
+        companyBioElement.innerHTML = data.si_company_description;
       }
     })
     .catch((error) => {

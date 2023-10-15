@@ -1,8 +1,8 @@
 <?php
 
-$dictionary["Lead"]["fields"]["si_company_linkedin_bio"] = array(
-    "name" => "si_company_linkedin_bio",
-    "label" => "LBL_SI_COMPANY_LINKEDIN_BIO",
+$dictionary["Lead"]["fields"]["si_company_description"] = array(
+    "name" => "si_company_description",
+    "label" => "LBL_SI_COMPANY_DESCRIPTION",
     "type" => "text",
     "default" => "",
     "reportable" => false,

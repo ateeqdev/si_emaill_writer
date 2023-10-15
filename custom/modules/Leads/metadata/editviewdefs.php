@@ -132,9 +132,9 @@ $viewdefs['Leads'] =
           array(
             0 =>
             array(
-              'name' => 'si_company_linkedin_bio',
+              'name' => 'si_company_description',
               'studio' => 'visible',
-              'label' => 'LBL_SI_COMPANY_LINKEDIN_BIO',
+              'label' => 'LBL_SI_COMPANY_DESCRIPTION',
             ),
           ),
           8 =>
