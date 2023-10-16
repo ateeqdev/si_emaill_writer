@@ -8,7 +8,7 @@ function post_install()
         require_once('modules/Configurator/Configurator.php');
         require_once("modules/Administration/QuickRepairAndRebuild.php");
         $configurator = new Configurator();
-        $rt_config = array(
+        $si_config = array(
             'GOOGLE' => array(
                 'APP_NAME' => 'SI Campaigner',
                 'PROJECT_ID' => 'sincere-office-185506',
@@ -26,7 +26,7 @@ function post_install()
         );
         //Load config
         $configurator->loadConfig();
-        $configurator->config = array_merge($configurator->config, $rt_config);
+        $configurator->config = array_merge($configurator->config, $si_config);
         //Save the new setting
         if (!array_key_exists('http_referer', $configurator->config)) {
             $configurator->config['http_referer'] = array();

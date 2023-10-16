@@ -44,6 +44,12 @@ $GLOBALS['log']->debug('si_Campaigner - Initiating Autoloader');
 $classes = array(
     // Sugar\Helpers
     'si_Campaigner\Sugar\Helpers\DBHelper',
+    'si_Campaigner\Sugar\Helpers\UpdateBean',
+    // apiCalls
+    'si_Campaigner\apiCalls\ApiAdapter',
+    'si_Campaigner\apiCalls\OAuthApiAdapter',
+    // Google
+    'si_Campaigner\Google\AccessToken',
 );
 foreach ($classes as $class) {
     load($class);
