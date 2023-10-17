@@ -26,7 +26,7 @@ class UpdateBean
 
         foreach ($fieldsToUpdate as $data) {
             if (isset($data['id']) && !empty($data['id'])) {
-                $bean = \BeanFactory::getBean($beanName, $data['id']);
+                $bean = \BeanFactory::getBean(ucfirst($beanName), $data['id']);
                 unset($data['id']);
                 foreach ($data as $k => $v) {
                     $bean->$k = $v;

@@ -8,16 +8,13 @@ use si_Campaigner\Sugar\Helpers\UpdateBean;
 try {
 	global $sugar_config, $current_user;
 	if (isset($_GET['code'])) {
-
 		$newCredentials = OAuthApiAdapter::authenticate($_GET['code'], $current_user->id);
-		$GLOBALS['log']->debug('File: ' . __FILE__ . ', Line# ' . __LINE__ . ' ' . $newCredentials);
-		UpdateBean::update('users', $newCredentials);
-		$uBean = new \Users();
-		$uBean->retrieve($current_user->id);
+		$GLOBALS['log']->debug('File: ' . __FILE__ . ', Line# ' . __LINE__ . ' ', $newCredentials);
+		UpdateBean::update('Users', $newCredentials);
 
-		if (!empty($newCredentials) && !empty($uBean->si_google_refresh_code)) {
+		if (!empty($newCredentials) && !empty($current_user->si_google_refresh_code)) {
 			//show message authentication done and redirect user where you want
-			echo "You have done ....</a>";
+			echo "Already authenticated...</a>";
 			global $current_user;
 			SugarApplication::redirect("index.php?module=Users&action=DetailView&record=" . $current_user->id);
 		} else {
@@ -29,7 +26,7 @@ try {
 			echo "Error occurred please <a href='$authUrl'>try again</a>";
 		} else {
 			//Request authorization
-			$GLOBALS['log']->debug('File: ' . __FILE__ . ', Line# ' . __LINE__ . ' ' . "redirecting to ....");
+			$GLOBALS['log']->fatal('File: ' . __FILE__ . ', Line# ' . __LINE__ . ' ' . "redirecting to ....");
 			$authUrl = OAuthApiAdapter::authorize();
 			echo '<script type="text/javascript"> top.window.location.href="' . $authUrl . '";</script>'; // SuiteCRM 8 Compatible
 			exit;
@@ -42,5 +39,5 @@ try {
 	} else {
 		echo "Error occurred, try later on...";
 	}
-	$GLOBALS['log']->fatal("RTGSync Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
+	$GLOBALS['log']->fatal("si_Campaigner Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
 }

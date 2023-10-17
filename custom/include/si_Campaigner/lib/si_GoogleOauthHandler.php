@@ -1,7 +1,7 @@
 <?php
 require_once 'modules/Users/User.php';
 
-class GoogleOauthHandler
+class si_GoogleOauthHandler
 {
 	public static function getStoredCredentials($user_id)
 	{

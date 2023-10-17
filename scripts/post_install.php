@@ -14,7 +14,7 @@ function post_install()
                 'PROJECT_ID' => 'sincere-office-185506',
                 'CLIENT_ID' => '764812510524-8bcbajv8ibve4lhd7sealuvg50l2qqi9.apps.googleusercontent.com',
                 'CLIENT_SECRET' => 'hV_3dKkt6_OZbwCzwOpa4scl',
-                'REDIRECT_URI' => 'https://cdn-plugins.rolustech.com/campaigner/redirect.php',
+                'REDIRECT_URI' => 'https://cdn-plugins.rolustech.com/gsync/redirect.php',
                 'SCOPES' =>
                 array(
                     0 => 'https://www.googleapis.com/auth/drive', //google drive

@@ -36,17 +36,10 @@ class si_CampaignerHook
     {
         global $current_user;
         if ($bean->module_dir == 'Users' && $current_user->id == $bean->id) {
-            if (isset($_REQUEST['oauth_redirect']) && $_REQUEST['oauth_redirect'] == '1') {
-                $GLOBALS['log']->fatal("redirecting...");
-                SugarApplication::redirect("index.php?module=Users&action=GoogleOauth");
-            }
-        }
-        /*as date modified of document is not going to be changed when new revisions are created , this hook will change date_modified
-        and also as there is no facility to update file of doc as excel or other type due to this reason we have to unlink that doc to be created new one
-        */
-        if ($bean->module_dir == 'DocumentRevisions') {
-            if (!empty($bean->file_mime_type) && !empty($bean->documents->beans[$bean->document_id]->last_rev_mime_type)) {
-                DBHelper::update("documents", ["date_modified" =>  $bean->date_modified], ["id" => ["=", $bean->document_id]]);
+            if (!empty($bean->si_gmail_id) && ($bean->fetched_row['si_gmail_id'] != $bean->si_gmail_id || empty($bean->si_google_refresh_code))) {
+                $bean->fetched_row['si_gmail_id'] = $bean->si_gmail_id;
+                $GLOBALS['log']->fatal("redirecting to GoogleOauth that will redirect to the login screen...");
+                SugarApplication::redirect("index.php?module=Users&action=si_GoogleOauth");
             }
         }
     }

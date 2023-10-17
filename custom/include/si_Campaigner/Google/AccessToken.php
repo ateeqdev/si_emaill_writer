@@ -6,7 +6,7 @@ use si_Campaigner\apiCalls\OAuthApiAdapter;
 use si_Campaigner\Sugar\Helpers\UpdateBean;
 
 require_once 'custom/include/si_Campaigner/Helpers/si_Time.php';
-require_once 'custom/include/si_Campaigner/lib/GoogleOauthHandler.php';
+require_once 'custom/include/si_Campaigner/lib/si_GoogleOauthHandler.php';
 
 /**
  * This class is responsible for getting Access Token from Google Client
@@ -20,7 +20,7 @@ class AccessToken
      */
     public static function getToken($userID)
     {
-        $creds = \GoogleOauthHandler::getStoredCredentials($userID);
+        $creds = \si_GoogleOauthHandler::getStoredCredentials($userID);
         if (!$creds)
             return null;
 

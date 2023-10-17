@@ -61,7 +61,6 @@ class ApiAdapter
         if (curl_errno($curl))
             $GLOBALS['log']->fatal('Curl error: ' . curl_error($curl));
         curl_close($curl);
-        $GLOBALS['log']->debug("RTGSync ApiAdapter response for (" . $url . "): " . $response);
         if (strtoupper($method) == 'DELETE')
             return;
         if (!$parseResponse) {
@@ -72,6 +71,25 @@ class ApiAdapter
             return $response;
         }
         return self::parseResponse($url, $response);
+    }
+
+    public static function printCurlRequest($options)
+    {
+        $curlCommand = 'curl ';
+        foreach ($options as $option => $value) {
+            if ($option === CURLOPT_URL) {
+                $curlCommand .= "'$value' ";
+            } elseif ($option === CURLOPT_CUSTOMREQUEST) {
+                $curlCommand .= "-X $value ";
+            } elseif ($option === CURLOPT_POSTFIELDS) {
+                $curlCommand .= "-d '$value' ";
+            } elseif ($option === CURLOPT_HTTPHEADER) {
+                foreach ($value as $header) {
+                    $curlCommand .= "-H '$header' ";
+                }
+            }
+        }
+        $GLOBALS['log']->debug( "Curl Request: $curlCommand\n");
     }
 
     /**

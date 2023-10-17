@@ -60,7 +60,7 @@ class OAuthApiAdapter extends ApiAdapter
     public static function authorize()
     {
         global $sugar_config, $current_user;
-        $scopes = [];
+        $scopes = $sugar_config['GOOGLE']['SCOPES'];
         $state = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $delimiters = ['/index.php', '/#', '/legacy'];
         foreach ($delimiters as $delimiter) {
@@ -69,9 +69,9 @@ class OAuthApiAdapter extends ApiAdapter
                 $state = substr($state, 0, $length);
         }
         if (version_compare($sugar_config['suitecrm_version'], '8', '<'))
-            $state .= "/index.php?module=Users&action=GoogleOauth";
+            $state .= "/index.php?module=Users&action=si_GoogleOauth";
         else
-            $state .= "/#/Users/GoogleOauth";
+            $state .= "/#/Users/si_GoogleOauth";
 
         return self::makeRequestURL('authorize', ['scopes' => $scopes, 'state' => $state, 'si_gmail_id' => $current_user->si_gmail_id]);
     }
@@ -83,7 +83,6 @@ class OAuthApiAdapter extends ApiAdapter
      */
     public static function authenticate($code, $userID)
     {
-
         $url = self::makeRequestURL('authenticate', ['code' => $code]);
         $response = ApiAdapter::call('POST', $url, true);
         return self::prepareResponse($response, $userID);
