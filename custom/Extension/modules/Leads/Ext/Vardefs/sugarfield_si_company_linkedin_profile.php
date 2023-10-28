@@ -7,6 +7,6 @@ $dictionary["Lead"]["fields"]["si_company_linkedin_profile"] = array(
   "default" => "",
   "reportable" => false,
   "massupdate" => false,
-  "importable" => false,
+  "importable" => true,
   "duplicate_merge" => "disabled",
 );

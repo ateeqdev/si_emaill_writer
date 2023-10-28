@@ -14,5 +14,6 @@ $dictionary["Lead"]["fields"]["si_followups_counter"] = [
   'audited' => false,
   'inline_edit' => true,
   'reportable' => true,
+  "importable" => true,
   'len' => '255',
 ];

@@ -1,6 +1,6 @@
 <?php
 
-$dictionary["Lead"]["fields"]["si_leads_contacted"] = [
+$dictionary["Account"]["fields"]["si_leads_contacted"] = [
     'required' => false,
     'name' => 'si_leads_contacted',
     'vname' => 'LBL_SI_LEADS_CONTACTED',

@@ -8,5 +8,6 @@ $dictionary["Lead"]["fields"]["si_emailed_at"] = [
   'comment' => 'Date record last modified',
   'enable_range_search' => true,
   'options' => 'date_range_search_dom',
+  "importable" => true,
   'inline_edit' => false,
 ];

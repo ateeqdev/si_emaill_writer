@@ -89,7 +89,7 @@ class ApiAdapter
                 }
             }
         }
-        $GLOBALS['log']->debug( "Curl Request: $curlCommand\n");
+        $GLOBALS['log']->debug("Curl Request: $curlCommand\n");
     }
 
     /**

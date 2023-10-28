@@ -11,17 +11,15 @@ function post_install()
         $si_config = array(
             'GOOGLE' => array(
                 'APP_NAME' => 'SI Campaigner',
-                'PROJECT_ID' => 'sincere-office-185506',
-                'CLIENT_ID' => '764812510524-8bcbajv8ibve4lhd7sealuvg50l2qqi9.apps.googleusercontent.com',
-                'CLIENT_SECRET' => 'hV_3dKkt6_OZbwCzwOpa4scl',
+                'PROJECT_ID' => 'gmail-crm-stackimagine',
+                'CLIENT_ID' => '240554306848-mmqvmrritrrhnbvs1qollunlgiosc5he.apps.googleusercontent.com',
+                'CLIENT_SECRET' => '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',
                 'REDIRECT_URI' => 'https://cdn-plugins.rolustech.com/gsync/redirect.php',
                 'SCOPES' =>
                 array(
-                    0 => 'https://www.googleapis.com/auth/drive', //google drive
-                    1 => 'https://www.googleapis.com/auth/calendar', //google calendar
-                    2 => 'https://www.google.com/m8/feeds/', //google contacts
+                    0 => 'https://www.googleapis.com/auth/gmail.send',
+                    1 => 'https://www.googleapis.com/auth/gmail.readonly',
                 ),
-                'APP_ID' => 'AIzaSyATWT-A_a7sm3elgL4w3DXh1WIMxN63FwM',
             ),
         );
         //Load config

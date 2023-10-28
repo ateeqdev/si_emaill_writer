@@ -7,6 +7,6 @@ $dictionary["Lead"]["fields"]["si_company_description"] = array(
     "default" => "",
     "reportable" => false,
     "massupdate" => false,
-    "importable" => false,
+    "importable" => true,
     "duplicate_merge" => "disabled",
 );

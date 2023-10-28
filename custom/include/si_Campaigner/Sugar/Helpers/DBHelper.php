@@ -15,7 +15,7 @@ class DBHelper
     public static function executeQuery($query)
     {
         try {
-            $GLOBALS['log']->debug('si_Campaigner Query: ' . $sql);
+            $GLOBALS['log']->debug('si_Campaigner Query: ' . $query);
             return $GLOBALS['db']->query($query);
         } catch (\Exception $ex) {
             $GLOBALS['log']->fatal("si_Campaigner Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
