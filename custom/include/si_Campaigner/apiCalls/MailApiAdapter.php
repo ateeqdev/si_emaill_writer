@@ -72,19 +72,19 @@ class MailApiAdapter extends ApiAdapter
      * @param string $signature email signature
      * @return string $response
      */
-    function sendEmail($from, $fromName, $to, $subject, $message, $signature = '')
+    public static function sendEmail($from, $fromName, $to, $subject, $message, $signature = '')
     {
         $url = self::makeRequestURL('sendEmail');
+        $rawMessage = "From: $fromName<$from>\r\n" .
+            "To: $to\r\n" .
+            "Subject: $subject\r\n" .
+            "MIME-Version: 1.0\r\n" .
+            "Content-Type: text/html; charset=utf-8\r\n" .
+            "\r\n" .
+            "$message";
+        if ($signature) $message .= "<br><br><div style='color: #888;$signature</div>";
         // Create the base64 encoded email message
-        $base64Message = base64_encode(
-            "From: $fromName<$from>\r\n" .
-                "To: $to\r\n" .
-                "Subject: $subject\r\n" .
-                "MIME-Version: 1.0\r\n" .
-                "Content-Type: text/html; charset=utf-8\r\n" .
-                "\r\n" .
-                "$message <br><br><div style='color: #888;$signature</div>"
-        );
+        $base64Message = base64_encode($rawMessage);
 
         $data = [
             'raw' => $base64Message,

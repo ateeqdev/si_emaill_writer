@@ -15,7 +15,6 @@ try {
 		if (!empty($newCredentials) && !empty($current_user->si_google_refresh_code)) {
 			//show message authentication done and redirect user where you want
 			echo "Already authenticated...</a>";
-			global $current_user;
 			SugarApplication::redirect("index.php?module=Users&action=DetailView&record=" . $current_user->id);
 		} else {
 			//show message authentication fail and redirect user to auth url so that auth code can be grabbed once again

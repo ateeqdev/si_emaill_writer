@@ -23,6 +23,10 @@ class ApiAdapter
      */
     public static function call($method, $url, $newToken = false, $userID = '', $post_fields = '', $mimeType = '', $jsonEncode = true, $parseResponse = true)
     {
+        if (!$userID) {
+            global $current_user;
+            $userID = $current_user->id;
+        }
         $curl = curl_init();
         $options = [
             CURLOPT_URL => $url,
@@ -39,13 +43,16 @@ class ApiAdapter
             $options[CURLOPT_HTTPHEADER] = array(
                 "Content-Type:  application/x-www-form-urlencoded"
             );
-        else
+        else {
+            $access_token = AccessToken::getToken($userID);
+            if (!$access_token) return ['error' => 'access token not found for user with id: ' . $userID];
+
             $options[CURLOPT_HTTPHEADER] = array(
-                "Authorization: Bearer " . AccessToken::getToken($userID),
+                "Authorization: Bearer " . $access_token,
                 "accept: application/json",
                 "content-type: application/json",
             );
-
+        }
         if ($mimeType)
             $options[CURLOPT_HTTPHEADER][2] = "Content-Type: " . $mimeType;
 
@@ -89,7 +96,7 @@ class ApiAdapter
                 }
             }
         }
-        $GLOBALS['log']->debug("Curl Request: $curlCommand\n");
+        $GLOBALS['log']->fatal("Curl Request: $curlCommand\n");
     }
 
     /**

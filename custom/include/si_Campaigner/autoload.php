@@ -47,6 +47,7 @@ $classes = array(
     'si_Campaigner\Sugar\Helpers\UpdateBean',
     // apiCalls
     'si_Campaigner\apiCalls\ApiAdapter',
+    'si_Campaigner\apiCalls\MailApiAdapter',
     'si_Campaigner\apiCalls\OAuthApiAdapter',
     // Google
     'si_Campaigner\Google\AccessToken',

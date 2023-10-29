@@ -26,7 +26,7 @@ class DBHelper
     /**
      * This function executes update query
      * @param  string $table name of the table
-     * @param  string|array  $fields associative array of fields to be updated
+     * @param  string|array  $fields associative array of fields to be selected
      * @param  array  $where associative array of fields to be matched in where clause.
      * @return array $res2 array of results
      * @access public

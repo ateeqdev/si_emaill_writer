@@ -2,6 +2,7 @@
 
 namespace si_Campaigner\Google\Mail;
 
+use si_Campaigner\Sugar\Helpers\DBHelper;
 use si_Campaigner\apiCalls\MailApiAdapter;
 
 /**
@@ -38,6 +39,7 @@ class FromGoogle
      */
     public static function sendEmail($userID, $emailData)
     {
+        DBHelper::select('users', ['si_gmail_id', 'first_name', 'last_name'], ['id' => ['=', $userID]]);
         return MailApiAdapter::sendEmail($userID, $emailData);
     }
 }
