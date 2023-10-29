@@ -2,7 +2,8 @@
 
 namespace si_Campaigner\apiCalls;
 
-use si_Campaigner\Google\AccessToken;
+use si_Campaigner\Google\AccessToken as GoogleAccessToken;
+use si_Campaigner\OpenAI\AccessToken as OpenAIAccessToken;
 
 /**
  * This class makes a CURL call
@@ -15,18 +16,15 @@ class ApiAdapter
      * @param string $url to be appended after standard API URL e.g. contacts/import
      * @param bool $newToken If the request is for new accessToken
      * @param string $userID id of the logged in user to get the access token
+     * @param string $type google, openai, anthropic etc
      * @param string $post_fields If method is PATCH, add data payload
      * @param string $mimeType mimeType of file, only used while uploading a file
      * @param string $jsonEncode Encode the post fields of a regular call. If we need to upload the contents of a file, don't json encode its contents
      * @param string $parseResponse Parse the response of a regular call, if downloading a file don't parse the response
      * @return array $response Response from the CURL call
      */
-    public static function call($method, $url, $newToken = false, $userID = '', $post_fields = '', $mimeType = '', $jsonEncode = true, $parseResponse = true)
+    public static function call($method, $url, $newToken = false, $userID = '', $post_fields = '', $type = "google", $mimeType = '', $jsonEncode = true, $parseResponse = true)
     {
-        if (!$userID) {
-            global $current_user;
-            $userID = $current_user->id;
-        }
         $curl = curl_init();
         $options = [
             CURLOPT_URL => $url,
@@ -44,7 +42,14 @@ class ApiAdapter
                 "Content-Type:  application/x-www-form-urlencoded"
             );
         else {
-            $access_token = AccessToken::getToken($userID);
+            if (!$userID) {
+                global $current_user;
+                $userID = $current_user->id;
+            }
+            if ($type == 'google')
+                $access_token = GoogleAccessToken::getToken($userID);
+            else if ($type == 'openai')
+                $access_token = OpenAIAccessToken::getToken();
             if (!$access_token) return ['error' => 'access token not found for user with id: ' . $userID];
 
             $options[CURLOPT_HTTPHEADER] = array(

@@ -75,6 +75,7 @@ class MailApiAdapter extends ApiAdapter
     public static function sendEmail($from, $fromName, $to, $subject, $message, $signature = '')
     {
         $url = self::makeRequestURL('sendEmail');
+        $message = nl2br(trim($message));
         $rawMessage = "From: $fromName<$from>\r\n" .
             "To: $to\r\n" .
             "Subject: $subject\r\n" .
@@ -82,7 +83,7 @@ class MailApiAdapter extends ApiAdapter
             "Content-Type: text/html; charset=utf-8\r\n" .
             "\r\n" .
             "$message";
-        if ($signature) $message .= "<br><br><div style='color: #888;$signature</div>";
+        if (!empty($signature)) $rawMessage .= "<br><br><div style='color: #888;'>$signature</div>";
         // Create the base64 encoded email message
         $base64Message = base64_encode($rawMessage);
 
@@ -90,7 +91,7 @@ class MailApiAdapter extends ApiAdapter
             'raw' => $base64Message,
         ];
 
-        $response = ApiAdapter::call('POST', $url, false, '', $data, '', true, true);
+        $response = ApiAdapter::call('POST', $url, false, '', $data);
 
         return $response;
     }

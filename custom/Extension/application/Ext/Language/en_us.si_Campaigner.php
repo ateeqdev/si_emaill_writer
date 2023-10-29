@@ -19,6 +19,7 @@ $app_list_strings = array(
         'ready_for_approval' => 'Ready for Approval',
         'approved' => 'Approved',
         'sent' => 'Sent',
+        'followup_not_written' => 'Followup Not Written',
         'followup_written' => 'Followup Written',
         'followup_sent' => 'Followup Sent',
         'reply_received' => 'Reply Received',

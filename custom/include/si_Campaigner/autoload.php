@@ -49,8 +49,10 @@ $classes = array(
     'si_Campaigner\apiCalls\ApiAdapter',
     'si_Campaigner\apiCalls\MailApiAdapter',
     'si_Campaigner\apiCalls\OAuthApiAdapter',
+    'si_Campaigner\apiCalls\OpenAIApiAdapter',
     // Google
     'si_Campaigner\Google\AccessToken',
+    'si_Campaigner\OpenAI\AccessToken',
 );
 foreach ($classes as $class) {
     load($class);
