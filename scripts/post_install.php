@@ -75,8 +75,6 @@ function addFieldsToLayout()
     $installer_func->addFieldsToLayout(['Accounts' => 'si_linkedin_profile']);
     $installer_func->removeFieldsFromLayout(['Accounts' => 'si_leads_contacted']);
     $installer_func->addFieldsToLayout(['Accounts' => 'si_leads_contacted']);
-    // $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_status']);
-    // $installer_func->addFieldsToLayout(['Leads' => 'si_email_status']);
     // $installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
     // $installer_func->addFieldsToLayout(['Leads' => 'si_linkedin_profile']);
     // $installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_bio']);
@@ -85,8 +83,6 @@ function addFieldsToLayout()
     // $installer_func->addFieldsToLayout(['Leads' => 'si_company_linkedin_profile']);
     // $installer_func->removeFieldsFromLayout(['Leads' => 'si_company_description']);
     // $installer_func->addFieldsToLayout(['Leads' => 'si_company_description']);
-    // $installer_func->removeFieldsFromLayout(['Leads' => 'si_prompt']);
-    // $installer_func->addFieldsToLayout(['Leads' => 'si_prompt']);
     // $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);
     // $installer_func->addFieldsToLayout(['Leads' => 'si_email_body']);
     // $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);

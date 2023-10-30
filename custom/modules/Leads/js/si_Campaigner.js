@@ -1,16 +1,160 @@
+function createStyledTextarea(text) {
+  const textarea = document.createElement("textarea");
+  textarea.textContent = text;
+  textarea.style.cssText = "min-height: 300px; width: 100%;";
+  return textarea;
+}
+
+function createButton(id, value, title, accessKey, clickHandler) {
+  const button = document.createElement("input");
+  button.className = "button primary";
+  button.type = "submit";
+  button.name = "button";
+  button.value = value;
+  button.id = id;
+  button.title = title;
+  button.accessKey = accessKey;
+  button.addEventListener("click", clickHandler);
+  return button;
+}
+
+function handleEmailRequest(apiEndpoint, successMessage) {
+  showLoader();
+
+  fetch(apiEndpoint, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Request failed");
+      }
+    })
+    .then((data) => {
+      console.debug(successMessage);
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error(`Error ${successMessage.toLowerCase()}:`, error);
+    })
+    .finally(() => {
+      hideLoader();
+    });
+}
+
+function handleCompanyData(leadId) {
+  const apiEndpoint = `index.php?module=si_Campaigner&action=getCompanyData&to_pdf=1&leadId=${leadId}`;
+  fetch(apiEndpoint)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Request failed");
+      }
+    })
+    .then((data) => {
+      if (data) {
+        const linkedinProfile = data.si_company_linkedin_profile;
+        const companyDescription = data.si_company_description;
+
+        if (linkedinProfile) {
+          formatHref("si_company_linkedin_profile", linkedinProfile);
+        }
+
+        if (companyDescription) {
+          const companyBioElement = document.getElementById(
+            "si_company_description"
+          );
+          companyBioElement.innerHTML = companyDescription;
+        }
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+}
+
+function showLoader() {
+  const overlay = document.createElement("div");
+  overlay.className = "overlay";
+  const loader = document.createElement("div");
+  loader.className = "si_loader";
+  document.body.appendChild(overlay);
+  document.body.appendChild(loader);
+}
+
+function hideLoader() {
+  const loader = document.querySelector(".si_loader");
+  const overlay = document.querySelector(".overlay");
+
+  if (loader) {
+    loader.remove();
+  }
+
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function styleLoader() {
+  const cssRules = `
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .si_loader {
+      border: 8px solid #fff;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      animation: custom-spin 1s linear infinite;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -75px;
+      margin-left: -75px;
+      z-index: 9999;
+    }
+
+    @keyframes custom-spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  `;
+
+  const styleElement = document.createElement("style");
+  styleElement.appendChild(document.createTextNode(cssRules));
+  document.head.appendChild(styleElement);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   formatHref(
     "si_linkedin_profile",
     document.getElementById("si_linkedin_profile").innerText
   );
-  const observer = new MutationObserver(function (mutationsList) {
+
+  const observer = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
         for (const node of mutation.addedNodes) {
           if (node instanceof HTMLElement) {
             const textareas = node.querySelectorAll("textarea");
             textareas.forEach((textarea) => {
-              applyTextareaStyling(textarea);
+              textarea.style.cssText = "min-height: 300px; width: 100%;";
             });
           }
         }
@@ -25,158 +169,78 @@ document.addEventListener("DOMContentLoaded", function () {
 
   getCompanyData();
   appendButtons();
-  document
-    .getElementById("sendemail")
-    .addEventListener("click", function (event) {
-      event.preventDefault();
-      sendEmailRequest();
-    });
+  styleLoader();
 });
 
-function applyTextareaStyling(textareaElement) {
-  console.log(textareaElement);
-  textareaElement.style.minHeight = "300px";
-  textareaElement.style.width = "100%";
-}
-
 function appendButtons() {
-  var approveButton = document.createElement("input");
-  approveButton.className = "button primary";
-  approveButton.type = "submit";
-  approveButton.name = "button";
-  var si_email_body = document.getElementById("si_email_body").innerHTML;
-  var si_email_status = document.getElementById("si_email_status").value;
-  if (
-    !si_email_body &&
-    (si_email_status === "not_written" ||
-      si_email_status === "followup_not_written")
-  ) {
-    approveButton.value = "Write Email";
-    approveButton.id = "writeemail";
-    approveButton.title = "Write Email";
-    approveButton.accessKey = "w";
-    approveButton.addEventListener("click", function (event) {
-      event.preventDefault();
-      writeEmailRequest();
-    });
-  } else if (si_email_body) {
-    approveButton.value = "Send Email";
-    approveButton.id = "sendemail";
-    approveButton.title = "Send Email";
-    approveButton.accessKey = "a";
-    approveButton.addEventListener("click", function (event) {
-      event.preventDefault();
-      sendEmailRequest();
-    });
+  const si_email_body = document.getElementById("si_email_body").innerHTML;
+  const si_email_status = document.getElementById("status").value;
+
+  let buttonConfig = {};
+
+  if (!si_email_body) {
+    if (
+      si_email_status === "not_written" ||
+      si_email_status === "followup_required"
+    ) {
+      buttonConfig = {
+        id: "writeemail",
+        value: "Write Email",
+        title: "Write Email",
+        accessKey: "w",
+        clickHandler: writeEmailRequest,
+      };
+    }
+  } else {
+    buttonConfig = {
+      id: "sendemail",
+      value: "Send Email",
+      title: "Send Email",
+      accessKey: "a",
+      clickHandler: sendEmailRequest,
+    };
   }
 
-  var buttonsElement =
+  const buttonsElement =
     document.querySelector("ul.nav.nav-tabs") ||
     document.querySelector(".buttons");
-  buttonsElement.appendChild(approveButton);
+
+  if (buttonConfig && buttonConfig.id)
+    buttonsElement.appendChild(
+      createButton(
+        buttonConfig.id,
+        buttonConfig.value,
+        buttonConfig.title,
+        buttonConfig.accessKey,
+        buttonConfig.clickHandler
+      )
+    );
 }
 
 function sendEmailRequest() {
-  var leadId = document.querySelector('input[name="record"]').value;
-
-  fetch("index.php?module=Leads&action=si_sendEmail&to_pdf=1&id=" + leadId, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Request failed");
-      }
-    })
-    .then((data) => {
-      // Handle the response data if needed
-      console.debug("Email request successful:");
-      window.location.reload();
-    })
-    .catch((error) => {
-      console.error("Error sending email request:", error);
-    });
+  const leadId = document.querySelector('input[name="record"]').value;
+  const apiEndpoint = `index.php?module=Leads&action=si_sendEmail&to_pdf=1&id=${leadId}`;
+  handleEmailRequest(apiEndpoint, "Email Request Successful");
 }
-function writeEmailRequest() {
-  var leadId = document.querySelector('input[name="record"]').value;
 
-  fetch("index.php?module=Leads&action=si_writeEmail&to_pdf=1&id=" + leadId, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Request failed");
-      }
-    })
-    .then((data) => {
-      // Handle the response data if needed
-      console.debug("Email request successful:");
-      window.location.reload();
-    })
-    .catch((error) => {
-      console.error("Error writing email request:", error);
-    });
+function writeEmailRequest() {
+  const leadId = document.querySelector('input[name="record"]').value;
+  const apiEndpoint = `index.php?module=Leads&action=si_writeEmail&to_pdf=1&id=${leadId}`;
+  handleEmailRequest(apiEndpoint, "Writing Email Request Successful");
 }
 
 function getCompanyData() {
-  var leadId = document.querySelector('input[name="record"]').value;
-  const request = new Request(
-    "index.php?module=si_Campaigner&action=getCompanyData&to_pdf=1&leadId=" +
-      leadId,
-    {
-      method: "GET",
-    }
-  );
-
-  fetch(request)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Request failed");
-      }
-    })
-    .then((data) => {
-      if (!data) return;
-      if (data.si_company_linkedin_profile) {
-        formatHref(
-          "si_company_linkedin_profile",
-          data.si_company_linkedin_profile
-        );
-      }
-
-      if (data && data.si_company_description) {
-        var companyBioElement = document.getElementById(
-          "si_company_description"
-        );
-        companyBioElement.innerHTML = data.si_company_description;
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
+  const leadId = document.querySelector('input[name="record"]').value;
+  handleCompanyData(leadId);
 }
 
 function formatHref(elementId, val) {
-  var hrefElement = document.getElementById(elementId);
-
-  // Update the href and target attributes to open in a new tab
+  const hrefElement = document.getElementById(elementId);
   hrefElement.href = val;
   hrefElement.target = "_blank";
-
   if (hrefElement.tagName === "INPUT") {
     hrefElement.innerHTML = val;
   } else {
-    hrefElement.innerHTML =
-      "<a target='_blank' href='" + val + "'>" + val + "</a>";
+    hrefElement.innerHTML = `<a target='_blank' href='${val}'>${val}</a>`;
   }
 }

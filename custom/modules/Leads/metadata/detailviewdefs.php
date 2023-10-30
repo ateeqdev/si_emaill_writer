@@ -128,11 +128,6 @@ $viewdefs['Leads'] = array(
             'name' => 'si_email_subject',
             'label' => 'LBL_SI_EMAIL_SUBJECT',
           ),
-          1 =>
-          array(
-            'name' => 'si_email_status',
-            'label' => 'LBL_SI_EMAIL_STATUS',
-          ),
         ),
         4 =>
         array(

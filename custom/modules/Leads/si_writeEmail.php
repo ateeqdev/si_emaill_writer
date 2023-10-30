@@ -23,8 +23,12 @@ try {
     $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio,  $account->description);
     if (isset($response['error']) && $response['error'])
         return sendError($response['error']);
+    $emailBody = $response['body'] ? nl2br($response['body']) : (isset($response['choices'][0]['message']['content']) ? $response['choices'][0]['message']['content'] : '');
+    $emailBody = str_replace('<br />', "\n", $emailBody);
+    $emailBody = str_replace('<br >', "\n", $emailBody);
+    $emailBody = str_replace('<br>', "\n", $emailBody);
     $bean->si_email_subject = $response['subject'];
-    $bean->si_email_body = $response['body'] ? nl2br($response['body']) : (isset($response['choices'][0]['message']['content']) ? $response['choices'][0]['message']['content'] : '');
+    $bean->si_email_body = $emailBody;
     $bean->save();
     echo json_encode($response);
 } catch (Exception $ex) {
