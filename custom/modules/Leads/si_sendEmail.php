@@ -20,11 +20,11 @@ try {
     $senderName =  $current_user->first_name ? $current_user->first_name . ' ' : '';
     $senderName .= $current_user->last_name;
     $senderName = trim($senderName);
-    $response = MailApiAdapter::sendEmail($current_user->si_gmail_id, $senderName, $toEmailAddress, $bean->si_email_subject ?? '', $bean->si_email_body, 'Malik Usman<br />CTO StackImagine<br />ServiceNow Developer<br />19x Certified');
+    $response = MailApiAdapter::sendEmail('themeetapps@gmail.com', $bean->first_name . $bean->last_name, $bean->si_email_subject ?? '', $bean->si_email_body, 'Malik Usman<br />CTO StackImagine<br />ServiceNow Developer<br />19x Certified');
     if (isset($response['error']) && $response['error'])
         return sendError($response['error']);
 
-    $bean->si_email_body = '';
+    // $bean->si_email_body = '';
     $bean->save();
     echo json_encode($response);
 } catch (Exception $ex) {

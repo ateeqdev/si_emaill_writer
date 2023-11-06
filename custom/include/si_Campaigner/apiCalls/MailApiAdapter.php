@@ -4,42 +4,13 @@ namespace si_Campaigner\apiCalls;
 
 use si_Campaigner\apiCalls\ApiAdapter;
 
+include_once('include/SugarPHPMailer.php');
+
 /**
  * This class is responsible for making CURL calls to Google Mail API
  */
-class MailApiAdapter extends ApiAdapter
+class MailApiAdapter
 {
-    public static $baseURL = 'https://gmail.googleapis.com/gmail/v1/users/';
-
-    /**
-     * This function creates a URL for the API call to Google Mail API
-     * @param string $requestType method of request
-     * @param array $fields fields to attach in the URL
-     * @return string $url
-     */
-    private static function makeRequestURL($requestType, $fields = '', $userId = 'me')
-    {
-        $url = self::$baseURL;
-
-        switch ($requestType) {
-            case 'listMessages':
-                $url .= $userId . '/messages/';
-                break;
-            case 'getMessage':
-                $url .= $userId . '/messages/' . $fields['messageId'] . '/';
-                break;
-            case 'sendEmail':
-                $url .= $userId . '/messages/send/';
-                break;
-            default:
-                $url = '';
-                $GLOBALS['log']->fatal('$requestType is required');
-        }
-
-        $GLOBALS['log']->debug("si_Campaigner Mail URL for $requestType: " . $url);
-        return $url;
-    }
-
     /**
      * This function gets a list of messages from the authenticated user's mailbox
      * @param string $userID id of the logged in user
@@ -64,35 +35,41 @@ class MailApiAdapter extends ApiAdapter
     }
 
     /**
-     * This function sends an email
+     * This function sends an email using SugarPHPMailer
      * @param string $from email address of the sender
      * @param string $fromName name of the sender
      * @param string $to email address of the recipient
-     * @param string $message email to be sent in HTML or plain text
+     * @param string $subject email subject
+     * @param string $message email body in HTML or plain text
      * @param string $signature email signature
      * @return string $response
      */
-    public static function sendEmail($from, $fromName, $to, $subject, $message, $signature = '')
+    public static function sendEmail($to, $toName, $subject, $message, $signature = '')
     {
-        $url = self::makeRequestURL('sendEmail');
         $message = nl2br(trim($message));
-        $rawMessage = "From: $fromName<$from>\r\n" .
-            "To: $to\r\n" .
-            "Subject: $subject\r\n" .
-            "MIME-Version: 1.0\r\n" .
-            "Content-Type: text/html; charset=utf-8\r\n" .
-            "\r\n" .
-            "$message";
-        if (!empty($signature)) $rawMessage .= "<br><br><div style='color: #888;'>$signature</div>";
-        // Create the base64 encoded email message
-        $base64Message = base64_encode($rawMessage);
+        if (!empty($signature)) {
+            $message .= "<br><br><div style='color: #888;'>$signature</div>";
+        }
 
-        $data = [
-            'raw' => $base64Message,
-        ];
+        $mail = new \SugarPHPMailer();
+        $mailoe = new \OutboundEmail();
+        $mailoe->getUserMailerSettings($current_user);
+        $mail->ClearAllRecipients();
+        $mail->ClearReplyTos();
+        $mail->AddAddress($to, $toName);
+        $mail->From = $mailoe->smtp_from_addr;
+        $mail->FromName = $mailoe->smtp_from_name;
+        $mail->Subject = $subject;
+        $mail->Body_html = from_html($message);
+        $mail->Body = wordwrap($message, 900);
+        $mail->isHTML(true);
+        $mail->prepForOutbound();
+        $mail->setMailerForSystem();
 
-        $response = ApiAdapter::call('POST', $url, false, '', $data);
+        if (!$mail->send()) {
+            $GLOBALS['log']->fatal("si_Campaigner ERROR: Mail sending failed!");
+        }
 
-        return $response;
+        return true;
     }
 }

@@ -48,6 +48,7 @@ $classes = array(
     // apiCalls
     'si_Campaigner\apiCalls\ApiAdapter',
     'si_Campaigner\apiCalls\MailApiAdapter',
+    'si_Campaigner\apiCalls\GMailApiAdapter',
     'si_Campaigner\apiCalls\OAuthApiAdapter',
     'si_Campaigner\apiCalls\OpenAIApiAdapter',
     // Google
