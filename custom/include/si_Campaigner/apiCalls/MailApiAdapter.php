@@ -51,7 +51,7 @@ class MailApiAdapter
             $message .= "<br><br><div style='color: #888;'>$signature</div>";
         }
 
-        $mail = new \SugarPHPMailer();
+        $mail = new \SugarPHPMailer(true);
         $mailoe = new \OutboundEmail();
         $mailoe->getUserMailerSettings($current_user);
         $mail->ClearAllRecipients();
@@ -65,11 +65,12 @@ class MailApiAdapter
         $mail->isHTML(true);
         $mail->prepForOutbound();
         $mail->setMailerForSystem();
+        $response = $mail->send();
 
-        if (!$mail->send()) {
-            $GLOBALS['log']->fatal("si_Campaigner ERROR: Mail sending failed!");
+        if (!$response) {
+            $GLOBALS['log']->fatal("si_Campaigner ERROR: Mail sending failed!", print_r($response, 1));
+            return ['error' => "si_Campaigner ERROR: Mail sending failed!"];
         }
-
-        return true;
+        return ['message_id' => $mail->getLastMessageID()];
     }
 }

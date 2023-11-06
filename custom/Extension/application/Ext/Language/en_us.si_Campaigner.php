@@ -12,7 +12,7 @@ $app_list_strings = [
         'claude_2_100k' => 'Claude 2 100K',
     ],
     'lead_status_dom' => [
-        'not_written' => 'Not Written',
+        'New' => 'New',
         'ready_for_approval' => 'Ready for Approval',
         'approved' => 'Approved',
         'sent' => 'Sent',

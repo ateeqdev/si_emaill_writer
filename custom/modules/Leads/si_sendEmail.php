@@ -20,11 +20,28 @@ try {
     $senderName =  $current_user->first_name ? $current_user->first_name . ' ' : '';
     $senderName .= $current_user->last_name;
     $senderName = trim($senderName);
-    $response = MailApiAdapter::sendEmail('themeetapps@gmail.com', $bean->first_name . $bean->last_name, $bean->si_email_subject ?? '', $bean->si_email_body, 'Malik Usman<br />CTO StackImagine<br />ServiceNow Developer<br />19x Certified');
+    $response = MailApiAdapter::sendEmail('themeetapps@gmail.com', $bean->first_name . ' ' . $bean->last_name, $bean->si_email_subject ?? '', $bean->si_email_body, 'Malik Usman<br />CTO StackImagine<br />ServiceNow Developer<br />19x Certified');
     if (isset($response['error']) && $response['error'])
         return sendError($response['error']);
 
+    if (isset($response['message_id']) && $response['message_id']){
+        $bean->si_message_id = $response['message_id'];
+        if (!$bean->si_conversation_history) {
+            $bean->si_conversation_history = json_encode([$bean->si_email_subject => ['me' => strip_tags($bean->si_email_body)]]);
+        }
+        else {
+            $bean->si_conversation_history = json_decode($bean->si_conversation_history);
+            $bean->si_conversation_history[$bean->si_email_subject]['me'][] = strip_tags($bean->si_email_body);
+            $bean->si_conversation_history = json_encode($bean->si_conversation_history );
+        }
+    }
+    if (isset($response['thread_id']) && $response['thread_id'])
+        $bean->si_thread_id = $response['thread_id'];
+
     // $bean->si_email_body = '';
+    $bean->status = 'sent';
+    $bean->si_followups_counter = $bean->si_followups_counter + 1;
+    $bean->si_emailed_at = gmdate('Y-m-d H:i:s', strtotime('now'));
     $bean->save();
     echo json_encode($response);
 } catch (Exception $ex) {
