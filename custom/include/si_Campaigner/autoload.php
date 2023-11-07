@@ -54,6 +54,8 @@ $classes = array(
     // Google
     'si_Campaigner\Google\AccessToken',
     'si_Campaigner\OpenAI\AccessToken',
+    // Helper
+    'si_Campaigner\Helpers\MarkReplyReceived',
 );
 foreach ($classes as $class) {
     load($class);

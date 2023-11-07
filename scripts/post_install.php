@@ -46,8 +46,8 @@ function post_install()
         if (createJOB('Campaigner - Prepare Email', 'function::siPrepareEmail', '*/5::*::*::*::*') === true) {
             $GLOBALS['log']->fatal('Campaigner - Prepare Email job created');
         }
-        if (createJOB('Campaigner - Send Emails', 'function::siSendEmails', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Send Emails job created');
+        if (createJOB('Campaigner - Mark Reply Received', 'function::markReplyReceived', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('Campaigner - Mark Reply Received');
         }
         if (createJOB('Campaigner - Sync Replies', 'function::siSSyncReplies', '*/5::*::*::*::*') === true) {
             $GLOBALS['log']->fatal('Campaigner - Sync Replies job created');

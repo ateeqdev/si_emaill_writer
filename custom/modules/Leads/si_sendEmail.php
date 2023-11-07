@@ -24,15 +24,14 @@ try {
     if (isset($response['error']) && $response['error'])
         return sendError($response['error']);
 
-    if (isset($response['message_id']) && $response['message_id']){
+    if (isset($response['message_id']) && $response['message_id']) {
         $bean->si_message_id = $response['message_id'];
         if (!$bean->si_conversation_history) {
             $bean->si_conversation_history = json_encode([$bean->si_email_subject => ['me' => strip_tags($bean->si_email_body)]]);
-        }
-        else {
+        } else {
             $bean->si_conversation_history = json_decode($bean->si_conversation_history);
             $bean->si_conversation_history[$bean->si_email_subject]['me'][] = strip_tags($bean->si_email_body);
-            $bean->si_conversation_history = json_encode($bean->si_conversation_history );
+            $bean->si_conversation_history = json_encode($bean->si_conversation_history);
         }
     }
     if (isset($response['thread_id']) && $response['thread_id'])
