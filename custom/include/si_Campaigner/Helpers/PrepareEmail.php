@@ -19,7 +19,7 @@ class PrepareEmail
      * @param string $module             The module to process (default: 'Leads').
      * @param bool   $requireCompleteData Whether to require complete data (default: true).
      */
-    public static function run($module = 'Leads', $requireCompleteData = true)
+    public static function firstEmail($module = 'Leads', $requireCompleteData = true)
     {
         $startTime = strtotime('now');
         $mainTable = 'RankedLeads'; //temporary table generated via subquery
@@ -41,6 +41,7 @@ class PrepareEmail
                 break; // Exit the loop if more than a minute has passed
             }
         }
+        return true;
     }
 
     /**
