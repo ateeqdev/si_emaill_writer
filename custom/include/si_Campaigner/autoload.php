@@ -56,6 +56,7 @@ $classes = array(
     'si_Campaigner\OpenAI\AccessToken',
     // Helper
     'si_Campaigner\Helpers\MarkReplyReceived',
+    'si_Campaigner\Helpers\PrepareEmail',
 );
 foreach ($classes as $class) {
     load($class);

@@ -3,21 +3,21 @@
 if (!defined('sugarEntry') || !sugarEntry)
     die('Not A Valid Entry Point');
 
-$job_strings[] = 'markReplyReceived';
+$job_strings[] = 'si_prepareEmail';
 
 /**
- * This function checks if a reply has been received, if so, it marks the lead to not be contacted via automated email.
+ * This function writes email(s) for leads who have not been contacted so far
  * @return bool  true if syncing is successful, false otherwise
  * @access public
  */
-function markReplyReceived()
+function si_prepareEmail()
 {
     $file = 'custom/include/si_Campaigner/autoload.php';
     if (file_exists($file)) {
-        require $file;
+        require_once $file;
     } else {
         $GLOBALS['log']->fatal('File ' . $file . ' NOT Found');
         return false;
     }
-    return si_Campaigner\Helpers\MarkReplyReceived::run('Leads');
+    return si_Campaigner\Helpers\PrepareEmail::run('Leads');
 }

@@ -3,14 +3,15 @@
 namespace si_Campaigner\Sugar\Helpers;
 
 /**
- * This class performs some db operations which can't be done through beans
+ * This class provides methods for performing database operations that cannot be achieved through SugarCRM beans.
  */
 class DBHelper
 {
     /**
-     * Given a column query it will execute and return back result
-     * @param  string    query
-     * @return array      true     if exists, false otherwise
+     * Executes a custom SQL query and returns the result.
+     *
+     * @param  string    $query SQL query to be executed
+     * @return mixed     Query result or false if an exception occurs
      */
     public static function executeQuery($query)
     {
@@ -24,26 +25,49 @@ class DBHelper
     }
 
     /**
-     * This function executes update query
-     * @param  string $table name of the table
-     * @param  string|array  $fields associative array of fields to be selected
-     * @param  array  $where associative array of fields to be matched in where clause.
-     * @return array $res2 array of results
-     * @access public
+     * Prepares a SELECT query string based on the given parameters.
+     *
+     * @param  string        $table   Name of the table
+     * @param  string|array  $fields Fields to be selected (default is '*')
+     * @param  array         $where   Associative array of fields to be matched in the WHERE clause
+     * @param  string|null   $subquery Subquery to be used as a table (optional)
+     * @return string        Prepared SELECT query string
+     */
+    public static function prepareSelect($table, $fields = '*', $where = [], $subquery = null)
+    {
+        $sql = "SELECT ";
+        if (is_string($fields))
+            $sql .= $fields;
+        else if (is_array($fields) && !empty($fields))
+            $sql .= implode(", ", $fields);
+        else
+            $sql .= '*';
+
+        $sql .= " FROM ";
+
+        if ($subquery)
+            $sql .= "($subquery) AS SubqueryTable";
+        else
+            $sql .= "$table";
+
+        $sql .= self::whereMaker($where);
+        $sql = rtrim($sql);
+
+        return $sql;
+    }
+
+    /**
+     * Prepares and executes a SELECT query on the specified table with optional conditions.
+     *
+     * @param  string        $table   Name of the table
+     * @param  string|array  $fields Fields to be selected (default is '*')
+     * @param  array         $where   Associative array of fields to be matched in the WHERE clause
+     * @return array|false   Array of results or false if an exception occurs
      */
     public static function select($table, $fields = '*', $where = [])
     {
         try {
-            $sql = "SELECT ";
-            if (is_string($fields))
-                $sql .= $fields;
-            else if (is_array($fields) && !empty($fields))
-                $sql .= implode(", ", $fields);
-            else
-                $sql .= '*';
-            $sql .= " FROM $table";
-            $sql .= self::whereMaker($where);
-            $sql = rtrim($sql);
+            $sql = self::prepareSelect($table, $fields, $where);
             $res = self::executeQuery($sql);
             $res2 = [];
             while ($row = $GLOBALS['db']->fetchByAssoc($res)) {
@@ -57,12 +81,44 @@ class DBHelper
     }
 
     /**
-     * This function executes update query
-     * @param  string $table name of the table
-     * @param  string|array  $fields associative array of fields to be updated
-     * @param  array  $where associative array of fields to be matched in where clause.
-     * @return array $res2 array of results
-     * @access public
+     * Prepares and executes a SELECT query with a subquery on the specified table with optional conditions.
+     *
+     * @param  string        $mainTable   Name of the main table
+     * @param  string|array  $mainFields  Fields to be selected in the main query (default is '*')
+     * @param  array         $mainWhere   Associative array of fields to be matched in the WHERE clause of the main query
+     * @param  string        $subTable    Name of the subquery table
+     * @param  string|array  $subFields   Fields to be selected in the subquery (default is '*')
+     * @param  array         $subWhere    Associative array of fields to be matched in the WHERE clause of the subquery
+     * @return string        Combined SELECT query string
+     */
+    public static function selectWithSubquery($mainTable, $mainFields = '*', $mainWhere = [], $subTable, $subFields = '*', $subWhere = [])
+    {
+        try {
+            // Prepare the subquery
+            $subquery = self::prepareSelect($subTable, $subFields, $subWhere);
+
+            // Prepare the main query with the subquery
+            $mainQuery = self::prepareSelect($mainTable, $mainFields, $mainWhere, $subquery);
+
+            $res = self::executeQuery($mainQuery);
+            $res2 = [];
+
+            while ($row = $GLOBALS['db']->fetchByAssoc($res))
+                $res2[] = $row;
+
+            return $res2;
+        } catch (\Exception $ex) {
+            $GLOBALS['log']->fatal("si_Campaigner Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Executes a DELETE query on the specified table with optional conditions.
+     *
+     * @param  string $table   Name of the table
+     * @param  array  $where   Associative array of fields to be matched in the WHERE clause
+     * @return mixed  Query result or false if an exception occurs
      */
     public static function delete($table, $where = [])
     {
@@ -78,11 +134,12 @@ class DBHelper
     }
 
     /**
-     * This function executes update query
-     * @param  string $table name of the table
-     * @param  array  $fields associative array of fields to be updated
-     * @param  array  $where associative array of fields to be matched in where clause.
-     * @access public
+     * Executes an UPDATE query on the specified table with given fields and optional conditions.
+     *
+     * @param  string $table   Name of the table
+     * @param  array  $fields  Associative array of fields to be updated
+     * @param  array  $where   Associative array of fields to be matched in the WHERE clause
+     * @return mixed  Query result or false if an exception occurs
      */
     public static function update($table, $fields, $where = [])
     {
@@ -101,10 +158,10 @@ class DBHelper
     }
 
     /**
-     * Prepares a where statement based on an associative array
-     * @param array $where associative array of fields to be matched in where clause. This array contains operator to be used against a field and its value. @example $where = ['id' => ['=', '123'], 'date_modified' => ['>', '2021-01-01 00:00:00'], 'industry' => ['operator' => 'OR', 'IN', ['IT', 'Health', 'Education']]] will result in WHERE id = '123' AND date_modified > '2021-01-01 00:00:00' OR industry IN '('IT','Health','Education')'
-     * @return string $sql a where clause string for SQL Query
-     * @access public
+     * Prepares a WHERE clause string for an SQL query based on an associative array.
+     *
+     * @param array   $where Associative array of fields to be matched in the WHERE clause
+     * @return string WHERE clause string for SQL Query
      */
     public static function whereMaker($where = [])
     {
@@ -129,10 +186,10 @@ class DBHelper
     }
 
     /**
-     * Prepares right hand side of an assignment or comparison based on the type of argument
-     * @param  int|string|array $value value to be compared or assigned
-     * @return string $sql part of sql statement that can be placed in front of an operator
-     * @access public
+     * Prepares the right-hand side of an assignment or comparison based on the type of argument.
+     *
+     * @param  int|string|array $value Value to be compared or assigned
+     * @return string            Part of SQL statement that can be placed in front of an operator
      */
     public static function rhsParser($value)
     {
@@ -158,12 +215,12 @@ class DBHelper
         return $sql . " ";
     }
 
-
     /**
-     * Given a column name and table name, check if that column exists in the table
-     * @param  string    $table   table name to look in
-     * @param  string    $column  column to check
-     * @return bool      true     if exists, false otherwise
+     * Checks if a column exists in the specified table.
+     *
+     * @param  string $table   Table name to look in
+     * @param  string $column  Column to check
+     * @return bool   True if the column exists, false otherwise
      */
     public static function columnExists($table, $column)
     {

@@ -43,14 +43,11 @@ function post_install()
         $configurator->handleOverride();
         repair_and_rebuild();
 
-        if (createJOB('Campaigner - Prepare Email', 'function::siPrepareEmail', '*/5::*::*::*::*') === true) {
+        if (createJOB('Campaigner - Prepare Email', 'function::si_prepareEmail', '*/5::*::*::*::*') === true) {
             $GLOBALS['log']->fatal('Campaigner - Prepare Email job created');
         }
-        if (createJOB('Campaigner - Mark Reply Received', 'function::markReplyReceived', '*/5::*::*::*::*') === true) {
+        if (createJOB('Campaigner - Mark Reply Received', 'function::si_markReplyReceived', '*/5::*::*::*::*') === true) {
             $GLOBALS['log']->fatal('Campaigner - Mark Reply Received');
-        }
-        if (createJOB('Campaigner - Sync Replies', 'function::siSSyncReplies', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Sync Replies job created');
         }
         addFieldsToLayout();
         $GLOBALS['log']->fatal("SICampaigner installed successfully...");

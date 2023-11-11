@@ -51,6 +51,7 @@ class MarkReplyReceived
                     $bean->save();
                 }
                 imap_close($mailbox);
+                return true;
             } catch (\Exception $e) {
                 $GLOBALS['log']->fatal($e->getMessage());
                 return false;
