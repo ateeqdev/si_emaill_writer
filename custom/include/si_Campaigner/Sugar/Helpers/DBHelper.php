@@ -33,9 +33,10 @@ class DBHelper
      * @param  string|null   $subquery Subquery to be used as a table (optional)
      * @return string        Prepared SELECT query string
      */
-    public static function prepareSelect($table, $fields = '*', $where = [], $subquery = null)
+    public static function prepareSelect($table, $fields = '*', $where = [], $subquery = null, $orderBy = null)
     {
         $sql = "SELECT ";
+
         if (is_string($fields))
             $sql .= $fields;
         else if (is_array($fields) && !empty($fields))
@@ -51,10 +52,16 @@ class DBHelper
             $sql .= "$table";
 
         $sql .= self::whereMaker($where);
+
+        if ($orderBy) {
+            $sql .= " ORDER BY $orderBy";
+        }
+
         $sql = rtrim($sql);
 
         return $sql;
     }
+
 
     /**
      * Prepares and executes a SELECT query on the specified table with optional conditions.
@@ -64,10 +71,10 @@ class DBHelper
      * @param  array         $where   Associative array of fields to be matched in the WHERE clause
      * @return array|false   Array of results or false if an exception occurs
      */
-    public static function select($table, $fields = '*', $where = [])
+    public static function select($table, $fields = '*', $where = [], $orderBy = null)
     {
         try {
-            $sql = self::prepareSelect($table, $fields, $where);
+            $sql = self::prepareSelect($table, $fields, $where, null, $orderBy);
             $res = self::executeQuery($sql);
             $res2 = [];
             while ($row = $GLOBALS['db']->fetchByAssoc($res)) {

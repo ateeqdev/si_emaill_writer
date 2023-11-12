@@ -44,7 +44,10 @@ function post_install()
         repair_and_rebuild();
 
         if (createJOB('Campaigner - Prepare Email', 'function::si_prepareFirstEmail', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Prepare Email job created');
+            $GLOBALS['log']->fatal('Campaigner - Prepare First Email job created');
+        }
+        if (createJOB('Campaigner - Prepare Followup Email', 'function::si_prepareFollowupEmail', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('Campaigner - Prepare Followup Email');
         }
         if (createJOB('Campaigner - Mark Reply Received', 'function::si_markReplyReceived', '*/5::*::*::*::*') === true) {
             $GLOBALS['log']->fatal('Campaigner - Mark Reply Received');

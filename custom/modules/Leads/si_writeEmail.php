@@ -6,7 +6,7 @@ use si_Campaigner\Helpers\PrepareEmail;
 
 try {
     global $current_user;
-    $result = PrepareEmail::writeEmailforRecord(ucfirst($_REQUEST['module']), $_REQUEST['id']);
+    $result = PrepareEmail::writeEmail(ucfirst($_REQUEST['module']), $_REQUEST['id']);
     if ($result !== 'true')
         sendError($result);
     echo json_encode($response);
