@@ -131,7 +131,7 @@ class PrepareEmail
             $bean->si_email_subject = $response['subject'];
         }
         $bean->si_email_body = $emailBody;
-        $bean->status = 'ready_for_approval';
+        $bean->status = $emailType == 'first' ? 'ready_for_approval': 'followup_written';
         $bean->save();
 
         return 'true';

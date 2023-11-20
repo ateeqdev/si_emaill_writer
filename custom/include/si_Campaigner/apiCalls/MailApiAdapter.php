@@ -44,7 +44,7 @@ class MailApiAdapter
      * @param string $signature email signature
      * @return string $response
      */
-    public static function sendEmail($to, $toName, $subject, $message, $signature = '')
+    public static function sendEmail($to, $toName, $subject, $message, $signature = '', $messageId = null)
     {
         $message = nl2br(trim($message));
         if (!empty($signature)) {
@@ -62,6 +62,10 @@ class MailApiAdapter
         $mail->Subject = $subject;
         $mail->Body_html = from_html($message);
         $mail->Body = wordwrap($message, 900);
+        if ($messageId && !empty($messageId)) {
+            $mail->addCustomHeader('In-Reply-To',  $messageId);
+            $mail->addCustomHeader('References',  $messageId);
+        }
         $mail->isHTML(true);
         $mail->prepForOutbound();
         $mail->setMailerForSystem();
