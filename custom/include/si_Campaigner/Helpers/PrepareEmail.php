@@ -45,12 +45,13 @@ class PrepareEmail
     }
 
     /**
-     * Prepare a followup email.
+     * Prepare followup emails.
      *
-     * @param string $module             The module to process (default: 'Leads').
+     * @param string $module The module to process (default: 'Leads').
      */
-    public static function followupEmail($module = 'Leads')
+    public static function wrieFollowups($module = 'Leads')
     {
+        $startTime = strtotime('now');
         $currentTimestampUTC = strtotime(gmdate('Y-m-d H:i:s'));
         $fourDaysAgoUTC = date('Y-m-d H:i:s', strtotime('-4 days', $currentTimestampUTC));
 
@@ -83,24 +84,26 @@ class PrepareEmail
      *
      * @return string 'true' or the reason why it failed.
      */
-    public static function writeEmail($module, $id, $emailType = 'first')
+    public static function writeEmail($module, $id, $emailType = '')
     {
         $bean = \BeanFactory::getBean($module, $id);
 
-        if (!$bean) {
+        if (!$bean)
             return 'Record not found';
-        }
 
         $toEmailAddress = $bean->email1 ?? $bean->email2 ?? '';
-        if (!$toEmailAddress) {
+        if (!$toEmailAddress)
             return 'The record does not have an email address';
-        }
+
+        if ($bean->si_conversation_history)
+            $emailType = 'followup';
+        else
+            $emailType = 'first';
 
         $bean->load_relationship('accounts');
         $relatedAccount = $bean->accounts->get();
-        if (!$relatedAccount || count($relatedAccount) < 0) {
+        if (!$relatedAccount || count($relatedAccount) < 0)
             return 'No related account found';
-        }
 
         $account = \BeanFactory::getBean('Accounts', $relatedAccount[0]);
 
@@ -118,9 +121,9 @@ class PrepareEmail
                 return 'Invalid email type';
         }
 
-        if (isset($response['error']) && $response['error']) {
+        if (isset($response['error']) && $response['error'])
             return $response['error'];
-        }
+
 
         $emailBody = $response['body'] ? nl2br($response['body']) : (isset($response['choices'][0]['message']['content']) ? $response['choices'][0]['message']['content'] : '');
         $emailBody = str_replace('<br />', "\n", $emailBody);
@@ -131,7 +134,7 @@ class PrepareEmail
             $bean->si_email_subject = $response['subject'];
         }
         $bean->si_email_body = $emailBody;
-        $bean->status = $emailType == 'first' ? 'ready_for_approval': 'followup_written';
+        $bean->status = $emailType == 'first' ? 'ready_for_approval' : 'followup_written';
         $bean->save();
 
         return 'true';

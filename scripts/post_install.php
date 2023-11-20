@@ -46,11 +46,11 @@ function post_install()
         if (createJOB('Campaigner - Prepare Email', 'function::si_prepareFirstEmail', '*/5::*::*::*::*') === true) {
             $GLOBALS['log']->fatal('Campaigner - Prepare First Email job created');
         }
-        if (createJOB('Campaigner - Prepare Followup Email', 'function::si_prepareFollowupEmail', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Prepare Followup Email');
+        if (createJOB('Campaigner - Prepare Followup Email', 'function::si_prepareFollowupEmails', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('Campaigner - Prepare Followup Emails job created');
         }
         if (createJOB('Campaigner - Mark Reply Received', 'function::si_markReplyReceived', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Mark Reply Received');
+            $GLOBALS['log']->fatal('Campaigner - Mark Reply Received job created');
         }
         addFieldsToLayout();
         $GLOBALS['log']->fatal("SICampaigner installed successfully...");

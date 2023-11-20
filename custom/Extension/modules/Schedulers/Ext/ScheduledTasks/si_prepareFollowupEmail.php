@@ -3,14 +3,14 @@
 if (!defined('sugarEntry') || !sugarEntry)
     die('Not A Valid Entry Point');
 
-$job_strings[] = 'si_prepareFollowupEmail';
+$job_strings[] = 'si_prepareFollowupEmails';
 
 /**
  * This function writes email(s) for leads who have not been contacted so far
  * @return bool  true if syncing is successful, false otherwise
  * @access public
  */
-function si_prepareFollowupEmail()
+function si_prepareFollowupEmails()
 {
     $file = 'custom/include/si_Campaigner/autoload.php';
     if (file_exists($file)) {
@@ -19,5 +19,5 @@ function si_prepareFollowupEmail()
         $GLOBALS['log']->fatal('File ' . $file . ' NOT Found');
         return false;
     }
-    return si_Campaigner\Helpers\PrepareEmail::followupEmail('Leads');
+    return si_Campaigner\Helpers\PrepareEmail::wrieFollowups('Leads');
 }
