@@ -29,7 +29,7 @@ class PrepareEmail
         // Define the parameters for the subquery
         $subTable = 'leads';
         $subFields = ['id', 'account_id', 'ROW_NUMBER() OVER (PARTITION BY account_id ORDER BY date_modified) AS row_num'];
-        $subWhere = ['status' => ['=', 'New'], 'si_linkedin_bio' => ['!=', null], 'si_linkedin_bio' => ['!=', '']];
+        $subWhere = ['status' => ['=', 'ready_for_email'], 'si_linkedin_bio' => ['!=', null], 'si_linkedin_bio' => ['!=', '']];
 
         // Run the query using the selectWithSubquery method
         $result = DBHelper::selectWithSubquery($mainTable, $mainFields, $mainWhere, $subTable, $subFields, $subWhere);

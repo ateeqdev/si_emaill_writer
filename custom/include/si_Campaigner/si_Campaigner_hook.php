@@ -30,6 +30,10 @@ class si_CampaignerHook
             $bean->si_company_linkedin_profile = '';
             $bean->website = '';
         }
+
+        if ($bean->status == 'New' && !empty($bean->linkedin_bio)) {
+            $bean->status = 'ready_for_email';
+        }
     }
 
     function linkGmailAccount($bean, $event)

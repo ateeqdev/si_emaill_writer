@@ -13,6 +13,7 @@ $app_list_strings = [
     ],
     'lead_status_dom' => [
         'New' => 'New',
+        'ready_for_email' => 'Ready for Email',
         'ready_for_approval' => 'Ready for Approval',
         'approved' => 'Approved',
         'sent' => 'Sent',

@@ -180,7 +180,7 @@ function appendButtons() {
 
   if (!si_email_body) {
     if (
-      si_email_status === "New" ||
+      si_email_status === "ready_for_email" ||
       si_email_status === "followup_required"
     ) {
       buttonConfig = {
