@@ -15,9 +15,6 @@ class si_CampaignerHook
      */
     function linkAccountToLead($bean, $event)
     {
-
-        $GLOBALS['log']->fatal($bean->fetched_row);
-        // $GLOBALS['log']->fatal($mailoe->smtp_from_addr);
         if (
             $bean->status == 'New' &&
             ($bean->fetched_row && $bean->fetched_row['status'] == 'New') &&
@@ -53,9 +50,6 @@ class si_CampaignerHook
      */
     function setBioStatus($bean, $event)
     {
-
-        $GLOBALS['log']->fatal($bean->fetched_row);
-        // $GLOBALS['log']->fatal($mailoe->smtp_from_addr);
         if (
             $bean->status == 'New' &&
             ($bean->fetched_row && $bean->fetched_row['status'] == 'New') &&

@@ -57,6 +57,7 @@ $classes = array(
     // Helper
     'si_Campaigner\Helpers\MarkReplyReceived',
     'si_Campaigner\Helpers\PrepareEmail',
+    'si_Campaigner\Helpers\HandleSending',
 );
 foreach ($classes as $class) {
     load($class);

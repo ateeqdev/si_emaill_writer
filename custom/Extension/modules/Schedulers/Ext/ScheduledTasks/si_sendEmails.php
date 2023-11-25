@@ -24,5 +24,5 @@ function si_sendEmails()
         $GLOBALS['log']->fatal('File ' . $file . ' NOT Found');
         return false;
     }
-    return si_Campaigner\Helpers\MarkReplyReceived::run('Leads');
+    return si_Campaigner\SMTP\Send::run('Leads');
 }
