@@ -15,6 +15,17 @@ class si_CampaignerHook
      */
     function linkAccountToLead($bean, $event)
     {
+
+        $GLOBALS['log']->fatal($bean->fetched_row);
+        // $GLOBALS['log']->fatal($mailoe->smtp_from_addr);
+        if (
+            $bean->status == 'New' &&
+            ($bean->fetched_row && $bean->fetched_row['status'] == 'New') &&
+            !empty($bean->fetched_row['linkedin_bio'])
+        ) {
+            $bean->status = 'ready_for_email';
+        }
+
         if (empty($bean->si_company_linkedin_profile) && empty($bean->website)) {
             return false;
         }
@@ -30,8 +41,26 @@ class si_CampaignerHook
             $bean->si_company_linkedin_profile = '';
             $bean->website = '';
         }
+    }
 
-        if ($bean->status == 'New' && !empty($bean->linkedin_bio)) {
+    /**
+     * This function sets status when the linkedin bio is added in a lead
+     *
+     *
+     * @param  object  $bean    bean
+     * @param  string  $event   sugar status
+     * @access public
+     */
+    function setBioStatus($bean, $event)
+    {
+
+        $GLOBALS['log']->fatal($bean->fetched_row);
+        // $GLOBALS['log']->fatal($mailoe->smtp_from_addr);
+        if (
+            $bean->status == 'New' &&
+            ($bean->fetched_row && $bean->fetched_row['status'] == 'New') &&
+            !empty($bean->si_linkedin_bio)
+        ) {
             $bean->status = 'ready_for_email';
         }
     }
