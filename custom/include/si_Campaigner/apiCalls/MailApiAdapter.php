@@ -53,7 +53,7 @@ class MailApiAdapter
 
         $mail = new \SugarPHPMailer(true);
         if ($oe_id) {
-            $mailoe = \BeanFactory::getBean(ucfirst('OutboundEmailAccounts'), $oe_id);
+            $mailoe = \BeanFactory::getBean(ucfirst('OutboundEmailAccounts'), $oe_id, array('disable_row_level_security' => true));
         } else {
             $mailoe = new \OutboundEmail();
             $mailoe->getUserMailerSettings($current_user);

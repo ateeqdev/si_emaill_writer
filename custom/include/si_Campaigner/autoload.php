@@ -45,6 +45,7 @@ $classes = array(
     // Sugar\Helpers
     'si_Campaigner\Sugar\Helpers\DBHelper',
     'si_Campaigner\Sugar\Helpers\UpdateBean',
+    'si_Campaigner\Sugar\Helpers\UpdateJob',
     // apiCalls
     'si_Campaigner\apiCalls\ApiAdapter',
     'si_Campaigner\apiCalls\MailApiAdapter',

@@ -9,7 +9,7 @@ class si_CampaignerController extends SugarController
 
 		header('Content-Type: application/json');
 		$id = $_REQUEST['leadId'];
-		$lead = \BeanFactory::getBean('Leads', $id);
+		$lead = \BeanFactory::getBean('Leads', $id, array('disable_row_level_security' => true));
 
 		if (!$lead) {
 			echo json_encode(['error' => 'Lead not found']);
@@ -21,7 +21,7 @@ class si_CampaignerController extends SugarController
 			echo json_encode(['error' => 'No related account found']);
 			return;
 		}
-		$account = \BeanFactory::getBean('Accounts', $relatedAccount[0]);
+		$account = \BeanFactory::getBean('Accounts', $relatedAccount[0], array('disable_row_level_security' => true));
 
 		$response = [
 			'si_company_linkedin_profile' => $account->si_linkedin_profile,

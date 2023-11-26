@@ -86,7 +86,7 @@ class PrepareEmail
      */
     public static function writeEmail($module, $id, $emailType = '')
     {
-        $bean = \BeanFactory::getBean($module, $id);
+        $bean = \BeanFactory::getBean($module, $id, array('disable_row_level_security' => true));
 
         if (!$bean)
             return 'Record not found';
@@ -105,7 +105,7 @@ class PrepareEmail
         if (!$relatedAccount || count($relatedAccount) < 0)
             return 'No related account found';
 
-        $account = \BeanFactory::getBean('Accounts', $relatedAccount[0]);
+        $account = \BeanFactory::getBean('Accounts', $relatedAccount[0], array('disable_row_level_security' => true));
 
         // Select the appropriate email sending method based on the email type
         switch ($emailType) {
