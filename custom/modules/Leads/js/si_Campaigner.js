@@ -179,26 +179,51 @@ function appendButtons() {
   let buttonConfig = {};
 
   if (!si_email_body) {
-    if (
-      si_email_status === "ready_for_email" ||
-      si_email_status === "followup_required"
-    ) {
+    if (si_email_status === "ready_for_email") {
       buttonConfig = {
         id: "writeemail",
-        value: "Write Email",
-        title: "Write Email",
+        value: "Write First Email",
+        title: "Write an Introductory Email",
+        accessKey: "w",
+        clickHandler: writeEmailRequest,
+      };
+    } else if (si_email_status === "followup_required") {
+      buttonConfig = {
+        id: "writeemail",
+        value: "Write a Followup Email",
+        title: "Write a Followup Email",
         accessKey: "w",
         clickHandler: writeEmailRequest,
       };
     }
   } else {
-    buttonConfig = {
-      id: "sendemail",
-      value: "Send Email",
-      title: "Send Email",
-      accessKey: "a",
-      clickHandler: sendEmailRequest,
-    };
+    // Add an "Approve" button when the status is "ready_for_approval" or "followup_written"
+    if (si_email_status === "ready_for_approval") {
+      buttonConfig = {
+        id: "approve",
+        value: "Approve Email",
+        title: "Approve the Introductory Email",
+        accessKey: "p",
+        clickHandler: sendApprovalRequest,
+      };
+    }
+    if (si_email_status === "followup_written") {
+      buttonConfig = {
+        id: "approve",
+        value: "Approve the Followup Email",
+        title: "Approve the Followup Email",
+        accessKey: "p",
+        clickHandler: sendApprovalRequest,
+      };
+    } else {
+      buttonConfig = {
+        id: "sendemail",
+        value: "Send the Email",
+        title: "Send the Email",
+        accessKey: "a",
+        clickHandler: sendEmailRequest,
+      };
+    }
   }
 
   const buttonsElement =
@@ -215,6 +240,12 @@ function appendButtons() {
         buttonConfig.clickHandler
       )
     );
+}
+
+function sendApprovalRequest() {
+  const leadId = document.querySelector('input[name="record"]').value;
+  const apiEndpoint = `index.php?module=Leads&action=si_approveEmail&to_pdf=1&id=${leadId}`;
+  handleEmailRequest(apiEndpoint, "Approval Request Successful");
 }
 
 function sendEmailRequest() {

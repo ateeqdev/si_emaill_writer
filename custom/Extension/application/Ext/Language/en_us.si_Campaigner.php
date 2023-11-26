@@ -19,6 +19,7 @@ $app_list_strings = [
         'sent' => 'Sent',
         'followup_required' => 'Followup Required',
         'followup_written' => 'Followup Written',
+        'followup_approved' => 'Followup Approved',
         'followup_sent' => 'Followup Sent',
         'reply_received' => 'Reply Received',
         'reply_written' => 'Reply Written',
