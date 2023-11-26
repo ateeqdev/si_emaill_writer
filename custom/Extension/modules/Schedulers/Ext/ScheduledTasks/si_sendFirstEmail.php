@@ -3,14 +3,14 @@
 if (!defined('sugarEntry') || !sugarEntry)
     die('Not A Valid Entry Point');
 
-$job_strings[] = 'si_sendEmails';
+$job_strings[] = 'si_sendFirstEmail';
 
 /**
  * This function checks if a reply has been received, if so, it marks the lead to not be contacted via automated email.
  * @return bool  true if syncing is successful, false otherwise
  * @access public
  */
-function si_sendEmails()
+function si_sendFirstEmail()
 {
     $file = 'custom/include/si_Campaigner/autoload.php';
     if (file_exists($file)) {
@@ -24,5 +24,5 @@ function si_sendEmails()
         $GLOBALS['log']->fatal('File ' . $file . ' NOT Found');
         return false;
     }
-    return si_Campaigner\SMTP\Send::run('Leads');
+    return si_Campaigner\SMTP\Send::firstEmail('Leads');
 }

@@ -53,7 +53,10 @@ $classes = array(
     'si_Campaigner\apiCalls\OpenAIApiAdapter',
     // Google
     'si_Campaigner\Google\AccessToken',
+    //OpenAI
     'si_Campaigner\OpenAI\AccessToken',
+    //SMTP
+    'si_Campaigner\SMTP\Send',
     // Helper
     'si_Campaigner\Helpers\MarkReplyReceived',
     'si_Campaigner\Helpers\PrepareEmail',
