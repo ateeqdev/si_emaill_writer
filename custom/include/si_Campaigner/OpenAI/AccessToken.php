@@ -19,7 +19,7 @@ class AccessToken
     public static function getToken()
     {
         return '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';
-        $creds = DBHelper::select('si_campaigner', 'openai_key', ['id', ['=', 1]]);
-        return $creds[0]['openai_key'];
+        $creds = DBHelper::select('si_campaigner', 'api_key', ['id', ['=', 1]]);
+        return $creds[0]['api_key'];
     }
 }

@@ -65,10 +65,7 @@ class si_Campaigner extends Basic
     public $assigned_user_link;
     public $SecurityGroups;
     public $large_language_model;
-    public $openai_key;
-    public $anthropic_key;
-    public $max_followups;
-    public $followups_counter;
+    public $api_key;
 
     public function bean_implements($interface)
     {

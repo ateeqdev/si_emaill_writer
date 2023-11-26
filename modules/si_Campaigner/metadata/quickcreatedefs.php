@@ -41,15 +41,10 @@ $viewdefs[$module_name] =
           ),
           1 =>
           array(
-            0 =>
-            array(
-              'name' => 'anthropic_key',
-              'label' => 'LBL_ANTHROPIC_KEY',
-            ),
             1 =>
             array(
-              'name' => 'openai_key',
-              'label' => 'LBL_OPENAI_KEY',
+              'name' => 'api_key',
+              'label' => 'LBL_LLM_API_KEY',
             ),
           ),
           2 =>
@@ -59,11 +54,6 @@ $viewdefs[$module_name] =
               'name' => 'large_language_model',
               'studio' => 'visible',
               'label' => 'LBL_LARGE_LANGUAGE_MODEL',
-            ),
-            1 =>
-            array(
-              'name' => 'max_followups',
-              'label' => 'LBL_MAX_FOLLOWUPS',
             ),
           ),
         ),

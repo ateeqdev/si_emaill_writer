@@ -15,12 +15,8 @@ class si_CampaignerHook
      */
     function linkAccountToLead($bean, $event)
     {
-        if (
-            $bean->status == 'New' &&
-            ($bean->fetched_row && $bean->fetched_row['status'] == 'New') &&
-            !empty($bean->fetched_row['linkedin_bio'])
-        ) {
-            $bean->status = 'ready_for_email';
+        if ($bean->si_conversation_history == '') {
+            $bean->si_conversation_history = null;
         }
 
         if (empty($bean->si_company_linkedin_profile) && empty($bean->website)) {

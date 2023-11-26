@@ -114,7 +114,7 @@ class PrepareEmail
                 break;
 
             case 'first':
-                $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description);
+                $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id);
                 break;
 
             default:

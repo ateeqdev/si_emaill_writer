@@ -76,9 +76,9 @@ $mod_strings = array(
   'LBL_SI_CAMPAIGNER_SUBPANEL_TITLE' => 'SI Campaigner',
   'LBL_NEW_FORM_TITLE' => 'New SI Campaigner',
   'LBL_LARGE_LANGUAGE_MODEL' => 'Large Language Model',
-  'LBL_OPENAI_KEY' => 'OpenAI Key',
+  'LBL_LLM_API_KEY' => 'LLM API Key',
   'LBL_ANTHROPIC_KEY' => 'Anthropic Key',
   'LBL_MAX_FOLLOWUPS' => 'Max Number of Follow Ups',
   'LBL_FOLLOWUPS_COUNTER' => 'Current Follow Ups Counter',
-  'LBL_PROMPT' => 'Prompt',
+  'LBL_FOLLOWUP_PROMPT' => 'Followup Prompt',
 );
