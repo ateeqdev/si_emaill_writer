@@ -32,7 +32,7 @@ class Send
             }
 
             // Define criteria based on email type
-            $history_criteria = $type == "first" ? "(si_conversation_history = '' OR si_conversation_history IS NULL)" : "(si_conversation_history != '' AND si_conversation_history IS NOT NULL)";
+            $history_criteria = $type == "first" ? "(si_conversation_history = '' OR si_conversation_history IS NULL) AND status = 'approved'" : "(si_conversation_history != '' AND si_conversation_history IS NOT NULL) AND status = 'followup_approved'";
 
             // Retrieve outbound email ids with valid SMTP credentials
             $outboundIds = DBHelper::select('outbound_email', ['id', 'assigned_user_id'], [
