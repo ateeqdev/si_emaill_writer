@@ -55,6 +55,9 @@ function post_install()
         if (createJOB('Campaigner - Send First Email', 'function::si_sendFirstEmail', '*::*::*::*::*') === true) {
             $GLOBALS['log']->fatal('Campaigner - Send First Email created');
         }
+        if (createJOB('Campaigner - Send Folloup Email', 'function::si_sendFollowupEmail', '*::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('Campaigner - Send Followup Email created');
+        }
         addFieldsToLayout();
         $GLOBALS['log']->fatal("SICampaigner installed successfully...");
     } catch (Exception $ex) {
