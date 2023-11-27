@@ -39,14 +39,13 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 
-$dictionary['si_Campaigner'] = array(
+$dictionary['si_Campaigner'] = [
   'table' => 'si_Campaigner',
   'audited' => true,
   'inline_edit' => true,
   'duplicate_merge' => true,
-  'fields' => array(
-    'large_language_model' =>
-    array(
+  'fields' => [
+    'large_language_model' => [
       'required' => false,
       'name' => 'large_language_model',
       'vname' => 'LBL_LARGE_LANGUAGE_MODEL',
@@ -69,9 +68,8 @@ $dictionary['si_Campaigner'] = array(
       'options' => 'large_language_model_list',
       'studio' => 'visible',
       'dependency' => false,
-    ),
-    'api_key' =>
-    array(
+    ],
+    'api_key' => [
       'required' => false,
       'name' => 'api_key',
       'vname' => 'LBL_LLM_API_KEY',
@@ -90,9 +88,8 @@ $dictionary['si_Campaigner'] = array(
       'merge_filter' => 'disabled',
       'len' => '255',
       'size' => '20',
-    ),
-    'followup_prompt' =>
-    array(
+    ],
+    'followup_prompt' => [
       'required' => false,
       'name' => 'followup_prompt',
       'vname' => 'LBL_FOLLOWUP_PROMPT',
@@ -113,12 +110,83 @@ $dictionary['si_Campaigner'] = array(
       'studio' => 'visible',
       'rows' => '4',
       'cols' => '20',
-    ),
-  ),
-  'relationships' => array(),
+    ],
+    'timezone' => [
+      'name' => 'timezone',
+      'vname' => 'LBL_TIMEZONE',
+      'type' => 'enum',
+      'options' => 'timezone_dom',
+      'len' => 50,
+      'comment' => 'Timezone of most of your target leads',
+      'merge_filter' => 'enabled',
+      'default' => 'America/Los_Angeles',
+      'studio' => 'visible',
+    ],
+    'require_approval' => [
+      'name' => 'require_approval',
+      'vname' => 'LBL_REQUIRE_APPROVAL',
+      'type' => 'enum',
+      'options' => 'require_approval_dom',
+      'len' => 50,
+      'comment' => 'Require approval on each email before sending',
+      'merge_filter' => 'enabled',
+      'default' => 'Yes',
+      'studio' => 'visible',
+    ],
+    'campaign_days' => [
+      'name' => 'campaign_days',
+      'vname' => 'LBL_CAMPAIGN_DAYS',
+      'type' => 'multienum',
+      'options' => 'campaign_days_list',
+      'len' => 50,
+      'comment' => 'On which days to run the campaign',
+      'merge_filter' => 'enabled',
+      'default' => '^Monday^,^Tuesday^,^Wednesday^,^Thursday^,^Friday^',
+      'studio' => 'visible',
+      'isMultiSelect' => true,
+    ],
+    'email_frequency' => [
+      'required' => false,
+      'name' => 'email_frequency',
+      'vname' => 'LBL_EMAIL_FREQUENCY',
+      'type' => 'int',
+      'default' => 1,
+      'no_default' => false,
+      'comments' => 'Emails per 10 minutes',
+      'help' => 'Emails per 10 minutes',
+      'importable' => 'true',
+      'duplicate_merge' => 'disabled',
+      'audited' => false,
+      'reportable' => true,
+      'unified_search' => false,
+      'merge_filter' => 'disabled',
+      'len' => '255',
+      'size' => '20',
+    ],
+    'start_time' => [
+      'name' => 'start_time',
+      'vname' => 'LBL_START_TIME',
+      'default' => '07:00:00',
+      'type' => 'time',
+      'audited' => true,
+      'required' => false,
+      'reportable' => false,
+    ],
+    'end_time' => [
+      'name' => 'end_time',
+      'vname' => 'LBL_END_TIME',
+      'default' => '19:00:00',
+      'type' => 'time',
+      'audited' => true,
+      'required' => false,
+      'reportable' => false,
+    ],
+  ],
+  'relationships' => [],
   'optimistic_locking' => true,
   'unified_search' => true,
-);
+];
+
 if (!class_exists('VardefManager')) {
   require_once('include/SugarObjects/VardefManager.php');
 }

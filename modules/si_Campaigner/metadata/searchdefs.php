@@ -38,27 +38,26 @@
  * reasonably feasible for technical reasons, the Appropriate Legal Notices must
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
-
 $module_name = 'si_Campaigner';
-$searchdefs[$module_name] = array(
-    'templateMeta' => array(
+$searchdefs[$module_name] = [
+    'templateMeta' => [
         'maxColumns' => '3',
         'maxColumnsBasic' => '4',
-        'widths' => array('label' => '10', 'field' => '30'),
-    ),
-    'layout' => array(
-        'basic_search' => array(
+        'widths' => ['label' => '10', 'field' => '30'],
+    ],
+    'layout' => [
+        'basic_search' => [
             'name',
-            array('name' => 'current_user_only', 'label' => 'LBL_CURRENT_USER_FILTER', 'type' => 'bool'),
-        ),
-        'advanced_search' => array(
+            ['name' => 'current_user_only', 'label' => 'LBL_CURRENT_USER_FILTER', 'type' => 'bool'],
+        ],
+        'advanced_search' => [
             'name',
-            array(
+            [
                 'name' => 'assigned_user_id',
                 'label' => 'LBL_ASSIGNED_TO',
                 'type' => 'enum',
-                'function' => array('name' => 'get_user_array', 'params' => array(false))
-            ),
-        ),
-    ),
-);
+                'function' => ['name' => 'get_user_array', 'params' => [false]],
+            ],
+        ],
+    ],
+];

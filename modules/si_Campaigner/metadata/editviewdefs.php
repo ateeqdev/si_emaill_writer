@@ -1,68 +1,88 @@
 <?php
 $module_name = 'si_Campaigner';
-$viewdefs[$module_name] =
-  array(
-    'EditView' =>
-    array(
-      'templateMeta' =>
-      array(
-        'maxColumns' => '2',
-        'widths' =>
-        array(
-          0 =>
-          array(
-            'label' => '10',
-            'field' => '30',
-          ),
-          1 =>
-          array(
-            'label' => '10',
-            'field' => '30',
-          ),
-        ),
-        'useTabs' => false,
-        'tabDefs' =>
-        array(
-          'DEFAULT' =>
-          array(
-            'newTab' => false,
-            'panelDefault' => 'expanded',
-          ),
-        ),
-        'syncDetailEditViews' => true,
-      ),
-      'panels' =>
-      array(
-        'default' =>
-        array(
-          0 =>
-          array(
-            0 => 'name',
-            1 => 'assigned_user_name',
-          ),
-          1 =>
-          array(
-            0 => 'description',
-          ),
-          2 =>
-          array(
-            0 =>
-            array(
-              'name' => 'api_key',
-              'label' => 'LBL_LLM_API_KEY',
-            ),
-            1 =>
-            array(
-              'name' => 'large_language_model',
-              'studio' => 'visible',
-              'label' => 'LBL_LARGE_LANGUAGE_MODEL',
-            ),
-          ),
-          3 =>
-          array(
-            0 => 'followup_prompt',
-          ),
-        ),
-      ),
-    ),
-  );;
+$viewdefs[$module_name] = [
+  'EditView' => [
+    'templateMeta' => [
+      'maxColumns' => '2',
+      'widths' => [
+        [
+          'label' => '10',
+          'field' => '30',
+        ],
+        [
+          'label' => '10',
+          'field' => '30',
+        ],
+      ],
+      'useTabs' => false,
+      'tabDefs' => [
+        'DEFAULT' => [
+          'newTab' => false,
+          'panelDefault' => 'expanded',
+        ],
+      ],
+      'syncDetailEditViews' => true,
+    ],
+    'panels' => [
+      'default' => [
+        [
+          'name',
+          'assigned_user_name',
+        ],
+        [
+          'description',
+        ],
+        [
+          [
+            'name' => 'api_key',
+            'label' => 'LBL_LLM_API_KEY',
+          ],
+          [
+            'name' => 'large_language_model',
+            'studio' => 'visible',
+            'label' => 'LBL_LARGE_LANGUAGE_MODEL',
+          ],
+        ],
+        [
+          'followup_prompt',
+        ],
+        [
+          [
+            'name' => 'timezone',
+            'studio' => 'visible',
+            'label' => 'LBL_TIMEZONE',
+          ],
+          [
+            'name' => 'require_approval',
+            'studio' => 'visible',
+            'label' => 'LBL_REQUIRE_APPROVAL',
+          ],
+        ],
+        [
+          [
+            'name' => 'campaign_days',
+            'studio' => 'visible',
+            'label' => 'LBL_CAMPAIGN_DAYS',
+          ],
+          [
+            'name' => 'email_frequency',
+            'studio' => 'visible',
+            'label' => 'LBL_EMAIL_FREQUENCY',
+          ],
+        ],
+        [
+          [
+            'name' => 'start_time',
+            'studio' => 'visible',
+            'label' => 'LBL_START_TIME',
+          ],
+          [
+            'name' => 'end_time',
+            'studio' => 'visible',
+            'label' => 'LBL_END_TIME',
+          ],
+        ],
+      ],
+    ],
+  ],
+];

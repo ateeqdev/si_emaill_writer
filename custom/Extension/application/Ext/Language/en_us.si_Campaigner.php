@@ -8,6 +8,10 @@ $app_list_strings = [
         'gpt-3.5-turbo' => 'GPT 3.5 Turbo',
         'gpt-4' => 'GPT 4',
     ],
+    'require_approval_dom' => [
+        'Yes' => 'Yes',
+        'Trust the AI' => 'Trust the AI',
+    ],
     'lead_status_dom' => [
         'New' => 'New',
         'ready_for_email' => 'Ready for Email',
@@ -115,5 +119,14 @@ $app_list_strings = [
         'Warehousing' => 'Warehousing',
         'Wholesale' => 'Wholesale',
         'Wireless' => 'Wireless',
-    ]
+    ],
+    'campaign_days_list' => [
+        'Monday' => 'Monday',
+        'Tuesday' => 'Tuesday',
+        'Wednesday' => 'Wednesday',
+        'Thursday' => 'Thursday',
+        'Friday' => 'Friday',
+        'Saturday' => 'Saturday',
+        'Sunday' => 'Sunday',
+    ],
 ];

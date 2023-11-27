@@ -1,105 +1,150 @@
 <?php
-$popupMeta = array(
+
+$popupMeta = [
   'moduleMain' => 'si_Campaigner',
   'varName' => 'si_Campaigner',
   'orderBy' => 'si_Campaigner.name',
-  'whereClauses' => array(
+  'whereClauses' => [
     'name' => 'si_Campaigner.name',
     'large_language_model' => 'si_Campaigner.large_language_model',
-    'followups_counter' => 'si_Campaigner.followups_counter',
-    'max_followups' => 'si_Campaigner.max_followups',
+    'timezone' => 'si_Campaigner.timezone',
+    'require_approval' => 'si_Campaigner.require_approval',
+    'campaign_days' => 'si_Campaigner.campaign_days',
+    'email_frequency' => 'si_Campaigner.email_frequency',
+    'start_time' => 'si_Campaigner.start_time',
+    'end_time' => 'si_Campaigner.end_time',
     'assigned_user_id' => 'si_Campaigner.assigned_user_id',
-  ),
-  'searchInputs' => array(
-    1 => 'name',
-    4 => 'large_language_model',
-    5 => 'followups_counter',
-    6 => 'max_followups',
-    7 => 'assigned_user_id',
-  ),
-  'searchdefs' => array(
-    'name' =>
-    array(
+  ],
+  'searchInputs' => [
+    'name' => 'name',
+    'large_language_model' => 'large_language_model',
+    'timezone' => 'timezone',
+    'require_approval' => 'require_approval',
+    'campaign_days' => 'campaign_days',
+    'email_frequency' => 'email_frequency',
+    'start_time' => 'start_time',
+    'end_time' => 'end_time',
+    'assigned_user_id' => 'assigned_user_id',
+  ],
+  'searchdefs' => [
+    'name' => [
       'name' => 'name',
       'width' => '10%',
-    ),
-    'large_language_model' =>
-    array(
+    ],
+    'large_language_model' => [
       'type' => 'enum',
       'studio' => 'visible',
       'label' => 'LBL_LARGE_LANGUAGE_MODEL',
       'width' => '10%',
       'name' => 'large_language_model',
-    ),
-    'followups_counter' =>
-    array(
-      'type' => 'int',
-      'label' => 'LBL_FOLLOWUPS_COUNTER',
+    ],
+    'timezone' => [
+      'type' => 'enum',
+      'label' => 'LBL_TIMEZONE',
       'width' => '10%',
-      'name' => 'followups_counter',
-    ),
-    'max_followups' =>
-    array(
-      'type' => 'int',
-      'label' => 'LBL_MAX_FOLLOWUPS',
+      'name' => 'timezone',
+    ],
+    'require_approval' => [
+      'type' => 'enum',
+      'label' => 'LBL_REQUIRE_APPROVAL',
       'width' => '10%',
-      'name' => 'max_followups',
-    ),
-    'assigned_user_id' =>
-    array(
+      'name' => 'require_approval',
+    ],
+    'campaign_days' => [
+      'type' => 'multienum',
+      'label' => 'LBL_CAMPAIGN_DAYS',
+      'width' => '10%',
+      'name' => 'campaign_days',
+    ],
+    'email_frequency' => [
+      'type' => 'int',
+      'label' => 'LBL_EMAIL_FREQUENCY',
+      'width' => '10%',
+      'name' => 'email_frequency',
+    ],
+    'start_time' => [
+      'type' => 'time',
+      'label' => 'LBL_START_TIME',
+      'width' => '10%',
+      'name' => 'start_time',
+    ],
+    'end_time' => [
+      'type' => 'time',
+      'label' => 'LBL_END_TIME',
+      'width' => '10%',
+      'name' => 'end_time',
+    ],
+    'assigned_user_id' => [
       'name' => 'assigned_user_id',
       'label' => 'LBL_ASSIGNED_TO',
       'type' => 'enum',
-      'function' =>
-      array(
+      'function' => [
         'name' => 'get_user_array',
-        'params' =>
-        array(
-          0 => false,
-        ),
-      ),
+        'params' => [
+          false,
+        ],
+      ],
       'width' => '10%',
-    ),
-  ),
-  'listviewdefs' => array(
-    'NAME' =>
-    array(
+    ],
+  ],
+  'listviewdefs' => [
+    'NAME' => [
       'width' => '32%',
       'label' => 'LBL_NAME',
       'default' => true,
       'link' => true,
       'name' => 'name',
-    ),
-    'LARGE_LANGUAGE_MODEL' =>
-    array(
+    ],
+    'LARGE_LANGUAGE_MODEL' => [
       'type' => 'enum',
       'default' => true,
       'studio' => 'visible',
       'label' => 'LBL_LARGE_LANGUAGE_MODEL',
       'width' => '10%',
-    ),
-    'MAX_FOLLOWUPS' =>
-    array(
+    ],
+    'REQUIRE_APPROVAL' => [
+      'type' => 'enum',
+      'default' => true,
+      'label' => 'LBL_REQUIRE_APPROVAL',
+      'width' => '10%',
+    ],
+    'TIMEZONE' => [
+      'type' => 'enum',
+      'default' => true,
+      'label' => 'LBL_TIMEZONE',
+      'width' => '10%',
+    ],
+    'CAMPAIGN_DAYS' => [
+      'type' => 'multienum',
+      'default' => true,
+      'label' => 'LBL_CAMPAIGN_DAYS',
+      'width' => '10%',
+    ],
+    'EMAIL_FREQUENCY' => [
       'type' => 'int',
       'default' => true,
-      'label' => 'LBL_MAX_FOLLOWUPS',
+      'label' => 'LBL_EMAIL_FREQUENCY',
       'width' => '10%',
-    ),
-    'FOLLOWUPS_COUNTER' =>
-    array(
-      'type' => 'int',
+    ],
+    'start_time' => [
+      'type' => 'time',
+      'label' => 'LBL_START_TIME',
+      'width' => '10%',
       'default' => true,
-      'label' => 'LBL_FOLLOWUPS_COUNTER',
+    ],
+    'end_time' => [
+      'type' => 'time',
+      'label' => 'LBL_END_TIME',
       'width' => '10%',
-    ),
-    'ASSIGNED_USER_NAME' =>
-    array(
+      'default' => true,
+    ],
+    'ASSIGNED_USER_NAME' => [
       'width' => '9%',
       'label' => 'LBL_ASSIGNED_TO_NAME',
       'module' => 'Employees',
       'id' => 'ASSIGNED_USER_ID',
       'default' => true,
       'name' => 'assigned_user_name',
-    ),
-  ),
-);
+    ],
+  ],
+];

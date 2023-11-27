@@ -64,8 +64,6 @@ class si_Campaigner extends Basic
     public $assigned_user_name;
     public $assigned_user_link;
     public $SecurityGroups;
-    public $large_language_model;
-    public $api_key;
 
     public function bean_implements($interface)
     {
