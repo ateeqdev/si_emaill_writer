@@ -110,7 +110,7 @@ class PrepareEmail
         // Select the appropriate email sending method based on the email type
         switch ($emailType) {
             case 'followup':
-                $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description);
+                $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id);
                 break;
 
             case 'first':

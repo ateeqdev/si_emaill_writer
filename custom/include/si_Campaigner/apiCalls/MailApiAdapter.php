@@ -44,12 +44,10 @@ class MailApiAdapter
      * @param string $signature email signature
      * @return string $response
      */
-    public static function sendEmail($to, $toName, $subject, $message, $signature = '', $messageId = null, $oe_id = null)
+    public static function sendEmail($to, $toName, $subject, $message, $messageId = null, $oe_id = null)
     {
         $message = nl2br(trim($message));
-        if (!empty($signature)) {
-            $message .= "<br><br><div style='color: #888;'>$signature</div>";
-        }
+
 
         $mail = new \SugarPHPMailer(true);
         if ($oe_id) {
@@ -57,6 +55,10 @@ class MailApiAdapter
         } else {
             $mailoe = new \OutboundEmail();
             $mailoe->getUserMailerSettings($current_user);
+        }
+        $signature = $mailoe->signature;
+        if (!empty($signature)) {
+            $message .= "<br><br><div style='color: #888;'>$signature</div>";
         }
         $mail->ClearAllRecipients();
         $mail->ClearReplyTos();
