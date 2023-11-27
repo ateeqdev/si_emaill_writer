@@ -16,10 +16,9 @@ class AccessToken
      * This function gets the Access Token
      * @return string API key is returned
      */
-    public static function getToken()
+    public static function getToken($userId = 1)
     {
-        return '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';
-        $creds = DBHelper::select('si_campaigner', 'api_key', ['id', ['=', 1]]);
+        $creds = DBHelper::select('si_campaigner', 'api_key', ['id', ['=', $userId]]);
         return $creds[0]['api_key'];
     }
 }

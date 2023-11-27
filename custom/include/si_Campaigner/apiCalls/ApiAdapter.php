@@ -49,7 +49,7 @@ class ApiAdapter
             if ($type == 'google')
                 $access_token = GoogleAccessToken::getToken($userID);
             else if ($type == 'openai')
-                $access_token = OpenAIAccessToken::getToken();
+                $access_token = OpenAIAccessToken::getToken($userID);
             if (!$access_token) return ['error' => 'access token not found for user with id: ' . $userID];
 
             $options[CURLOPT_HTTPHEADER] = array(
