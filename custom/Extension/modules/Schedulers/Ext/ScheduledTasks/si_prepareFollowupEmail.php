@@ -19,5 +19,5 @@ function si_prepareFollowupEmails()
         $GLOBALS['log']->fatal('File ' . $file . ' NOT Found');
         return false;
     }
-    return si_Campaigner\Helpers\PrepareEmail::wrieFollowups('Leads');
+    return si_Campaigner\Helpers\PrepareEmail::writeFollowups('Leads');
 }

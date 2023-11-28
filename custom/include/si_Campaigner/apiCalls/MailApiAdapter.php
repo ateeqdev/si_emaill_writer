@@ -3,6 +3,7 @@
 namespace si_Campaigner\apiCalls;
 
 use si_Campaigner\apiCalls\ApiAdapter;
+use si_Campaigner\Sugar\Helpers\DBHelper;
 
 include_once('include/SugarPHPMailer.php');
 
@@ -47,19 +48,22 @@ class MailApiAdapter
     public static function sendEmail($to, $toName, $subject, $message, $messageId = null, $oe_id = null)
     {
         $message = nl2br(trim($message));
+        global $current_user;
 
-
+        if (!$oe_id) {
+            $res = DBHelper::select('outbound_email', 'id', [
+                'type' => ['=', 'user'],
+                'user_id' => ['=', $current_user->id],
+                'deleted' => ['=', '0']
+            ], 'date_modified');
+            $oe_id = $res[0]['id'];
+        }
+        $mailoe = new \OutboundEmail();
+        $mailoe = $mailoe->retrieve($res[0]['id']);
+        if (!empty($mailoe->signature)) {
+            $message .= "<br><br><div style='color: #888;'>$mailoe->signature</div>";
+        }
         $mail = new \SugarPHPMailer(true);
-        if ($oe_id) {
-            $mailoe = \BeanFactory::getBean(ucfirst('OutboundEmailAccounts'), $oe_id, array('disable_row_level_security' => true));
-        } else {
-            $mailoe = new \OutboundEmail();
-            $mailoe->getUserMailerSettings($current_user);
-        }
-        $signature = $mailoe->signature;
-        if (!empty($signature)) {
-            $message .= "<br><br><div style='color: #888;'>$signature</div>";
-        }
         $mail->ClearAllRecipients();
         $mail->ClearReplyTos();
         $mail->AddAddress($to, $toName);
@@ -73,8 +77,15 @@ class MailApiAdapter
             $mail->addCustomHeader('References',  $messageId);
         }
         $mail->isHTML(true);
+        $mail->isSMTP();
+        $mail->Host = $mailoe->mail_smtpserver;
+        $mail->SMTPAuth = true;
+        $mail->Username = $mailoe->mail_smtpuser;
+        $mail->Password = $mailoe->mail_smtppass;
+        $mail->SMTPSecure = $mailoe->mail_smtpssl;
+        $mail->Port = $mailoe->mail_smtpport;
         $mail->prepForOutbound();
-        $mail->setMailerForSystem();
+
         $response = $mail->send();
 
         if (!$response) {

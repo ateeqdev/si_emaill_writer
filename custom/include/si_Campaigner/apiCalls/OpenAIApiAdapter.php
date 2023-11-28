@@ -14,7 +14,10 @@ class OpenAIApiAdapter extends ApiAdapter
 
     public static function firstEmail($name, $personDesc = '', $companyDesc = '', $userId = '')
     {
-        $prompt = DBHelper::select('si_Campaigner', ['description', 'large_language_model'], ['assigned_user_id' => ['=', $userId]]);
+        $prompt = DBHelper::select('si_Campaigner', ['description', 'large_language_model'], [
+            'assigned_user_id' => ['=', $userId],
+            'deleted' => ['=', '0']
+        ], 'date_modified');
         $systemPrompt = $prompt[0]['description'];
         if (!$systemPrompt) {
             return ['error' => 'prompt not found'];
@@ -50,7 +53,10 @@ class OpenAIApiAdapter extends ApiAdapter
 
     public static function followupEmail($conversation, $name, $personDesc = '', $companyDesc = '', $userId = '1')
     {
-        $prompt = DBHelper::select('si_Campaigner', ['followup_prompt', 'large_language_model'], ['assigned_user_id' => ['=', $userId]]);
+        $prompt = DBHelper::select('si_Campaigner', ['followup_prompt', 'large_language_model'], [
+            'assigned_user_id' => ['=', $userId],
+            'deleted' => ['=', '0']
+        ], 'date_modified');
         $systemPrompt = $prompt[0]['followup_prompt'];
         if (!$systemPrompt) {
             return ['error' => 'prompt not found'];

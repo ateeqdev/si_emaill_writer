@@ -18,7 +18,9 @@ class AccessToken
      */
     public static function getToken($userId = 1)
     {
-        $creds = DBHelper::select('si_campaigner', 'api_key', ['id', ['=', $userId]]);
+        $creds = DBHelper::select('si_Campaigner', 'api_key', [
+            'deleted' => ['=', '0']
+        ], 'date_modified');
         return $creds[0]['api_key'];
     }
 }

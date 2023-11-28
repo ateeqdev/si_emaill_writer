@@ -218,8 +218,8 @@ function appendButtons() {
     } else {
       buttonConfig = {
         id: "sendemail",
-        value: "Send the Email",
-        title: "Send the Email",
+        value: "Send Email",
+        title: "Send Email",
         accessKey: "a",
         clickHandler: sendEmailRequest,
       };

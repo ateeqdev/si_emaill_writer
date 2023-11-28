@@ -49,7 +49,7 @@ class PrepareEmail
      *
      * @param string $module The module to process (default: 'Leads').
      */
-    public static function wrieFollowups($module = 'Leads')
+    public static function writeFollowups($module = 'Leads')
     {
         $startTime = strtotime('now');
         $currentTimestampUTC = strtotime(gmdate('Y-m-d H:i:s'));
