@@ -25,35 +25,65 @@ class Send
         try {
             // Define the job based on the email type
             $job = $type == 'first' ? 'function::si_sendFirstEmail' : 'function::si_sendFollowupEmail';
+            $outbounds = DBHelper::select('outbound_email', ['id', 'user_id'], [
+                'type' => ['=', 'user'],
+                'mail_smtppass' => ['IS NOT', 'null'],
+                'deleted' => ['=', '0']
+            ], 'date_modified');
 
-            // Check if the current time is working hours of a weekday
-            if (!self::shouldRun($job)) {
-                return true;
+            $configRes = DBHelper::select('si_Campaigner', ['timezone', 'require_approval', 'campaign_days', 'email_frequency', 'start_time', 'end_time', 'assigned_user_id'], [
+                'deleted' => ['=', '0']
+            ], 'date_modified');
+
+            $configs = [];
+            foreach ($outbounds as $outboundVal) {
+                foreach ($configRes as $configVal) {
+                    if ($configVal['assigned_user_id'] == $outboundVal['user_id'] && !$configs[$outboundVal['user_id']]) {
+                        $configs[$outboundVal['user_id']] = $configVal;
+                    }
+                }
             }
+            foreach ($configs as $key => $value) {
+                if ($key == 'start_time' || $key == 'end_time') {
+                    $configs[$key] = str_replace(':', '', $configs[$key]);
+                } else if ($key == 'campaign_days') {
+                    $daysArray = explode(',', str_replace('^', '', $configs[$key]));
+                    foreach ($daysArray as &$day) {
+                        $day = trim($day);
+                    }
+                    $configs[$key] = $daysArray;
+                }
+            }
+            foreach ($outbounds as $outbound) {
 
-            // Define criteria based on email type
-            $history_criteria = $type == "first" ? "(si_conversation_history = '' OR si_conversation_history IS NULL) AND status = 'approved'" : "(si_conversation_history != '' AND si_conversation_history IS NOT NULL) AND status = 'followup_approved'";
-
-            // Retrieve outbound email ids with valid SMTP credentials
-            $outboundIds = DBHelper::select('outbound_email', ['id', 'assigned_user_id'], [
-                'deleted' => ['=', 0],
-                'mail_smtppass' => ['!=', '']
-            ]);
-
-            foreach ($outboundIds as $key => $outbound) {
-                // Add a random chance of 10%
-                $randomNumber = rand(1, 100);
-                if ($randomNumber <= 10) {
+                $config = $configs[$outbound['user_id']];
+                // Check if the current time is working hours of a weekday
+                if (!self::shouldRun($job, $config['timezone'], $config['campaign_days'], $config['start_time'], $config['end_time'])) {
                     continue;
                 }
 
-                $userId = $outbound['assigned_user_id'];
+                if ($type == 'first') {
+                    $criteria = "(si_conversation_history = '' OR si_conversation_history IS NULL)";
+                } else {
+                    $criteria = "(si_conversation_history != '' AND si_conversation_history IS NOT NULL)";
+                }
+
+                if ($config['require_approval'] == 'Yes') {
+                    $criteria .= " AND (status = 'approved' OR status = 'followup_approved')";
+                }
+
+                $randomNumber = rand(1, 100);
+                if ($randomNumber > $config['email_frequency']) {
+                    continue;
+                }
+
+                $userId = $outbound['user_id'];
 
                 // Fetch a lead meeting criteria for sending emails
                 $select = DBHelper::executeQuery(
                     "SELECT id
                     FROM leads
-                    WHERE $history_criteria
+                    WHERE $criteria
                         AND (si_email_body != '' AND si_email_body IS NOT NULL)
                         AND (si_email_subject != '' AND si_email_subject IS NOT NULL)
                         AND assigned_user_id = '" . $userId . "' " .
@@ -103,26 +133,20 @@ class Send
      * @param string $job The function to be executed.
      * @return boolean Returns true if the job should run, false otherwise.
      */
-    public static function shouldRun($job)
+    public static function shouldRun($job, $timezone, $days, $start_time, $end_time)
     {
         try {
-            // Get current time in PST
-            $currentTime = new \DateTime('now', new \DateTimeZone('PST'));
+            // Get current time in the given timezone
+            $currentTime = new \DateTime('now', new \DateTimeZone($timezone));
+            // Check if it's a weekend
+            $isWeekend = !in_array($currentTime->format('l'), $days);
 
-            // Check if it's a weekend (Saturday or Sunday)
-            $isWeekend = in_array($currentTime->format('N'), [6, 7]);
+            // Check if the current time is outside the desired time to contact
+            $isOutsideWorkingHours = $currentTime->format('H') < $start_time || $currentTime->format('H') >= $end_time;
 
-            // Check if the current time is outside 7am - 7pm PST
-            $isOutsideWorkingHours = $currentTime->format('H') < 7 || $currentTime->format('H') >= 19;
-
-            // If it's a weekend or outside working hours, set scheduler job to run after one hour
-            if ($isWeekend || $isOutsideWorkingHours) {
-                UpdateJob::setInterval($job, '0::7::*::*::*');
+            // If it's a weekend or outside working hours, return false
+            if ($isWeekend || $isOutsideWorkingHours)
                 return false;
-            }
-
-            // Set the scheduler job to run every minute during the week within working hours
-            UpdateJob::setInterval($job, '*::*::*::*::*');
 
             return true;
         } catch (\Exception $e) {

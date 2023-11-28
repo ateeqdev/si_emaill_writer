@@ -82,7 +82,7 @@ $mod_strings = array(
   'LBL_TIMEZONE' => 'Timezone of Target Leads',
   'LBL_REQUIRE_APPROVAL' => 'Require Human Approval',
   'LBL_CAMPAIGN_DAYS' => 'Campaign Days',
-  'LBL_EMAIL_FREQUENCY' => 'Emails Per 10 Minutes',
+  'LBL_EMAIL_FREQUENCY' => 'Email Probability',
   'LBL_START_TIME' => 'Campaign Start Time',
   'LBL_END_TIME' => 'Campaign End Time',
 );

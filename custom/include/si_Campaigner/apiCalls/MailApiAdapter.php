@@ -58,6 +58,7 @@ class MailApiAdapter
             ], 'date_modified');
             $oe_id = $res[0]['id'];
         }
+
         $mailoe = new \OutboundEmail();
         $mailoe = $mailoe->retrieve($res[0]['id']);
         if (!empty($mailoe->signature)) {
