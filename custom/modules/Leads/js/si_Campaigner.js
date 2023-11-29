@@ -207,11 +207,11 @@ function appendButtons() {
         clickHandler: sendApprovalRequest,
       };
     }
-    if (si_email_status === "followup_written") {
+    else if (si_email_status === "followup_written") {
       buttonConfig = {
         id: "approve",
-        value: "Approve the Followup Email",
-        title: "Approve the Followup Email",
+        value: "Approve Followup Email",
+        title: "Approve Followup Email",
         accessKey: "p",
         clickHandler: sendApprovalRequest,
       };

@@ -47,9 +47,7 @@ class si_CampaignerHook
     function setBioStatus($bean, $event)
     {
         if (
-            $bean->status == 'New' &&
-            ($bean->fetched_row && $bean->fetched_row['status'] == 'New') &&
-            !empty($bean->si_linkedin_bio)
+            $bean->status == 'New' && !empty($bean->si_linkedin_bio)
         ) {
             $bean->status = 'ready_for_email';
         }

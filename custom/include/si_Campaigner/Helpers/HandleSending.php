@@ -37,7 +37,7 @@ class HandleSending
             $toName = trim($bean->first_name . ' ' . $bean->last_name);
             $messageId = base64_decode(html_entity_decode($bean->si_message_id));
 
-            $response = MailApiAdapter::sendEmail('themeetapps@gmail.com', $toName, $bean->si_email_subject ?? '', $bean->si_email_body, $messageId);
+            $response = MailApiAdapter::sendEmail($toEmailAddress, $toName, $bean->si_email_subject ?? '', $bean->si_email_body, $messageId);
 
             if (isset($response['error']) && $response['error'])
                 return self::sendError($response['error']);
@@ -69,7 +69,7 @@ class HandleSending
             if (isset($response['thread_id']) && $response['thread_id'])
                 $bean->si_thread_id = $response['thread_id'];
 
-            // $bean->si_email_body = '';
+            $bean->si_email_body = '';
             $bean->status = $email_type == 'first' ? 'sent' : 'followup_sent';
             $bean->si_followups_counter = $bean->si_followups_counter + 1;
             $bean->si_emailed_at = $sentAt;

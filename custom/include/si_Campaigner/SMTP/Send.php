@@ -95,7 +95,6 @@ class Send
                 ORDER BY date_modified ASC
                 LIMIT 0, 1;";
                 $res = DBHelper::executeQuery($select);
-                $GLOBALS['log']->fatal($select);
 
                 $res2 = $GLOBALS['db']->fetchByAssoc($res);
                 if ($res2 && $res2['id']) {
