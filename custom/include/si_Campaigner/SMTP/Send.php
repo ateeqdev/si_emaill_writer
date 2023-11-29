@@ -29,13 +29,13 @@ class Send
                 'type' => ['=', 'user'],
                 'mail_smtppass' => ['IS NOT', 'null'],
                 'deleted' => ['=', '0']
-            ], 'date_modified');
+            ], 'date_modified DESC');
 
             $configRes = DBHelper::select('si_Campaigner', ['timezone', 'require_approval', 'campaign_days', 'email_frequency', 'start_time', 'end_time', 'assigned_user_id'], [
                 'deleted' => ['=', '0']
-            ], 'date_modified');
-
+            ], 'date_modified DESC');
             $configs = [];
+
             foreach ($outbounds as $outboundVal) {
                 foreach ($configRes as $configVal) {
                     if ($configVal['assigned_user_id'] == $outboundVal['user_id'] && !$configs[$outboundVal['user_id']]) {
@@ -43,22 +43,27 @@ class Send
                     }
                 }
             }
-            foreach ($configs as $key => $value) {
-                if ($key == 'start_time' || $key == 'end_time') {
-                    $configs[$key] = str_replace(':', '', $configs[$key]);
-                } else if ($key == 'campaign_days') {
-                    $daysArray = explode(',', str_replace('^', '', $configs[$key]));
-                    foreach ($daysArray as &$day) {
-                        $day = trim($day);
+
+            foreach ($configs as $index => $value) {
+                foreach ($value as $key => $configVal) {
+                    if ($key == 'start_time' || $key == 'end_time') {
+                        $configs[$index][$key] = str_replace(':', '', $configs[$index][$key]);
+                    } else if ($key == 'campaign_days') {
+                        $daysArray = explode(',', str_replace('^', '', $configs[$index][$key]));
+                        foreach ($daysArray as &$day) {
+                            $day = trim($day);
+                        }
+                        $configs[$index][$key] = $daysArray;
                     }
-                    $configs[$key] = $daysArray;
                 }
             }
+
             foreach ($outbounds as $outbound) {
 
                 $config = $configs[$outbound['user_id']];
+
                 // Check if the current time is working hours of a weekday
-                if (!self::shouldRun($job, $config['timezone'], $config['campaign_days'], $config['start_time'], $config['end_time'])) {
+                if (!self::shouldRun($config['timezone'], $config['campaign_days'], $config['start_time'], $config['end_time'])) {
                     continue;
                 }
 
@@ -73,32 +78,32 @@ class Send
                 }
 
                 $randomNumber = rand(1, 100);
+
                 if ($randomNumber > $config['email_frequency']) {
                     continue;
                 }
 
                 $userId = $outbound['user_id'];
-
                 // Fetch a lead meeting criteria for sending emails
-                $select = DBHelper::executeQuery(
-                    "SELECT id
-                    FROM leads
-                    WHERE $criteria
-                        AND (si_email_body != '' AND si_email_body IS NOT NULL)
-                        AND (si_email_subject != '' AND si_email_subject IS NOT NULL)
-                        AND assigned_user_id = '" . $userId . "' " .
-                        "AND deleted = 0
-                    ORDER BY date_modified ASC
-                    LIMIT 0, 1;"
-                );
+                $select = "SELECT id
+                FROM leads
+                WHERE $criteria
+                    AND (si_email_body != '' AND si_email_body IS NOT NULL)
+                    AND (si_email_subject != '' AND si_email_subject IS NOT NULL)
+                    AND assigned_user_id = '" . $userId . "' " .
+                    "AND deleted = 0
+                ORDER BY date_modified ASC
+                LIMIT 0, 1;";
+                $res = DBHelper::executeQuery($select);
+                $GLOBALS['log']->fatal($select);
 
-                $res2 = $GLOBALS['db']->fetchByAssoc($select);
-
-                // Send the email using HandleSending helper
-                HandleSending::send($res2['id'], $module, $userId);
-
-                return true;
+                $res2 = $GLOBALS['db']->fetchByAssoc($res);
+                if ($res2 && $res2['id']) {
+                    // Send the email using HandleSending helper
+                    HandleSending::send($res2['id'], $module, $userId);
+                }
             }
+            return true;
         } catch (\Exception $e) {
             $GLOBALS['log']->fatal("si_Campaigner Error in " . __FILE__ . ":" . __LINE__ . ": " . $e->getMessage());
             return false;
@@ -133,7 +138,7 @@ class Send
      * @param string $job The function to be executed.
      * @return boolean Returns true if the job should run, false otherwise.
      */
-    public static function shouldRun($job, $timezone, $days, $start_time, $end_time)
+    public static function shouldRun($timezone, $days, $start_time, $end_time)
     {
         try {
             // Get current time in the given timezone
@@ -142,7 +147,7 @@ class Send
             $isWeekend = !in_array($currentTime->format('l'), $days);
 
             // Check if the current time is outside the desired time to contact
-            $isOutsideWorkingHours = $currentTime->format('H') < $start_time || $currentTime->format('H') >= $end_time;
+            $isOutsideWorkingHours = $currentTime->format('His') < $start_time || $currentTime->format('His') >= $end_time;
 
             // If it's a weekend or outside working hours, return false
             if ($isWeekend || $isOutsideWorkingHours)

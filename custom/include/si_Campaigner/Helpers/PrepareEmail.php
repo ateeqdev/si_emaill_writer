@@ -93,7 +93,7 @@ class PrepareEmail
 
         $toEmailAddress = $bean->email1 ?? $bean->email2 ?? '';
         if (!$toEmailAddress)
-            return 'The record does not have an email address';
+            return ucfirst($module) . ': ' . $id . ': The record does not have an email address';
 
         if ($bean->si_conversation_history)
             $emailType = 'followup';

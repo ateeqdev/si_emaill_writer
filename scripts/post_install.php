@@ -34,6 +34,9 @@ function post_install()
         if (!in_array("si_Campaigner", $configurator->config['addAjaxBannedModules'])) {
             $configurator->config['addAjaxBannedModules'][] = 'si_Campaigner';
         }
+        if (!in_array("Leads", $configurator->config['addAjaxBannedModules'])) {
+            $configurator->config['addAjaxBannedModules'][] = 'Leads';
+        }
         if (!in_array("https://cdn-plugins.stackimagine.com/campaigner/redirect.php", $configurator->config['http_referer'])) {
             $configurator->config['http_referer']['list'][] = 'https://cdn-plugins.stackimagine.com/campaigner/redirect.php';
         }

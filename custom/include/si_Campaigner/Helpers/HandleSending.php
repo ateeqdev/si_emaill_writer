@@ -22,11 +22,11 @@ class HandleSending
             $toEmailAddress = $bean->email1 ?? $bean->email2 ?? '';
 
             if (!$bean)
-                return self::sendError('Record not found');
+                return self::sendError(ucfirst($module) . ': ' . $recordId . ': Record not found');
             if (!$toEmailAddress)
-                return self::sendError('The record does not have an email address');
+                return self::sendError(ucfirst($module) . ': ' . $recordId . ': The record does not have an email address');
             if (!$bean->si_email_body)
-                return self::sendError('Email body is empty');
+                return self::sendError(ucfirst($module) . ': ' . $recordId . ': Email body is empty');
 
             $email_type = 'first';
             if ($bean->si_message_id) {
