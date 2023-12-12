@@ -9,6 +9,7 @@ $popupMeta = [
     'large_language_model' => 'si_Campaigner.large_language_model',
     'timezone' => 'si_Campaigner.timezone',
     'require_approval' => 'si_Campaigner.require_approval',
+    'followup_require_approval' => 'si_Campaigner.followup_require_approval',
     'campaign_days' => 'si_Campaigner.campaign_days',
     'email_frequency' => 'si_Campaigner.email_frequency',
     'start_time' => 'si_Campaigner.start_time',
@@ -20,6 +21,7 @@ $popupMeta = [
     'large_language_model' => 'large_language_model',
     'timezone' => 'timezone',
     'require_approval' => 'require_approval',
+    'followup_require_approval' => 'followup_require_approval',
     'campaign_days' => 'campaign_days',
     'email_frequency' => 'email_frequency',
     'start_time' => 'start_time',
@@ -49,6 +51,12 @@ $popupMeta = [
       'label' => 'LBL_REQUIRE_APPROVAL',
       'width' => '10%',
       'name' => 'require_approval',
+    ],
+    'followup_require_approval' => [
+      'type' => 'enum',
+      'label' => 'LBL_FOLLOWUP_REQUIRE_APPROVAL',
+      'width' => '10%',
+      'name' => 'followup_require_approval',
     ],
     'campaign_days' => [
       'type' => 'multienum',
@@ -106,6 +114,12 @@ $popupMeta = [
       'type' => 'enum',
       'default' => true,
       'label' => 'LBL_REQUIRE_APPROVAL',
+      'width' => '10%',
+    ],
+    'FOLLOWUP_REQUIRE_APPROVAL' => [
+      'type' => 'enum',
+      'default' => true,
+      'label' => 'LBL_FOLLOWUP_REQUIRE_APPROVAL',
       'width' => '10%',
     ],
     'TIMEZONE' => [

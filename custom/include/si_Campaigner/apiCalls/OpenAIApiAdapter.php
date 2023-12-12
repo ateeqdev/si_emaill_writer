@@ -47,6 +47,10 @@ class OpenAIApiAdapter extends ApiAdapter
             'openai'
         );
         $message = isset($response['choices'][0]['message']['content']) ? $response['choices'][0]['message']['content'] : '';
+
+        if (strpos($message, '```json') === 0 && substr($message, -3) === '```')
+            $message = substr($message, 7, -3);
+
         $message = json_decode(json_decode(json_encode($message), 1), 1);
         return $message ? $message : $response;
     }
@@ -66,7 +70,7 @@ class OpenAIApiAdapter extends ApiAdapter
         $userPrompt .= $personDesc ? 'Bio of the person: ' . $personDesc . '\n' : '';
         $userPrompt .= $companyDesc ? 'The rest of the information is about the person\'s company\n' . $companyDesc . '\n' : '';
         $body = [
-            "model" => "gpt-3.5-turbo",
+            "model" => $prompt[0]['large_language_model'] ? $prompt[0]['large_language_model'] : 'gpt-3.5-turbo',
             "messages" => [
                 [
                     "role" => "system",
@@ -87,6 +91,10 @@ class OpenAIApiAdapter extends ApiAdapter
             'openai'
         );
         $message = isset($response['choices'][0]['message']['content']) ? $response['choices'][0]['message']['content'] : '';
+
+        if (strpos($message, '```json') === 0 && substr($message, -3) === '```')
+            $message = substr($message, 7, -3);
+
         $message = json_decode(json_decode(json_encode($message), 1), 1);
         return $message ? $message : $response;
     }

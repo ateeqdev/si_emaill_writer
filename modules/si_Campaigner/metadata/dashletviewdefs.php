@@ -9,6 +9,9 @@ $dashletData['si_campaignerDashlet']['searchFields'] = [
   'require_approval' => [
     'default' => '',
   ],
+  'followup_require_approval' => [
+    'default' => '',
+  ],
   'campaign_days' => [
     'default' => '',
   ],

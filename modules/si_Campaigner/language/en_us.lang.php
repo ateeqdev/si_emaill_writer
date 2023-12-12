@@ -81,6 +81,7 @@ $mod_strings = array(
   'LBL_FOLLOWUP_PROMPT' => 'Followup Prompt',
   'LBL_TIMEZONE' => 'Timezone of Target Leads',
   'LBL_REQUIRE_APPROVAL' => 'Require Human Approval',
+  'LBL_FOLLOWUP_REQUIRE_APPROVAL' => 'Followup: Require Human Approval',
   'LBL_CAMPAIGN_DAYS' => 'Campaign Days',
   'LBL_EMAIL_FREQUENCY' => 'Email Probability',
   'LBL_START_TIME' => 'Campaign Start Time',

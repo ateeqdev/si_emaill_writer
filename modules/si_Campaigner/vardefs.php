@@ -133,6 +133,17 @@ $dictionary['si_Campaigner'] = [
       'default' => 'Yes',
       'studio' => 'visible',
     ],
+    'followup_require_approval' => [
+      'name' => 'followup_require_approval',
+      'vname' => 'LBL_FOLLOWUP_REQUIRE_APPROVAL',
+      'type' => 'enum',
+      'options' => 'require_approval_dom',
+      'len' => 50,
+      'comment' => 'Require approval on each followup email before sending',
+      'merge_filter' => 'enabled',
+      'default' => 'Yes',
+      'studio' => 'visible',
+    ],
     'campaign_days' => [
       'name' => 'campaign_days',
       'vname' => 'LBL_CAMPAIGN_DAYS',

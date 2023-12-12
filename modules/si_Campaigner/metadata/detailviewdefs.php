@@ -35,7 +35,6 @@ $viewdefs[$module_name] = [
       'default' => [
         [
           'name',
-          'assigned_user_name',
         ],
         [
           'description',
@@ -61,9 +60,21 @@ $viewdefs[$module_name] = [
             'label' => 'LBL_TIMEZONE',
           ],
           [
+            'name' => 'assigned_user_name',
+            'studio' => 'visible',
+            'label' => 'LBL_ASSIGNED_USER_NAME',
+          ],
+        ],
+        [
+          [
             'name' => 'require_approval',
             'studio' => 'visible',
             'label' => 'LBL_REQUIRE_APPROVAL',
+          ],
+          [
+            'name' => 'followup_require_approval',
+            'studio' => 'visible',
+            'label' => 'LBL_FOLLOWUP_REQUIRE_APPROVAL',
           ],
         ],
         [

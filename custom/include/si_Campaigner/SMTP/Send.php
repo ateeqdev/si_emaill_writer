@@ -24,7 +24,6 @@ class Send
     {
         try {
             // Define the job based on the email type
-            $job = $type == 'first' ? 'function::si_sendFirstEmail' : 'function::si_sendFollowupEmail';
             $outbounds = DBHelper::select('outbound_email', ['id', 'user_id'], [
                 'type' => ['=', 'user'],
                 'mail_smtppass' => ['IS NOT', 'null'],
@@ -73,8 +72,12 @@ class Send
                     $criteria = "(si_conversation_history != '' AND si_conversation_history IS NOT NULL)";
                 }
 
-                if ($config['require_approval'] == 'Yes') {
-                    $criteria .= " AND (status = 'approved' OR status = 'followup_approved')";
+                if ($type =='first' && $config['require_approval'] == 'Yes') {
+                    $criteria .= " AND (status = 'approved')";
+                }
+
+                if ($type =='followup' && $config['followup_require_approval'] == 'Yes') {
+                    $criteria .= " AND (status = 'followup_approved')";
                 }
 
                 $randomNumber = rand(1, 100);
