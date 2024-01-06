@@ -91,10 +91,10 @@ class OpenAIApiAdapter extends ApiAdapter
             'openai'
         );
         $message = isset($response['choices'][0]['message']['content']) ? $response['choices'][0]['message']['content'] : '';
-
-        if (strpos($message, '```json') === 0 && substr($message, -3) === '```')
-            $message = substr($message, 7, -3);
-
+        $message = ltrim($message, '```json');
+        $message = trim($message, '```');
+        $message = trim($message);
+$GLOBALS['log']->fatal($message);
         $message = json_decode(json_decode(json_encode($message), 1), 1);
         return $message ? $message : $response;
     }

@@ -14,7 +14,7 @@ class MarkReplyReceived
         $inboundEmails = DBHelper::select('inbound_email', 'id', ['deleted' => ['=', 0], 'status' => ['=', 'Active']]);
         foreach ($inboundEmails as $key => $value) {
             $ie = \BeanFactory::newBean('InboundEmail');
-            $ie->retrieve($value['id']);
+            $ie->retrieve($value['id'], array('disable_row_level_security' => true));
             $hostname = '{' . $ie->server_url . ':' . $ie->port . '/ssl}INBOX';
             $username = $ie->email_user;
             $password = $ie->email_password;

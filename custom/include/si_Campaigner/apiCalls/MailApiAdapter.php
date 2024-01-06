@@ -45,22 +45,24 @@ class MailApiAdapter
      * @param string $signature email signature
      * @return string $response
      */
-    public static function sendEmail($to, $toName, $subject, $message, $messageId = null, $oe_id = null)
+    public static function sendEmail($to, $toName, $subject, $message, $messageId = null, $oe_id = null, $userId = null)
     {
         $message = nl2br(trim($message));
-        global $current_user;
-
+        if (!$userId) {
+            global $current_user;
+            $userId = $current_user->id;
+        }
         if (!$oe_id) {
             $res = DBHelper::select('outbound_email', 'id', [
                 'type' => ['=', 'user'],
-                'user_id' => ['=', $current_user->id],
+                'user_id' => ['=', $userId],
                 'deleted' => ['=', '0']
             ], 'date_modified');
             $oe_id = $res[0]['id'];
         }
 
         $mailoe = new \OutboundEmail();
-        $mailoe = $mailoe->retrieve($res[0]['id']);
+        $mailoe = $mailoe->retrieve($oe_id, array('disable_row_level_security' => true));
         if (!empty($mailoe->signature)) {
             $message .= "<br><br><div style='color: #888;'>$mailoe->signature</div>";
         }

@@ -7,7 +7,7 @@ class si_GoogleOauthHandler
 	{
 		global $sugar_config;
 		$user = new \User();
-		$user->retrieve($user_id);
+		$user->retrieve($user_id, array('disable_row_level_security' => true));
 		if (empty($user->id)) {
 			$GLOBALS['log']->fatal("User with id " . $user_id . " not found");
 			return false;
