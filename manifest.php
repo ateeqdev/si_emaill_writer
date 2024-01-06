@@ -16,18 +16,19 @@ $manifest = [
   'readme' => '',
   'key' => 'si',
   'author' => 'StackImagine',
-  'description' => 'Automate sending cold emails with followups',
+  'description' => 'Send personalized cold emails through ChatGPT',
   'icon' => '',
   'is_uninstallable' => true,
   'name' => 'StackImagine Campaigner',
+  'id' => 'StackImagine_Campaigner',
   'published_date' => '2023-10-07 13:26:25',
   'type' => 'module',
-  'version' => 1,
+  'version' => 2,
   'remove_tables' => 'prompt',
 ];
 
 $installdefs = [
-  'id' => 'StackImagine_Campaigner',
+  'id' => 'StackImagine_Campaigner_v2',
   'beans' => [
     0 =>
     [
@@ -55,6 +56,25 @@ $installdefs = [
       'from' => '<basepath>/custom/Extension/application/Ext/Language/en_us.StackImagineCampaigner.php',
       'to_module' => 'application',
       'language' => 'en_us',
+    ],
+    [
+      'from' => '<basepath>/license_admin/language/en_us.si_Campaigner.php',
+      'to_module' => 'Administration',
+      'language' => 'en_us'
+    ],
+  ],
+  'administration' =>
+  [
+    [
+      'from' => '<basepath>/license_admin/menu/si_Campaigner_admin.php',
+      'to' => 'modules/Administration/si_Campaigner_admin.php',
+    ],
+  ],
+  'action_view_map' =>
+  [
+    [
+      'from' => '<basepath>/license_admin/actionviewmap/si_Campaigner_actionviewmap.php',
+      'to_module' => 'si_Campaigner',
     ],
   ],
   'post_uninstall' => [

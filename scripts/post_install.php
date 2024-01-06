@@ -62,6 +62,7 @@ function post_install()
             $GLOBALS['log']->fatal('Campaigner - Send Followup Email created');
         }
         addFieldsToLayout();
+        redirectToLicense();
         $GLOBALS['log']->fatal("SICampaigner installed successfully...");
     } catch (Exception $ex) {
         $GLOBALS['log']->fatal("SICampaigner Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
@@ -159,4 +160,81 @@ function repair_and_rebuild()
     // reset altered flags to it's original state
     $sugar_config['developerMode'] = $backupDevMode;
     $mod_strings = $backupModStrings;
+}
+
+function redirectToLicense()
+{
+    global $db;
+    if (!$db->tableExists('so_users')) {
+
+        $fieldDefs = array(
+            'id' => array(
+                'name' => 'id',
+                'vname' => 'LBL_ID',
+                'type' => 'id',
+                'required' => true,
+                'reportable' => true,
+            ),
+            'deleted' => array(
+                'name' => 'deleted',
+                'vname' => 'LBL_DELETED',
+                'type' => 'bool',
+                'default' => '0',
+                'reportable' => false,
+                'comment' => 'Record deletion indicator',
+            ),
+            'shortname' => array(
+                'name' => 'shortname',
+                'vname' => 'LBL_SHORTNAME',
+                'type' => 'varchar',
+                'len' => 255,
+            ),
+            'user_id' => array(
+                'name' => 'user_id',
+                'rname' => 'user_name',
+                'module' => 'Users',
+                'id_name' => 'user_id',
+                'vname' => 'LBL_USER_ID',
+                'type' => 'relate',
+                'isnull' => 'false',
+                'dbType' => 'id',
+                'reportable' => true,
+                'massupdate' => false,
+            ),
+        );
+
+        $indices = array(
+            'id' => array(
+                'name' => 'so_userspk',
+                'type' => 'primary',
+                'fields' => array(
+                    0 => 'id',
+                ),
+            ),
+            'shortname' => array(
+                'name' => 'shortname',
+                'type' => 'index',
+                'fields' => array(
+                    0 => 'shortname',
+                ),
+            ),
+        );
+        $db->createTableParams('so_users', $fieldDefs, $indices);
+    }
+
+    global $sugar_version;
+    if (preg_match("/^6.*/", $sugar_version)) {
+        echo "
+            <script>
+            document.location = 'index.php?module=si_Campaigner&action=license';
+            </script>";
+    } else {
+        echo "
+            <script>
+            var app = window.parent.SUGAR.App;
+            window.parent.SUGAR.App.sync({callback: function(){
+                app.router.navigate('#bwc/index.php?module=si_Campaigner&action=license', {trigger:true});
+            }});
+            </script>";
+    }
 }

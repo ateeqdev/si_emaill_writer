@@ -54,7 +54,7 @@ $viewdefs[$module_name] = [
           [
             'name' => 'assigned_user_name',
             'studio' => 'visible',
-            'label' => 'LBL_ASSIGNED_USER_NAME',
+            'label' => 'LBL_ASSIGNED_TO_NAME',
           ],
         ],
         [
