@@ -3,6 +3,11 @@ $module_name = 'si_Campaigner';
 $viewdefs[$module_name] = [
   'EditView' => [
     'templateMeta' => [
+      'includes' => [
+        [
+          'file' => 'modules/si_Campaigner/js/si_Campaigner.js',
+        ],
+      ],
       'maxColumns' => '2',
       'widths' => [
         [

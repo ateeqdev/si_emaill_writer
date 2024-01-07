@@ -10,6 +10,11 @@ $viewdefs[$module_name] = [
           'DELETE',
           'FIND_DUPLICATES',
         ],
+        'includes' => [
+          [
+            'file' => 'modules/si_Campaigner/js/si_Campaigner.js',
+          ],
+        ],
       ],
       'maxColumns' => '2',
       'widths' => [

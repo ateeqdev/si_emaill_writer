@@ -42,8 +42,9 @@ if (!class_exists('si_CampaignerOutfittersLicense')) {
             $administration = new Administration();
             $administration->retrieveSettings();
             $last_validation = null;
-            if (!empty($administration->settings['SugarOutfitters_' . $outfitters_config['shortname']])) {
-                $last_validation = $administration->settings['SugarOutfitters_' . $outfitters_config['shortname']];
+            $nameToCheck = 'SugarOutfitters_' . substr($outfitters_config['shortname'], 0, 32);
+            if (!empty($administration->settings[$nameToCheck])) {
+                $last_validation = $administration->settings[$nameToCheck];
             }
             $trimmed_last = trim($last_validation); //to be safe...
 
@@ -131,8 +132,9 @@ if (!class_exists('si_CampaignerOutfittersLicense')) {
             $administration = new Administration();
             $administration->retrieveSettings();
             $key = null;
-            if (!empty($administration->settings['SugarOutfitters_lic_' . $outfitters_config['shortname']])) {
-                $key = $administration->settings['SugarOutfitters_lic_' . $outfitters_config['shortname']];
+            $nameToCheck = 'SugarOutfitters_lic_' . substr($outfitters_config['shortname'], 0, 28);
+            if (!empty($administration->settings[$nameToCheck])) {
+                $key = $administration->settings[$nameToCheck];
             }
 
             //just in case they are using the old config_override.php method

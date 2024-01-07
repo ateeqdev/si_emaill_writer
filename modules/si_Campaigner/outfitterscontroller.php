@@ -15,6 +15,8 @@ require_once('modules/' . $currentModule . '/license/si_CampaignerOutfittersLice
 
 if ($_REQUEST['method'] == 'validate') {
     si_CampaignerOutfittersLicense::validate();
+} else if($_REQUEST['method'] == 'isValid') {
+    echo si_CampaignerOutfittersLicense::isValid("si_Campaigner");
 } else if ($_REQUEST['method'] == 'change') {
     si_CampaignerOutfittersLicense::change();
 } else if ($_REQUEST['method'] == 'add') {
