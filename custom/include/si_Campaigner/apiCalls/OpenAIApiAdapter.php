@@ -94,7 +94,7 @@ class OpenAIApiAdapter extends ApiAdapter
         $message = ltrim($message, '```json');
         $message = trim($message, '```');
         $message = trim($message);
-$GLOBALS['log']->fatal($message);
+
         $message = json_decode(json_decode(json_encode($message), 1), 1);
         return $message ? $message : $response;
     }

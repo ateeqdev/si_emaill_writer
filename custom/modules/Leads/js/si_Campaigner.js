@@ -36,10 +36,16 @@ function handleEmailRequest(apiEndpoint, successMessage) {
     })
     .then((data) => {
       console.debug(successMessage);
-      window.location.reload();
+      if (data.error) {
+        console.error(`Error:`, data);
+        showErrorPopup("Error: " + data.error);
+      } else {
+        window.location.reload();
+      }
     })
     .catch((error) => {
-      console.error(`Error ${successMessage.toLowerCase()}:`, error);
+      console.error(`Error:`, error);
+      showErrorPopup("Error: " + error.error);
     })
     .finally(() => {
       hideLoader();
@@ -75,43 +81,75 @@ function handleCompanyData(leadId) {
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
+      showErrorPopup("Error fetching data: " + error.message);
     });
 }
 
 function showLoader() {
-  const overlay = document.createElement("div");
-  overlay.className = "overlay";
+  const si_writer_overlay = document.createElement("div");
+  si_writer_overlay.className = "si_writer_overlay";
   const loader = document.createElement("div");
-  loader.className = "si_loader";
-  document.body.appendChild(overlay);
+  loader.className = "si_writer_loader";
+  document.body.appendChild(si_writer_overlay);
   document.body.appendChild(loader);
 }
 
 function hideLoader() {
-  const loader = document.querySelector(".si_loader");
-  const overlay = document.querySelector(".overlay");
+  const loader = document.querySelector(".si_writer_loader");
+  const si_writer_overlay = document.querySelector(".si_writer_overlay");
 
   if (loader) {
     loader.remove();
   }
 
-  if (overlay) {
-    overlay.remove();
+  if (si_writer_overlay) {
+    si_writer_overlay.remove();
   }
 }
-
 function styleLoader() {
   const cssRules = `
-    .overlay {
+    .si_writer_overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
     }
 
-    .si_loader {
+    .si_writer_error_popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      z-index: 9999; /* Higher than si_writer_overlay and other content */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .si_writer_error_popup button {
+      padding: 12px 24px; /* Increase button padding for better appearance */
+      font-size: 16px; /* Increase font size for better readability */
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .si_writer_error_popup button:hover {
+      background-color: #2980b9;
+    }
+
+    .si_writer_error_popup div {
+      font-size: 18px; /* Increase font size of error message */
+      margin-bottom: 10px; /* Add some space between error message and button */
+    }
+
+    .si_writer_loader {
       border: 8px solid #fff;
       border-top: 8px solid #3498db;
       border-radius: 50%;
@@ -206,8 +244,7 @@ function appendButtons() {
         accessKey: "p",
         clickHandler: sendApprovalRequest,
       };
-    }
-    else if (si_email_status === "followup_written") {
+    } else if (si_email_status === "followup_written") {
       buttonConfig = {
         id: "approve",
         value: "Approve Followup Email",
@@ -274,4 +311,33 @@ function formatHref(elementId, val) {
   } else {
     hrefElement.innerHTML = `<a target='_blank' href='${val}'>${val}</a>`;
   }
+}
+
+function showErrorPopup(errorMessage) {
+  const si_writer_overlay = document.createElement("div");
+  si_writer_overlay.className = "si_writer_overlay";
+  document.body.appendChild(si_writer_overlay);
+
+  const errorPopup = document.createElement("div");
+  errorPopup.className = "si_writer_error_popup";
+
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "Close";
+  closeButton.addEventListener("click", () => {
+    errorPopup.remove();
+    si_writer_overlay.remove();
+  });
+
+  const errorMessageElement = document.createElement("div");
+  errorMessageElement.textContent = errorMessage;
+
+  errorPopup.appendChild(errorMessageElement);
+  errorPopup.appendChild(closeButton);
+
+  document.body.appendChild(errorPopup);
+
+  si_writer_overlay.addEventListener("click", () => {
+    errorPopup.remove();
+    si_writer_overlay.remove();
+  });
 }
