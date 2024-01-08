@@ -73,11 +73,11 @@ class Send
                 }
 
                 if ($type =='first' && $config['require_approval'] == 'Yes') {
-                    $criteria .= " AND (status = 'approved')";
+                    $criteria .= " AND (si_email_status = 'approved')";
                 }
 
                 if ($type =='followup' && $config['followup_require_approval'] == 'Yes') {
-                    $criteria .= " AND (status = 'followup_approved')";
+                    $criteria .= " AND (si_email_status = 'followup_approved')";
                 }
 
                 $randomNumber = rand(1, 100);

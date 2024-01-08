@@ -47,7 +47,7 @@ class MarkReplyReceived
                         continue;
 
                     $bean = \BeanFactory::retrieveBean($module, $leadId, array('disable_row_level_security' => true));
-                    $bean->status = 'reply_received';
+                    $bean->si_email_status = 'reply_received';
                     $bean->save();
                 }
                 imap_close($mailbox);

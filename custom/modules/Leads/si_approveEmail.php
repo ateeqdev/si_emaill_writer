@@ -12,10 +12,10 @@ try {
     if (!$bean->si_email_body)
         return sendError('Email body is empty');
 
-    if ($bean->status == 'ready_for_approval')
-        $bean->status = 'approved';
-    else if ($bean->status == 'followup_written')
-        $bean->status = 'followup_approved';
+    if ($bean->si_email_status == 'ready_for_approval')
+        $bean->si_email_status = 'approved';
+    else if ($bean->si_email_status == 'followup_written')
+        $bean->si_email_status = 'followup_approved';
     else
         return sendError('The Lead status does not require approval.');
 

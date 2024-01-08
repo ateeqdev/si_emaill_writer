@@ -30,7 +30,7 @@ class PrepareEmail
         // Define the parameters for the subquery
         $subTable = 'leads';
         $subFields = ['id', 'account_id', 'ROW_NUMBER() OVER (PARTITION BY account_id ORDER BY date_modified) AS row_num'];
-        $subWhere = ['status' => ['=', 'ready_for_email'], 'si_linkedin_bio' => ['!=', null], 'si_linkedin_bio' => ['!=', '']];
+        $subWhere = ['si_email_status' => ['=', 'data_entered'], 'description' => ['!=', null], 'description' => ['!=', '']];
 
         // Run the query using the selectWithSubquery method
         $result = DBHelper::selectWithSubquery($mainTable, $mainFields, $mainWhere, $subTable, $subFields, $subWhere);
@@ -61,7 +61,7 @@ class PrepareEmail
             'id, si_conversation_history',
             [
                 'si_conversation_history' => ['!=', ''],
-                'status' => ['!=', 'reply_received'],
+                'si_email_status' => ['!=', 'reply_received'],
                 'si_emailed_at' => ['<', $fourDaysAgoUTC]
             ],
             'si_emailed_at DESC'
@@ -127,11 +127,11 @@ class PrepareEmail
             // Select the appropriate email sending method based on the email type
             switch ($emailType) {
                 case 'followup':
-                    $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id, $prompt);
+                    $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->description, $account->description, $bean->assigned_user_id, $prompt);
                     break;
 
                 case 'first':
-                    $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id, $prompt);
+                    $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->description, $account->description, $bean->assigned_user_id, $prompt);
                     break;
 
                 default:
@@ -151,7 +151,7 @@ class PrepareEmail
                 $bean->si_email_subject = $response['subject'];
             }
             $bean->si_email_body = $emailBody;
-            $bean->status = $emailType == 'first' ? 'ready_for_approval' : 'followup_written';
+            $bean->si_email_status = $emailType == 'first' ? 'ready_for_approval' : 'followup_written';
             $bean->save();
 
             return 'true';

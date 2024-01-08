@@ -81,7 +81,7 @@ class HandleSending
                 $bean->si_thread_id = $response['thread_id'];
 
             $bean->si_email_body = '';
-            $bean->status = $email_type == 'first' ? 'sent' : 'followup_sent';
+            $bean->si_email_status = $email_type == 'first' ? 'sent' : 'followup_sent';
             $bean->si_followups_counter = $bean->si_followups_counter + 1;
             $bean->si_emailed_at = $sentAt;
             $bean->save();

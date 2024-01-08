@@ -46,8 +46,7 @@ function handleEmailRequest(apiEndpoint, successMessage) {
     .catch((error) => {
       if (error.error) {
         showErrorPopup("Error: " + error.error);
-      }
-      else {
+      } else {
         window.location.reload();
       }
       console.error(`Error:`, error);
@@ -88,8 +87,7 @@ function handleCompanyData(leadId) {
       console.error("Error fetching data:", error);
       if (error.error) {
         showErrorPopup("Error fetching data: " + error.message);
-      }
-      else {
+      } else {
         window.location.reload();
       }
     });
@@ -222,12 +220,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function appendButtons() {
   const si_email_body = document.getElementById("si_email_body").innerHTML;
-  const si_email_status = document.getElementById("status").value;
+  const si_email_status = document.getElementById("si_email_status").value;
 
   let buttonConfig = {};
 
   if (!si_email_body) {
-    if (si_email_status === "ready_for_email") {
+    if (si_email_status === "data_entered") {
       buttonConfig = {
         id: "writeemail",
         value: "Write First Email",

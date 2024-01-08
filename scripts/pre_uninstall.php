@@ -18,7 +18,7 @@ function removeFieldsFromLayout()
 	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_linkedin_profile']);
 	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_leads_contacted']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_bio']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'description']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_profile']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_description']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);

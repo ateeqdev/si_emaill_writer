@@ -137,11 +137,7 @@ $viewdefs['Leads'] = [
           ],
         ],
         [
-          [
-            'name' => 'si_linkedin_bio',
-            'studio' => 'visible',
-            'label' => 'LBL_SI_LINKEDIN_BIO',
-          ],
+          'description',
         ],
         [
           [
@@ -182,9 +178,6 @@ $viewdefs['Leads'] = [
           ],
         ],
         [
-          'description',
-        ],
-        [
           'phone_mobile',
           'phone_work',
         ],
@@ -196,7 +189,10 @@ $viewdefs['Leads'] = [
       ],
       'LBL_PANEL_ADVANCED' => [
         [
-          'status',
+          [
+            'name' => 'si_email_status',
+            'label' => 'LBL_SI_EMAIL_STATUS',
+          ],
           'lead_source',
         ],
         [
