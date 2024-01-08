@@ -88,8 +88,9 @@ class PrepareEmail
     public static function writeEmail($module, $id, $emailType = '')
     {
         try {
-            if (!\si_CampaignerOutfittersLicense::isValid('si_Campaigner')) {
-                return "License not valid.";
+            $isValidLicense = \si_CampaignerOutfittersLicense::isValid('si_Campaigner');
+            if ($isValidLicense != true || $isValidLicense != 1) {
+                return "Please enter license key <a href='index.php?module=si_Campaigner&action=license'>here</a>";
             }
 
             $bean = \BeanFactory::getBean($module, $id, array('disable_row_level_security' => true));
@@ -107,24 +108,30 @@ class PrepareEmail
                 $emailType = 'first';
 
             $bean->load_relationship('accounts');
-            $relatedAccount = $bean->accounts->get();
-            if (!$relatedAccount || count($relatedAccount) < 0)
+            if ($bean->accounts) {
+                $relatedAccount = $bean->accounts->get();
+                if (!$relatedAccount || count($relatedAccount) < 0)
+                    return 'No related account found';
+            } else {
                 return 'No related account found';
-
+            }
             $account = \BeanFactory::getBean('Accounts', $relatedAccount[0], array('disable_row_level_security' => true));
 
             $bean->load_relationship('si_campaigner_leads_1');
-            $relatedPrompt = $bean->si_Campaigner->get();
-            $prompt = \BeanFactory::getBean('si_Campaigner', $relatedPrompt[0], array('disable_row_level_security' => true));
-
+            if ($bean->si_campaigner_leads_1) {
+                $relatedPrompt = $bean->si_campaigner_leads_1->get();
+                if (isset($relatedPrompt[0])) {
+                    $prompt = $relatedPrompt[0];
+                }
+            }
             // Select the appropriate email sending method based on the email type
             switch ($emailType) {
                 case 'followup':
-                    $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id);
+                    $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id, $prompt);
                     break;
 
                 case 'first':
-                    $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id);
+                    $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id, $prompt);
                     break;
 
                 default:
