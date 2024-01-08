@@ -44,8 +44,13 @@ function handleEmailRequest(apiEndpoint, successMessage) {
       }
     })
     .catch((error) => {
+      if (error.error) {
+        showErrorPopup("Error: " + error.error);
+      }
+      else {
+        window.location.reload();
+      }
       console.error(`Error:`, error);
-      showErrorPopup("Error: " + error.error);
     })
     .finally(() => {
       hideLoader();
@@ -81,7 +86,12 @@ function handleCompanyData(leadId) {
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
-      showErrorPopup("Error fetching data: " + error.message);
+      if (error.error) {
+        showErrorPopup("Error fetching data: " + error.message);
+      }
+      else {
+        window.location.reload();
+      }
     });
 }
 

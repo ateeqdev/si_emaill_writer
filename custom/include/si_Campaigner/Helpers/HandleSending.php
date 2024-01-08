@@ -3,6 +3,7 @@
 namespace si_Campaigner\Helpers;
 
 use si_Campaigner\apiCalls\MailApiAdapter;
+use si_Campaigner\Sugar\Helpers\DBHelper;
 
 /**
  * Sends an email to a record by getting its details from the database.
@@ -37,7 +38,17 @@ class HandleSending
             $toName = trim($bean->first_name . ' ' . $bean->last_name);
             $messageId = base64_decode(html_entity_decode($bean->si_message_id));
 
-            $response = MailApiAdapter::sendEmail($toEmailAddress, $toName, $bean->si_email_subject ?? '', $bean->si_email_body, $messageId, null, $userId);
+            $bean->load_relationship('si_campaigner_leads_1');
+            if ($bean->si_campaigner_leads_1) {
+                $relatedPrompt = $bean->si_campaigner_leads_1->get();
+                if (isset($relatedPrompt[0])) {
+                    $prompt = $relatedPrompt[0];
+                    $oe_id = DBHelper::select("outboundemailaccounts_si_campaigner_1_c", "outboundemailaccounts_si_campaigner_1outboundemailaccounts_ida AS oe_id", ["outboundemailaccounts_si_campaigner_1si_campaigner_idb" => ["=", $prompt]]);
+                    $oe_id = isset($oe_id[0]["oe_id"]) ? $oe_id[0]["oe_id"] : null;
+                }
+            }
+
+            $response = MailApiAdapter::sendEmail($toEmailAddress, $toName, $bean->si_email_subject ?? '', $bean->si_email_body, $messageId, $oe_id, $userId);
 
             if (isset($response['error']) && $response['error'])
                 return self::sendError($response['error']);

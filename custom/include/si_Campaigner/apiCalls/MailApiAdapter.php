@@ -57,7 +57,7 @@ class MailApiAdapter
                 'type' => ['=', 'user'],
                 'user_id' => ['=', $userId],
                 'deleted' => ['=', '0']
-            ], 'date_modified');
+            ], 'date_modified DESC');
             $oe_id = $res[0]['id'];
         }
 
@@ -66,6 +66,7 @@ class MailApiAdapter
         if (!empty($mailoe->signature)) {
             $message .= "<br><br><div style='color: #888;'>$mailoe->signature</div>";
         }
+
         $mail = new \SugarPHPMailer(true);
         $mail->ClearAllRecipients();
         $mail->ClearReplyTos();
