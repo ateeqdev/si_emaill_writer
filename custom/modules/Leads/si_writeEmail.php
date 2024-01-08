@@ -7,7 +7,6 @@ use si_Campaigner\Helpers\PrepareEmail;
 try {
     global $current_user;
     $result = PrepareEmail::writeEmail(ucfirst($_REQUEST['module']), $_REQUEST['id']);
-    $GLOBALS['log']->fatal($result);
 
     if ($result !== 'true')
         sendError($result);

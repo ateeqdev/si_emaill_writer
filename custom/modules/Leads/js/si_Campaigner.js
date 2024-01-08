@@ -329,7 +329,7 @@ function showErrorPopup(errorMessage) {
   });
 
   const errorMessageElement = document.createElement("div");
-  errorMessageElement.textContent = errorMessage;
+  errorMessageElement.innerHTML = errorMessage;
 
   errorPopup.appendChild(errorMessageElement);
   errorPopup.appendChild(closeButton);
