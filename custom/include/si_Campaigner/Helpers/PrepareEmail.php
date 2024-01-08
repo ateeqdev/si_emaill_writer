@@ -5,6 +5,7 @@ namespace si_Campaigner\Helpers;
 use si_Campaigner\Sugar\Helpers\DBHelper;
 use si_Campaigner\apiCalls\OpenAIApiAdapter;
 
+require('modules/si_Campaigner/license/si_CampaignerOutfittersLicense.php');
 
 /**
  * Class PrepareEmail
@@ -86,57 +87,69 @@ class PrepareEmail
      */
     public static function writeEmail($module, $id, $emailType = '')
     {
-        $bean = \BeanFactory::getBean($module, $id, array('disable_row_level_security' => true));
+        try {
+            if (!\si_CampaignerOutfittersLicense::isValid('si_Campaigner')) {
+                return "License not valid.";
+            }
 
-        if (!$bean)
-            return 'Record not found';
+            $bean = \BeanFactory::getBean($module, $id, array('disable_row_level_security' => true));
 
-        $toEmailAddress = $bean->email1 ?? $bean->email2 ?? '';
-        if (!$toEmailAddress)
-            return ucfirst($module) . ': ' . $id . ': The record does not have an email address';
+            if (!$bean)
+                return 'Record not found';
 
-        if ($bean->si_conversation_history)
-            $emailType = 'followup';
-        else
-            $emailType = 'first';
+            $toEmailAddress = $bean->email1 ?? $bean->email2 ?? '';
+            if (!$toEmailAddress)
+                return ucfirst($module) . ': ' . $id . ': The record does not have an email address';
 
-        $bean->load_relationship('accounts');
-        $relatedAccount = $bean->accounts->get();
-        if (!$relatedAccount || count($relatedAccount) < 0)
-            return 'No related account found';
+            if ($bean->si_conversation_history)
+                $emailType = 'followup';
+            else
+                $emailType = 'first';
 
-        $account = \BeanFactory::getBean('Accounts', $relatedAccount[0], array('disable_row_level_security' => true));
+            $bean->load_relationship('accounts');
+            $relatedAccount = $bean->accounts->get();
+            if (!$relatedAccount || count($relatedAccount) < 0)
+                return 'No related account found';
 
-        // Select the appropriate email sending method based on the email type
-        switch ($emailType) {
-            case 'followup':
-                $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id);
-                break;
+            $account = \BeanFactory::getBean('Accounts', $relatedAccount[0], array('disable_row_level_security' => true));
 
-            case 'first':
-                $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id);
-                break;
+            $bean->load_relationship('si_campaigner_leads_1');
+            $relatedPrompt = $bean->si_Campaigner->get();
+            $prompt = \BeanFactory::getBean('si_Campaigner', $relatedPrompt[0], array('disable_row_level_security' => true));
 
-            default:
-                return 'Invalid email type';
+            // Select the appropriate email sending method based on the email type
+            switch ($emailType) {
+                case 'followup':
+                    $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id);
+                    break;
+
+                case 'first':
+                    $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->si_linkedin_bio, $account->description, $bean->assigned_user_id);
+                    break;
+
+                default:
+                    return 'Invalid email type';
+            }
+
+            if (isset($response['error']) && $response['error'])
+                return $response['error'];
+
+
+            $emailBody = $response['body'] ? nl2br($response['body']) : (isset($response['choices'][0]['message']['content']) ? $response['choices'][0]['message']['content'] : '');
+            $emailBody = str_replace('<br />', "\n", $emailBody);
+            $emailBody = str_replace('<br >', "\n", $emailBody);
+            $emailBody = str_replace('<br>', "\n", $emailBody);
+
+            if (isset($response['subject'])) {
+                $bean->si_email_subject = $response['subject'];
+            }
+            $bean->si_email_body = $emailBody;
+            $bean->status = $emailType == 'first' ? 'ready_for_approval' : 'followup_written';
+            $bean->save();
+
+            return 'true';
+        } catch (\Throwable $th) {
+            $GLOBALS['log']->fatal($th->getMessage());
         }
-
-        if (isset($response['error']) && $response['error'])
-            return $response['error'];
-
-
-        $emailBody = $response['body'] ? nl2br($response['body']) : (isset($response['choices'][0]['message']['content']) ? $response['choices'][0]['message']['content'] : '');
-        $emailBody = str_replace('<br />', "\n", $emailBody);
-        $emailBody = str_replace('<br >', "\n", $emailBody);
-        $emailBody = str_replace('<br>', "\n", $emailBody);
-
-        if (isset($response['subject'])) {
-            $bean->si_email_subject = $response['subject'];
-        }
-        $bean->si_email_body = $emailBody;
-        $bean->status = $emailType == 'first' ? 'ready_for_approval' : 'followup_written';
-        $bean->save();
-
-        return 'true';
     }
 }
