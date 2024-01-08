@@ -57,25 +57,6 @@ $installdefs = [
       'to_module' => 'application',
       'language' => 'en_us',
     ],
-    [
-      'from' => '<basepath>/license_admin/language/en_us.si_Campaigner.php',
-      'to_module' => 'Administration',
-      'language' => 'en_us'
-    ],
-  ],
-  'administration' =>
-  [
-    [
-      'from' => '<basepath>/license_admin/menu/si_Campaigner_admin.php',
-      'to' => 'modules/Administration/si_Campaigner_admin.php',
-    ],
-  ],
-  'action_view_map' =>
-  [
-    [
-      'from' => '<basepath>/license_admin/actionviewmap/si_Campaigner_actionviewmap.php',
-      'to_module' => 'si_Campaigner',
-    ],
   ],
   'post_uninstall' => [
     '<basepath>/scripts/post_uninstall.php',
