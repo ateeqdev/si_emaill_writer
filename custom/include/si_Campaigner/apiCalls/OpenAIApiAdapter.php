@@ -84,7 +84,8 @@ class OpenAIApiAdapter extends ApiAdapter
         $message = trim($message, '```');
         $message = trim($message);
         $parsedMessage = json_decode(json_encode($message), 1);
-        return $parsedMessage ? $parsedMessage : ($message ? $message : $response);
+        $res = $parsedMessage ? $parsedMessage : ($message ? $message : $response);
+        return ['body' => $res];
     }
 
     private static function parseEmail($response)
