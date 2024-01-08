@@ -18,12 +18,6 @@ $dashletData['si_campaignerDashlet']['searchFields'] = [
   'email_frequency' => [
     'default' => '',
   ],
-  'start_time' => [
-    'default' => '',
-  ],
-  'end_time' => [
-    'default' => '',
-  ],
   'date_modified' => [
     'default' => '',
   ],

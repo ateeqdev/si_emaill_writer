@@ -14,10 +14,7 @@ $viewdefs['Leads'] = [
           '<input type="hidden" name="contact_id" value="{if isset($smarty.request.contact_id)}{$smarty.request.contact_id}{else}{$bean->contact_id}{/if}">',
           '<input type="hidden" name="opportunity_id" value="{if isset($smarty.request.opportunity_id)}{$smarty.request.opportunity_id}{else}{$bean->opportunity_id}{/if}">',
         ],
-        'buttons' => [
-          'SAVE',
-          'CANCEL',
-        ],
+        'buttons' => ['SAVE', 'CANCEL'],
       ],
       'maxColumns' => '2',
       'widths' => [
@@ -52,12 +49,17 @@ $viewdefs['Leads'] = [
         [
           [
             'name' => 'first_name',
-            'customCode' => '{html_options name="salutation" id="salutation" options=$fields.salutation.options selected=$fields.salutation.value}&nbsp;<input name="first_name"  id="first_name" size="25" maxlength="25" type="text" value="{$fields.first_name.value}">',
+            'customCode' => '{html_options name="salutation" id="salutation" options=$fields.salutation.options selected=$fields.salutation.value}&nbsp;<input name="first_name" id="first_name" size="25" maxlength="25" type="text" value="{$fields.first_name.value}">',
           ],
           'last_name',
         ],
-        ['title', 'department'],
-        ['email1'],
+        [
+          'title',
+          'department',
+        ],
+        [
+          'email1',
+        ],
         [
           [
             'name' => 'si_email_subject',
@@ -107,7 +109,7 @@ $viewdefs['Leads'] = [
             'name' => 'account_name',
             'type' => 'varchar',
             'validateDependency' => false,
-            'customCode' => '<input name="account_name" id="EditView_account_name" {if ($fields.converted.value == 1)}disabled="true"{/if} size="30" maxlength="255" type="text" value="{$fields.account_name.value}">',
+            'customCode' => '<input name="account_name" id="EditView_account_name" {if ($fields.converted.value==1)}disabled="true" {/if} size="30" maxlength="255" type="text" value="{$fields.account_name.value}">',
           ],
           'website',
         ],
@@ -136,14 +138,24 @@ $viewdefs['Leads'] = [
             ],
           ],
         ],
-        ['description'],
+        [
+          'description',
+        ],
         [
           'phone_mobile',
           'phone_work',
         ],
+        [
+          [
+            'name' => 'si_campaigner_leads_1_name',
+          ],
+        ],
       ],
       'LBL_PANEL_ADVANCED' => [
-        ['status', 'lead_source'],
+        [
+          'status',
+          'lead_source',
+        ],
         [
           [
             'name' => 'status_description',
@@ -152,8 +164,13 @@ $viewdefs['Leads'] = [
             'name' => 'lead_source_description',
           ],
         ],
-        ['opportunity_amount', 'refered_by'],
-        ['campaign_name'],
+        [
+          'opportunity_amount',
+          'refered_by',
+        ],
+        [
+          'campaign_name',
+        ],
       ],
       'LBL_PANEL_ASSIGNMENT' => [
         [

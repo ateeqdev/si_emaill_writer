@@ -106,6 +106,11 @@ $viewdefs[$module_name] = [
             'label' => 'LBL_END_TIME',
           ],
         ],
+        [
+          [
+            'name' => 'outboundemailaccounts_si_campaigner_1_name',
+          ],
+        ],
       ],
     ],
   ],

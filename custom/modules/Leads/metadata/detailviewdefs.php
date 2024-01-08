@@ -4,7 +4,6 @@ $viewdefs['Leads'] = [
     'templateMeta' => [
       'includes' => [
         [
-          'file' => 'modules/Leads/Lead.js',
           'file' => 'custom/modules/Leads/js/si_Campaigner.js',
         ],
       ],
@@ -25,10 +24,10 @@ $viewdefs['Leads'] = [
               ],
             ],
           ],
-          0 => 'EDIT',
-          1 => 'DUPLICATE',
-          2 => 'DELETE',
-          3 => [
+          'EDIT',
+          'DUPLICATE',
+          'DELETE',
+          [
             'customCode' => '{if $bean->aclAccess("edit") && !$DISABLE_CONVERT_ACTION}<input title="{$MOD.LBL_CONVERTLEAD_TITLE}" accessKey="{$MOD.LBL_CONVERTLEAD_BUTTON_KEY}" type="button" class="button" onClick="document.location=\'index.php?module=Leads&action=ConvertLead&record={$fields.id.value}\'" name="convert" value="{$MOD.LBL_CONVERTLEAD}">{/if}',
             'sugar_html' => [
               'type' => 'button',
@@ -44,8 +43,8 @@ $viewdefs['Leads'] = [
               'template' => '{if $bean->aclAccess("edit") && !$DISABLE_CONVERT_ACTION}[CONTENT]{/if}',
             ],
           ],
-          4 => 'FIND_DUPLICATES',
-          5 => [
+          'FIND_DUPLICATES',
+          [
             'customCode' => '<input title="{$APP.LBL_MANAGE_SUBSCRIPTIONS}" class="button" onclick="this.form.return_module.value=\'Leads\'; this.form.return_action.value=\'DetailView\';this.form.return_id.value=\'{$fields.id.value}\'; this.form.action.value=\'Subscriptions\'; this.form.module.value=\'Campaigns\'; this.form.module_tab.value=\'Leads\';" type="submit" name="Manage Subscriptions" value="{$APP.LBL_MANAGE_SUBSCRIPTIONS}">',
             'sugar_html' => [
               'type' => 'submit',
@@ -107,8 +106,13 @@ $viewdefs['Leads'] = [
             'label' => 'LBL_LAST_NAME',
           ],
         ],
-        ['title', 'department'],
-        ['email1'],
+        [
+          'title',
+          'department',
+        ],
+        [
+          'email1',
+        ],
         [
           [
             'name' => 'si_email_subject',
@@ -177,14 +181,24 @@ $viewdefs['Leads'] = [
             ],
           ],
         ],
-        ['description'],
+        [
+          'description',
+        ],
         [
           'phone_mobile',
           'phone_work',
         ],
+        [
+          [
+            'name' => 'si_campaigner_leads_1_name',
+          ],
+        ],
       ],
       'LBL_PANEL_ADVANCED' => [
-        ['status', 'lead_source'],
+        [
+          'status',
+          'lead_source',
+        ],
         [
           'status_description',
           'lead_source_description',

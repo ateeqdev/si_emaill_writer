@@ -70,18 +70,6 @@ $popupMeta = [
       'width' => '10%',
       'name' => 'email_frequency',
     ],
-    'start_time' => [
-      'type' => 'time',
-      'label' => 'LBL_START_TIME',
-      'width' => '10%',
-      'name' => 'start_time',
-    ],
-    'end_time' => [
-      'type' => 'time',
-      'label' => 'LBL_END_TIME',
-      'width' => '10%',
-      'name' => 'end_time',
-    ],
     'assigned_user_id' => [
       'name' => 'assigned_user_id',
       'label' => 'LBL_ASSIGNED_TO',
@@ -139,18 +127,6 @@ $popupMeta = [
       'default' => true,
       'label' => 'LBL_EMAIL_FREQUENCY',
       'width' => '10%',
-    ],
-    'start_time' => [
-      'type' => 'time',
-      'label' => 'LBL_START_TIME',
-      'width' => '10%',
-      'default' => true,
-    ],
-    'end_time' => [
-      'type' => 'time',
-      'label' => 'LBL_END_TIME',
-      'width' => '10%',
-      'default' => true,
     ],
     'ASSIGNED_USER_NAME' => [
       'width' => '9%',

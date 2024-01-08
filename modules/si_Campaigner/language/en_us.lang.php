@@ -39,7 +39,7 @@
  * display the words "Powered by SugarCRM" and "Supercharged by SuiteCRM".
  */
 
-$mod_strings = array (
+$mod_strings = array(
   'LBL_ASSIGNED_TO_ID' => 'Assigned User Id',
   'LBL_ASSIGNED_TO_NAME' => 'Assigned to',
   'LBL_SECURITYGROUPS' => 'Security Groups',
@@ -103,4 +103,5 @@ $mod_strings = array (
   'LBL_VALIDATION_REQUIRED' => 'The above License Key validation is required before making changes to your licensed users',
   'LBL_MANAGE_USERS_TITLE' => 'Manage Users',
   'LBL_ERROR_TOO_MANY_USERS' => 'Please add more additional licenses above and try again.',
+  'LBL_OUTBOUNDEMAILACCOUNTS_SI_CAMPAIGNER_1_FROM_OUTBOUNDEMAILACCOUNTS_TITLE' => 'Outbound Email Account'
 );
