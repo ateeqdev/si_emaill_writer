@@ -140,16 +140,17 @@ $viewdefs['Leads'] = [
         ],
         [
           [
-            'name' => 'si_email_writer_leads_1_name',
+            'name' => 'si_campaigner_leads_1_name',
+          ],
+          [
+            'name' => 'si_email_status',
+            'label' => 'LBL_SI_EMAIL_STATUS',
           ],
         ],
       ],
       'LBL_PANEL_ADVANCED' => [
         [
-          [
-            'name' => 'si_email_status',
-            'label' => 'LBL_SI_EMAIL_STATUS',
-          ],
+          'status',
           'lead_source',
         ],
         [
