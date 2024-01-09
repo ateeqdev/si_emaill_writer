@@ -19,8 +19,8 @@ $manifest = [
   'description' => 'Send personalized cold emails through ChatGPT',
   'icon' => '',
   'is_uninstallable' => true,
-  'name' => 'StackImagine Campaigner',
-  'id' => 'StackImagine_Campaigner',
+  'name' => 'StackImagine Email Writer',
+  'id' => 'StackImagine_Email_Writer',
   'published_date' => '2023-10-07 13:26:25',
   'type' => 'module',
   'version' => 2,
@@ -28,13 +28,13 @@ $manifest = [
 ];
 
 $installdefs = [
-  'id' => 'StackImagine_Campaigner_v2',
+  'id' => 'StackImagine_Email_Writer_v2',
   'beans' => [
     0 =>
     [
-      'module' => 'si_Campaigner',
-      'class' => 'si_Campaigner',
-      'path' => 'modules/si_Campaigner/si_Campaigner.php',
+      'module' => 'si_Email_Writer',
+      'class' => 'si_Email_Writer',
+      'path' => 'modules/si_Email_Writer/si_Email_Writer.php',
       'tab' => true,
     ],
   ],
@@ -43,8 +43,8 @@ $installdefs = [
   'image_dir' => '<basepath>/custom/themes/default',
   'copy' => [
     [
-      'from' => '<basepath>/modules/si_Campaigner',
-      'to' => 'modules/si_Campaigner',
+      'from' => '<basepath>/modules/si_Email_Writer',
+      'to' => 'modules/si_Email_Writer',
     ],
     [
       'from' => '<basepath>/custom',
@@ -53,7 +53,7 @@ $installdefs = [
   ],
   'language' => [
     [
-      'from' => '<basepath>/custom/Extension/application/Ext/Language/en_us.StackImagineCampaigner.php',
+      'from' => '<basepath>/custom/Extension/application/Ext/Language/en_us.StackImagineEmailWriter.php',
       'to_module' => 'application',
       'language' => 'en_us',
     ],

@@ -5,9 +5,9 @@ function pre_uninstall()
 	try {
 		deleteSchedulerJobs();
 		removeFieldsFromLayout();
-		$GLOBALS['log']->fatal("SICampaigner pre uninstall script successful...");
+		$GLOBALS['log']->fatal("SIEmailWriter pre uninstall script successful...");
 	} catch (Exception $ex) {
-		$GLOBALS['log']->fatal("Exception occurred in pre_uninstall of SI Campaigner: " . $ex->getMessage());
+		$GLOBALS['log']->fatal("Exception occurred in pre_uninstall of SI Email Writer: " . $ex->getMessage());
 	}
 }
 
@@ -28,7 +28,7 @@ function removeFieldsFromLayout()
 
 function deleteSchedulerJobs()
 {
-	$job_names = array('Campaigner - Prepare Email', 'Campaigner - Send Emails', 'Campaigner - Sync Replies');
+	$job_names = array('SIEmailWriter - Prepare Email', 'SIEmailWriter - Send Emails', 'SIEmailWriter - Sync Replies');
 	foreach ($job_names as $job_name) {
 		$scheduler = BeanFactory::getBean('Schedulers');
 		$scheduler->retrieve_by_string_fields(array('name' => $job_name));

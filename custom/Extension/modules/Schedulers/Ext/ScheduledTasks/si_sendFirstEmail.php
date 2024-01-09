@@ -12,7 +12,7 @@ $job_strings[] = 'si_sendFirstEmail';
  */
 function si_sendFirstEmail()
 {
-    $file = 'custom/include/si_Campaigner/autoload.php';
+    $file = 'custom/include/si_Email_Writer/autoload.php';
     if (file_exists($file)) {
         try {
             require_once $file;
@@ -24,5 +24,5 @@ function si_sendFirstEmail()
         $GLOBALS['log']->fatal('File ' . $file . ' NOT Found');
         return false;
     }
-    return si_Campaigner\SMTP\Send::firstEmail('Leads');
+    return si_Email_Writer\SMTP\Send::firstEmail('Leads');
 }

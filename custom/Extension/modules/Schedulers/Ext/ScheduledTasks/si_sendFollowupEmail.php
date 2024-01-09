@@ -12,7 +12,7 @@ $job_strings[] = 'si_sendFollowupEmail';
  */
 function si_sendFollowupEmail()
 {
-    $file = 'custom/include/si_Campaigner/autoload.php';
+    $file = 'custom/include/si_Email_Writer/autoload.php';
     if (file_exists($file)) {
         try {
             require_once $file;
@@ -24,5 +24,5 @@ function si_sendFollowupEmail()
         $GLOBALS['log']->fatal('File ' . $file . ' NOT Found');
         return false;
     }
-    return si_Campaigner\SMTP\Send::followupEmail('Leads');
+    return si_Email_Writer\SMTP\Send::followupEmail('Leads');
 }

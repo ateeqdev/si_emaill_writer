@@ -12,12 +12,12 @@ $job_strings[] = 'si_prepareFollowupEmails';
  */
 function si_prepareFollowupEmails()
 {
-    $file = 'custom/include/si_Campaigner/autoload.php';
+    $file = 'custom/include/si_Email_Writer/autoload.php';
     if (file_exists($file)) {
         require_once $file;
     } else {
         $GLOBALS['log']->fatal('File ' . $file . ' NOT Found');
         return false;
     }
-    return si_Campaigner\Helpers\PrepareEmail::writeFollowups('Leads');
+    return si_Email_Writer\Helpers\PrepareEmail::writeFollowups('Leads');
 }

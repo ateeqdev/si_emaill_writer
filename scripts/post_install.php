@@ -10,7 +10,7 @@ function post_install()
         $configurator = new Configurator();
         $si_config = array(
             'GOOGLE' => array(
-                'APP_NAME' => 'SI Campaigner',
+                'APP_NAME' => 'SI Email Writer',
                 'PROJECT_ID' => 'gmail-crm-stackimagine',
                 'CLIENT_ID' => '240554306848-mmqvmrritrrhnbvs1qollunlgiosc5he.apps.googleusercontent.com',
                 'CLIENT_SECRET' => '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',
@@ -31,14 +31,14 @@ function post_install()
             $configurator->config['http_referer']['list'] = array();
             $configurator->config['addAjaxBannedModules'] = array();
         }
-        if (!in_array("si_Campaigner", $configurator->config['addAjaxBannedModules'])) {
-            $configurator->config['addAjaxBannedModules'][] = 'si_Campaigner';
+        if (!in_array("si_Email_Writer", $configurator->config['addAjaxBannedModules'])) {
+            $configurator->config['addAjaxBannedModules'][] = 'si_Email_Writer';
         }
         if (!in_array("Leads", $configurator->config['addAjaxBannedModules'])) {
             $configurator->config['addAjaxBannedModules'][] = 'Leads';
         }
-        if (!in_array("https://cdn-plugins.stackimagine.com/campaigner/redirect.php", $configurator->config['http_referer'])) {
-            $configurator->config['http_referer']['list'][] = 'https://cdn-plugins.stackimagine.com/campaigner/redirect.php';
+        if (!in_array("https://cdn-plugins.stackimagine.com/si_email_writer/redirect.php", $configurator->config['http_referer'])) {
+            $configurator->config['http_referer']['list'][] = 'https://cdn-plugins.stackimagine.com/si_email_writer/redirect.php';
         }
         if (!in_array("accounts.google.com", $configurator->config['http_referer'])) {
             $configurator->config['http_referer']['list'][] = 'accounts.google.com';
@@ -46,26 +46,26 @@ function post_install()
         $configurator->handleOverride();
         repair_and_rebuild();
 
-        if (createJOB('Campaigner - Prepare Email', 'function::si_prepareFirstEmail', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Prepare First Email job created');
+        if (createJOB('SIEmailWriter - Prepare Email', 'function::si_prepareFirstEmail', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('SIEmailWriter - Prepare First Email job created');
         }
-        if (createJOB('Campaigner - Prepare Followup Email', 'function::si_prepareFollowupEmails', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Prepare Followup Emails job created');
+        if (createJOB('SIEmailWriter - Prepare Followup Email', 'function::si_prepareFollowupEmails', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('SIEmailWriter - Prepare Followup Emails job created');
         }
-        if (createJOB('Campaigner - Mark Reply Received', 'function::si_markReplyReceived', '*/5::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Mark Reply Received job created');
+        if (createJOB('SIEmailWriter - Mark Reply Received', 'function::si_markReplyReceived', '*/5::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('SIEmailWriter - Mark Reply Received job created');
         }
-        if (createJOB('Campaigner - Send First Email', 'function::si_sendFirstEmail', '*::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Send First Email created');
+        if (createJOB('SIEmailWriter - Send First Email', 'function::si_sendFirstEmail', '*::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('SIEmailWriter - Send First Email created');
         }
-        if (createJOB('Campaigner - Send Folloup Email', 'function::si_sendFollowupEmail', '*::*::*::*::*') === true) {
-            $GLOBALS['log']->fatal('Campaigner - Send Followup Email created');
+        if (createJOB('SIEmailWriter - Send Folloup Email', 'function::si_sendFollowupEmail', '*::*::*::*::*') === true) {
+            $GLOBALS['log']->fatal('SIEmailWriter - Send Followup Email created');
         }
         addFieldsToLayout();
         redirectToLicense();
-        $GLOBALS['log']->fatal("SICampaigner installed successfully...");
+        $GLOBALS['log']->fatal("SIEmailWriter installed successfully...");
     } catch (Exception $ex) {
-        $GLOBALS['log']->fatal("SICampaigner Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
+        $GLOBALS['log']->fatal("SIEmailWriter Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
     }
     $php_v = (int)PHP_VERSION;
     if ($php_v == 8) {
@@ -140,7 +140,7 @@ function createJOB($name, $job, $job_interval, $fields = [])
         $scheduler->save();
         return true;
     } else
-        $GLOBALS['log']->fatal("SICampaigner Exception: Failed to save " . $scheduler->name . __FILE__ . ":" . __LINE__);
+        $GLOBALS['log']->fatal("SIEmailWriter Exception: Failed to save " . $scheduler->name . __FILE__ . ":" . __LINE__);
     return false;
 }
 
@@ -226,14 +226,14 @@ function redirectToLicense()
     if (preg_match("/^6.*/", $sugar_version)) {
         echo "
             <script>
-            document.location = 'index.php?module=si_Campaigner&action=license';
+            document.location = 'index.php?module=si_Email_Writer&action=license';
             </script>";
     } else {
         echo "
             <script>
             var app = window.parent.SUGAR.App;
             window.parent.SUGAR.App.sync({callback: function(){
-                app.router.navigate('#bwc/index.php?module=si_Campaigner&action=license', {trigger:true});
+                app.router.navigate('#bwc/index.php?module=si_Email_Writer&action=license', {trigger:true});
             }});
             </script>";
     }

@@ -1,8 +1,8 @@
 <?php
 
-require_once 'custom/include/si_Campaigner/autoload.php';
+require_once 'custom/include/si_Email_Writer/autoload.php';
 
-use si_Campaigner\Helpers\PrepareEmail;
+use si_Email_Writer\Helpers\PrepareEmail;
 
 try {
     global $current_user;
@@ -11,11 +11,11 @@ try {
     if ($result !== 'true')
         sendError($result);
 } catch (Exception $ex) {
-    $GLOBALS['log']->fatal("si_Campaigner Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
+    $GLOBALS['log']->fatal("si_Email_Writer Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
 }
 
 function sendError($error)
 {
-    $GLOBALS['log']->fatal("si_Campaigner Error in " . __FILE__ . ":" . __LINE__ . ": " . $error);
+    $GLOBALS['log']->fatal("si_Email_Writer Error in " . __FILE__ . ":" . __LINE__ . ": " . $error);
     echo json_encode(['error' => $error]);
 }

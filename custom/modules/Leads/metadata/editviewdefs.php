@@ -4,7 +4,7 @@ $viewdefs['Leads'] = [
     'templateMeta' => [
       'includes' => [
         [
-          'file' => 'custom/modules/Leads/js/si_Campaigner.js',
+          'file' => 'custom/modules/Leads/js/si_Email_Writer.js',
         ],
       ],
       'form' => [
@@ -140,7 +140,7 @@ $viewdefs['Leads'] = [
         ],
         [
           [
-            'name' => 'si_campaigner_leads_1_name',
+            'name' => 'si_email_writer_leads_1_name',
           ],
         ],
       ],

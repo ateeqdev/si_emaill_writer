@@ -1,9 +1,9 @@
 <?php
 
-require_once 'custom/include/si_Campaigner/autoload.php';
+require_once 'custom/include/si_Email_Writer/autoload.php';
 
-use si_Campaigner\apiCalls\OAuthApiAdapter;
-use si_Campaigner\Sugar\Helpers\UpdateBean;
+use si_Email_Writer\apiCalls\OAuthApiAdapter;
+use si_Email_Writer\Sugar\Helpers\UpdateBean;
 
 try {
 	global $sugar_config, $current_user;
@@ -38,5 +38,5 @@ try {
 	} else {
 		echo "Error occurred, try later on...";
 	}
-	$GLOBALS['log']->fatal("si_Campaigner Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
+	$GLOBALS['log']->fatal("si_Email_Writer Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
 }
