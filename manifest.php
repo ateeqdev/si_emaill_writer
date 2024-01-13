@@ -3,7 +3,8 @@
 $manifest = [
   0 => [
     'acceptable_sugar_versions' => [
-      0 => '',
+      'exact_matches' => [],
+      'regex_matches' => ['6\.5\.[0-9]$'],
     ],
   ],
   1 => [
@@ -21,7 +22,7 @@ $manifest = [
   'is_uninstallable' => true,
   'name' => 'StackImagine Email Writer',
   'id' => 'StackImagine_Email_Writer',
-  'published_date' => '2023-10-07 13:26:25',
+  'published_date' => '2024-01-09 13:26:25',
   'type' => 'module',
   'version' => 2,
   'remove_tables' => 'prompt',

@@ -85,18 +85,20 @@ function addFieldsToLayout()
     $installer_func->addFieldsToLayout(['Accounts' => 'si_linkedin_profile']);
     $installer_func->removeFieldsFromLayout(['Accounts' => 'si_leads_contacted']);
     $installer_func->addFieldsToLayout(['Accounts' => 'si_leads_contacted']);
-    // $installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
-    // $installer_func->addFieldsToLayout(['Leads' => 'si_linkedin_profile']);
-    // $installer_func->removeFieldsFromLayout(['Leads' => 'description']);
-    // $installer_func->addFieldsToLayout(['Leads' => 'description']);
-    // $installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_profile']);
-    // $installer_func->addFieldsToLayout(['Leads' => 'si_company_linkedin_profile']);
-    // $installer_func->removeFieldsFromLayout(['Leads' => 'si_company_description']);
-    // $installer_func->addFieldsToLayout(['Leads' => 'si_company_description']);
-    // $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);
-    // $installer_func->addFieldsToLayout(['Leads' => 'si_email_body']);
-    // $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
-    // $installer_func->addFieldsToLayout(['Leads' => 'si_email_subject']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_linkedin_profile']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_profile']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_company_linkedin_profile']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_company_description']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_company_description']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_email_body']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_email_subject']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_status']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_email_status']);
+    $installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
+    $installer_func->addScriptToLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
 }
 /**
  * This function replaces contents of File 'vendor/zf1/zend-xml/library/Zend/Xml/Security.php' with file 'custom/include/vendor_replace/Security.php'.

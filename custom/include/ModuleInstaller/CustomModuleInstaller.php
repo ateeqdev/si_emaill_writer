@@ -27,4 +27,44 @@ class CustomModuleInstaller extends ModuleInstaller {
             }
         }
     }
+    function addScriptToLayout($layoutAdditions) {
+
+        $invalidModules = array(
+            'emails',
+            'kbdocuments'
+        );
+        foreach ($layoutAdditions as $deployedModuleName => $script) {
+
+            if (!in_array(strtolower($deployedModuleName), $invalidModules)) {
+
+                foreach ( array(MB_EDITVIEW, MB_DETAILVIEW ) as $view) {
+
+                    $GLOBALS['log']->debug(get_class($this) . ": adding $script to $view layout for module $deployedModuleName");
+                    $parser = new CustomGridLayoutMetaDataParser($view, $deployedModuleName);
+                    $parser->addScript( ['file' => $script ]);
+                    $parser->handleSave(false);
+                }
+            }
+        }
+    }
+    function removeScriptFromLayout($layoutAdditions) {
+
+        $invalidModules = array(
+            'emails',
+            'kbdocuments'
+        );
+        foreach ($layoutAdditions as $deployedModuleName => $script) {
+
+            if (!in_array(strtolower($deployedModuleName), $invalidModules)) {
+
+                foreach ( array(MB_EDITVIEW, MB_DETAILVIEW ) as $view) {
+
+                    $GLOBALS['log']->debug(get_class($this) . ": removing $script from $view layout for module $deployedModuleName");
+                    $parser = new CustomGridLayoutMetaDataParser($view, $deployedModuleName);
+                    $parser->removeScript( ['file' => $script ]);
+                    $parser->handleSave(false);
+                }
+            }
+        }
+    }
 }

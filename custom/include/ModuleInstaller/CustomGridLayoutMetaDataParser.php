@@ -8,8 +8,10 @@ require_once 'modules/ModuleBuilder/parsers/views/MetaDataParserInterface.php';
 require_once 'modules/ModuleBuilder/parsers/constants.php';
 require 'modules/ModuleBuilder/parsers/views/GridLayoutMetaDataParser.php';
 
-class CustomGridLayoutMetaDataParser extends GridLayoutMetaDataParser {
-    function addField($def, $panelID = FALSE) {
+class CustomGridLayoutMetaDataParser extends GridLayoutMetaDataParser
+{
+    function addField($def, $panelID = FALSE)
+    {
         // This function was updated in SuiteCRM 7.11 which resulted in failure to add fields (gmail id, calendar type) in the modules through post install.
         // This is the old function which works for us
         $backtrace_arr = debug_backtrace();
@@ -47,5 +49,28 @@ class CustomGridLayoutMetaDataParser extends GridLayoutMetaDataParser {
         }
         return true;
     }
-    
+
+    public function addScript($fileToInclude)
+    {
+        if (!isset($this->_viewdefs['templateMeta']['includes'])) {
+            $this->_viewdefs['templateMeta']['includes'] = [];
+        }
+        $this->_viewdefs['templateMeta']['includes'][] = $fileToInclude;
+        return true;
+    }
+
+    public function removeScript($fileToRemove)
+    {
+        if (!isset($this->_viewdefs['templateMeta']['includes'])) {
+            return false;
+        }
+
+        foreach ($this->_viewdefs['templateMeta']['includes'] as $key => $include) {
+            if (isset($include['file']) && $include['file'] === $fileToRemove) {
+                unset($this->_viewdefs['templateMeta']['includes'][$key]);
+                return true;
+            }
+        }
+        return false;
+    }
 }
