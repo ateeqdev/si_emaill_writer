@@ -100,8 +100,8 @@ function removeFieldsFromLayout()
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
 	$installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
 
-	$search_func = new si_removeSearchViewMetaDataParser(MB_BASICSEARCH, "Leads");
-	$search_func->removeFieldFromSearch('si_email_status', MB_BASICSEARCH);
+	$search_func = new si_removeSearchViewMetaDataParser(MB_ADVANCEDSEARCH, "Leads");
+	$search_func->removeFieldFromSearch('si_email_status', MB_ADVANCEDSEARCH);
 }
 
 function deleteSchedulerJobs()
