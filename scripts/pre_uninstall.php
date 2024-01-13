@@ -1,5 +1,81 @@
 <?php
 
+
+require_once 'modules/ModuleBuilder/parsers/views/SearchViewMetaDataParser.php';
+require_once 'modules/ModuleBuilder/parsers/views/GridLayoutMetaDataParser.php';
+require_once 'ModuleInstall/ModuleScanner.php';
+require_once 'ModuleInstall/ModuleInstaller.php';
+
+class si_removeSearchViewMetaDataParser extends SearchViewMetaDataParser
+{
+	public function removeFieldFromSearch($fieldName, $type = MB_ADVANCEDSEARCH)
+	{
+		// Ensure the field name is provided
+		if (empty($fieldName)) {
+			throw new Exception("Invalid field name. Field name is required.");
+		}
+
+		// Convert field name to lowercase
+		$fieldKey = strtolower($fieldName);
+
+		// Remove the field from the advanced search layout
+		if (isset($this->_saved['layout'][self::$variableMap[$type]][$fieldKey])) {
+			unset($this->_saved['layout'][self::$variableMap[$type]][$fieldKey]);
+		}
+
+		// Remove the field from the search view
+		if (isset($this->_viewdefs[$fieldKey])) {
+			unset($this->_viewdefs[$fieldKey]);
+		}
+
+		// Save the modified layout
+		$this->handleSave(false);
+	}
+}
+
+class si_removeGridLayoutMetaDataParser extends GridLayoutMetaDataParser
+{
+	public function removeScript($fileToRemove)
+	{
+		if (!isset($this->_viewdefs['templateMeta']['includes'])) {
+			return false;
+		}
+
+		foreach ($this->_viewdefs['templateMeta']['includes'] as $key => $include) {
+			if (isset($include['file']) && $include['file'] === $fileToRemove) {
+				unset($this->_viewdefs['templateMeta']['includes'][$key]);
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+class si_removeModuleInstaller extends ModuleInstaller
+{
+
+	function removeScriptFromLayout($layoutAdditions)
+	{
+
+		$invalidModules = array(
+			'emails',
+			'kbdocuments'
+		);
+		foreach ($layoutAdditions as $deployedModuleName => $script) {
+
+			if (!in_array(strtolower($deployedModuleName), $invalidModules)) {
+
+				foreach (array(MB_EDITVIEW, MB_DETAILVIEW) as $view) {
+
+					$GLOBALS['log']->debug(get_class($this) . ": removing $script from $view layout for module $deployedModuleName");
+					$parser = new si_removeGridLayoutMetaDataParser($view, $deployedModuleName);
+					$parser->removeScript(['file' => $script]);
+					$parser->handleSave(false);
+				}
+			}
+		}
+	}
+}
 function pre_uninstall()
 {
 	try {
@@ -13,8 +89,7 @@ function pre_uninstall()
 
 function removeFieldsFromLayout()
 {
-	require "ModuleInstall/ModuleInstaller.php";
-	$installer_func = new ModuleInstaller();
+	$installer_func = new si_removeModuleInstaller();
 	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_linkedin_profile']);
 	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_leads_contacted']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
@@ -25,12 +100,8 @@ function removeFieldsFromLayout()
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
 	$installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
 
-	require 'custom/include/ModuleInstaller/si_Email_WriterSearchViewMetaDataParser.php';
-	$search_func = new si_Email_WriterSearchViewMetaDataParser(MB_BASICSEARCH, "Leads");
-	$search_func->removeFieldFromSearch(
-		'si_email_status',
-		MB_BASICSEARCH
-	);
+	$search_func = new si_removeSearchViewMetaDataParser(MB_BASICSEARCH, "Leads");
+	$search_func->removeFieldFromSearch('si_email_status', MB_BASICSEARCH);
 }
 
 function deleteSchedulerJobs()

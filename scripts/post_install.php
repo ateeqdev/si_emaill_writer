@@ -101,6 +101,7 @@ function addFieldsToLayout()
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_status']);
     $installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
     $installer_func->addScriptToLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
+    $search_func->removeFieldFromSearch('si_email_status', MB_BASICSEARCH);
     $search_func->addFieldToSearch([
         'label' => 'LBL_SI_EMAIL_STATUS',
         'type' => 'enum',
