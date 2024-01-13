@@ -3,12 +3,9 @@ if (!defined('sugarEntry') || !sugarEntry) {
     die('Not A Valid Entry Point');
 }
 
-require_once 'modules/ModuleBuilder/parsers/views/AbstractMetaDataParser.php';
-require_once 'modules/ModuleBuilder/parsers/views/MetaDataParserInterface.php';
-require_once 'modules/ModuleBuilder/parsers/constants.php';
 require 'modules/ModuleBuilder/parsers/views/GridLayoutMetaDataParser.php';
 
-class CustomGridLayoutMetaDataParser extends GridLayoutMetaDataParser
+class si_Email_WriterGridLayoutMetaDataParser extends GridLayoutMetaDataParser
 {
     function addField($def, $panelID = FALSE)
     {

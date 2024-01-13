@@ -76,8 +76,10 @@ function post_install()
 function addFieldsToLayout()
 {
 
-    require 'custom/include/ModuleInstaller/CustomModuleInstaller.php';
-    $installer_func = new CustomModuleInstaller();
+    require 'custom/include/ModuleInstaller/si_Email_WriterModuleInstaller.php';
+    require 'custom/include/ModuleInstaller/si_Email_WriterSearchViewMetaDataParser.php';
+    $installer_func = new si_Email_WriterModuleInstaller();
+    $search_func = new si_Email_WriterSearchViewMetaDataParser(MB_BASICSEARCH, "Leads");
     //add gmail id field in users' editview
     $installer_func->removeFieldsFromLayout(['Users' => 'si_gmail_id']);
     $installer_func->addFieldsToLayout(['Users' => 'si_gmail_id']);
@@ -99,6 +101,14 @@ function addFieldsToLayout()
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_status']);
     $installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
     $installer_func->addScriptToLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
+    $search_func->addFieldToSearch([
+        'label' => 'LBL_SI_EMAIL_STATUS',
+        'type' => 'enum',
+        'default' => true,
+        'studio' => 'visible',
+        'width' => '10%',
+        'name' => 'si_email_status',
+    ], MB_BASICSEARCH);
 }
 /**
  * This function replaces contents of File 'vendor/zf1/zend-xml/library/Zend/Xml/Security.php' with file 'custom/include/vendor_replace/Security.php'.

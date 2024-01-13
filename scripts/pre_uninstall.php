@@ -23,7 +23,14 @@ function removeFieldsFromLayout()
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_description']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
-	$installer_func->removeFieldsFromLayout(['Users' => 'si_gmail_id']);
+	$installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
+
+	require 'custom/include/ModuleInstaller/si_Email_WriterSearchViewMetaDataParser.php';
+	$search_func = new si_Email_WriterSearchViewMetaDataParser(MB_BASICSEARCH, "Leads");
+	$search_func->removeFieldFromSearch(
+		'si_email_status',
+		MB_BASICSEARCH
+	);
 }
 
 function deleteSchedulerJobs()
