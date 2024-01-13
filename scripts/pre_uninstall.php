@@ -94,8 +94,6 @@ function removeFieldsFromLayout()
 	$installer_func->removeFieldsFromLayout(['Accounts' => 'si_leads_contacted']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'description']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_profile']);
-	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_description']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
 	$installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);

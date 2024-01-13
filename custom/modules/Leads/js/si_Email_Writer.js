@@ -56,43 +56,6 @@ function handleEmailRequest(apiEndpoint, successMessage) {
     });
 }
 
-function handleCompanyData(leadId) {
-  const apiEndpoint = `index.php?module=si_Email_Writer&action=getCompanyData&to_pdf=1&leadId=${leadId}`;
-  fetch(apiEndpoint)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error("Request failed");
-      }
-    })
-    .then((data) => {
-      if (data) {
-        const linkedinProfile = data.si_company_linkedin_profile;
-        const companyDescription = data.si_company_description;
-
-        if (linkedinProfile) {
-          formatHref("si_company_linkedin_profile", linkedinProfile);
-        }
-
-        if (companyDescription) {
-          const companyBioElement = document.getElementById(
-            "si_company_description"
-          );
-          companyBioElement.innerHTML = companyDescription;
-        }
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-      if (error.error) {
-        showErrorPopup("Error fetching data: " + error.message);
-      } else {
-        window.location.reload();
-      }
-    });
-}
-
 function showLoader() {
   const si_writer_overlay = document.createElement("div");
   si_writer_overlay.className = "si_writer_overlay";
@@ -213,7 +176,6 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(field, { childList: true, subtree: true });
   });
 
-  getCompanyData();
   appendButtons();
   styleLoader();
 });
@@ -303,11 +265,6 @@ function writeEmailRequest() {
   const leadId = document.querySelector('input[name="record"]').value;
   const apiEndpoint = `index.php?module=Leads&action=si_writeEmail&to_pdf=1&id=${leadId}`;
   handleEmailRequest(apiEndpoint, "Writing Email Request Successful");
-}
-
-function getCompanyData() {
-  const leadId = document.querySelector('input[name="record"]').value;
-  handleCompanyData(leadId);
 }
 
 function formatHref(elementId, val) {
