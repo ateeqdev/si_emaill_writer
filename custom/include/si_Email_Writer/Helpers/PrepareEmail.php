@@ -110,12 +110,13 @@ class PrepareEmail
             $bean->load_relationship('accounts');
             if ($bean->accounts) {
                 $relatedAccount = $bean->accounts->get();
-                if (!$relatedAccount || count($relatedAccount) < 0)
-                    return 'No related account found';
-            } else {
-                return 'No related account found';
             }
-            $account = \BeanFactory::getBean('Accounts', $relatedAccount[0], array('disable_row_level_security' => true));
+            if ($relatedAccount) {
+                $account = \BeanFactory::getBean('Accounts', $relatedAccount[0], array('disable_row_level_security' => true));
+                if ($account) {
+                    $accountDescription = "Company name: " . $account->name . "\nCompany Description: " . $account->description;
+                }
+            }
 
             $bean->load_relationship('si_email_writer_leads_1');
             if ($bean->si_email_writer_leads_1) {
@@ -127,11 +128,11 @@ class PrepareEmail
             // Select the appropriate email sending method based on the email type
             switch ($emailType) {
                 case 'followup':
-                    $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->description, $account->description, $bean->assigned_user_id, $prompt);
+                    $response = OpenAIApiAdapter::followupEmail($bean->si_conversation_history, $bean->first_name . ' ' . $bean->last_name, $bean->description, $account->accountDescription || "", $bean->assigned_user_id, $prompt);
                     break;
 
                 case 'first':
-                    $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->description, $account->description, $bean->assigned_user_id, $prompt);
+                    $response = OpenAIApiAdapter::firstEmail($bean->first_name . ' ' . $bean->last_name, $bean->description, $accountDescription || "", $bean->assigned_user_id, $prompt);
                     break;
 
                 default:
