@@ -95,6 +95,8 @@ function addFieldsToLayout()
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_subject']);
     $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_status']);
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_status']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_writer_leads_1_name']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_email_writer_leads_1_name']);
     $installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
     $installer_func->addScriptToLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
     $search_func->removeFieldFromSearch('si_email_status', MB_ADVANCEDSEARCH);
