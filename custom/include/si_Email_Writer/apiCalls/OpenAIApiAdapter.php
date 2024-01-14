@@ -95,17 +95,16 @@ class OpenAIApiAdapter extends ApiAdapter
         if (isset($message['body']))
             return $message;
 
-
-        $emailContent = ltrim($message, '```json');
+        $emailContent = trim($message);
+        $emailContent = ltrim($emailContent, '```json');
         $emailContent = trim($emailContent, '```');
         $emailContent = trim($emailContent);
 
-        $emailContent2 = json_decode($message, true);
+        $emailContent2 = json_decode($emailContent, true);
         if (isset($emailContent2['body']))
             return $emailContent2;
 
         $emailContent2 = json_decode(json_encode($emailContent), true);
-
         if (isset($emailContent2['body']))
             return $emailContent2;
 

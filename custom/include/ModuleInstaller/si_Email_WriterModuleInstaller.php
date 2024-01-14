@@ -65,7 +65,7 @@ class si_Email_WriterModuleInstaller extends ModuleInstaller
 
                     $GLOBALS['log']->debug(get_class($this) . ": removing $script from $view layout for module $deployedModuleName");
                     $parser = new si_Email_WriterGridLayoutMetaDataParser($view, $deployedModuleName);
-                    $parser->removeScript(['file' => $script]);
+                    $parser->removeScript($script);
                     $parser->handleSave(false);
                 }
             }
