@@ -30,7 +30,7 @@ class PrepareEmail
         // Define the parameters for the subquery
         $subTable = 'leads';
         $subFields = ['id', 'account_id', 'ROW_NUMBER() OVER (PARTITION BY account_id ORDER BY date_modified) AS row_num'];
-        $subWhere = ['si_email_status' => ['=', 'data_entered'], 'description' => ['!=', null], 'description' => ['!=', '']];
+        $subWhere = ['si_email_status' => ['=', 'data_entered'], 'description' => ['!=', null], 'description' => ['!=', ''], 'si_email_verified' => ['=', 'Verified']];
 
         // Run the query using the selectWithSubquery method
         $result = DBHelper::selectWithSubquery($mainTable, $mainFields, $mainWhere, $subTable, $subFields, $subWhere);
@@ -114,6 +114,9 @@ class PrepareEmail
             if ($relatedAccount) {
                 $account = \BeanFactory::getBean('Accounts', $relatedAccount[0], array('disable_row_level_security' => true));
                 if ($account) {
+                    if (substr($account->description, 0, 33) === "Their linkedin bio: \nTehcnologies" || substr($account->description, 0, 35) === "Their linkedin bio: <br>Technologies") {
+                        $account->description = substr($account->description, 21);
+                    }
                     $accountDescription = "Company name: " . $account->name . "\nCompany Description: " . $account->description;
                 }
             }

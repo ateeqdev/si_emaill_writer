@@ -89,12 +89,18 @@ function addFieldsToLayout()
     // $installer_func->addFieldsToLayout(['Accounts' => 'si_leads_contacted']);
     $installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
     $installer_func->addFieldsToLayout(['Leads' => 'si_linkedin_profile']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_profile']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_company_linkedin_profile']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_company_description']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_company_description']);
     $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_body']);
     $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_subject']);
     $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_status']);
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_status']);
+    $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_verified']);
+    $installer_func->addFieldsToLayout(['Leads' => 'si_email_verified']);
     $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_writer_leads_1_name']);
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_writer_leads_1_name']);
     $installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
@@ -107,6 +113,15 @@ function addFieldsToLayout()
         'studio' => 'visible',
         'width' => '10%',
         'name' => 'si_email_status',
+    ], MB_ADVANCEDSEARCH);
+    $search_func->removeFieldFromSearch('si_email_verified', MB_ADVANCEDSEARCH);
+    $search_func->addFieldToSearch([
+        'label' => 'LBL_SI_EMAIL_VERIFIED',
+        'type' => 'enum',
+        'default' => true,
+        'studio' => 'visible',
+        'width' => '10%',
+        'name' => 'si_email_verified',
     ], MB_ADVANCEDSEARCH);
 }
 /**
