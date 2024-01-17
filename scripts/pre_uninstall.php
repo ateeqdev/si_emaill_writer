@@ -96,12 +96,17 @@ function removeFieldsFromLayout()
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_linkedin_profile']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_body']);
 	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_subject']);
-    $installer_func->removeFieldsFromLayout(['Leads' => 'si_email_writer_leads_1_name']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_verified']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_email_writer_leads_1_name']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_linkedin_profile']);
+	$installer_func->removeFieldsFromLayout(['Leads' => 'si_company_description']);
+
 
 	$installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
 
 	$search_func = new si_removeSearchViewMetaDataParser(MB_ADVANCEDSEARCH, "Leads");
 	$search_func->removeFieldFromSearch('si_email_status', MB_ADVANCEDSEARCH);
+	$search_func->removeFieldFromSearch('si_email_verified', MB_ADVANCEDSEARCH);
 }
 
 function deleteSchedulerJobs()

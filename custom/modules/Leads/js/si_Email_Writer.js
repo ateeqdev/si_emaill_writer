@@ -46,13 +46,51 @@ function handleEmailRequest(apiEndpoint, successMessage) {
     .catch((error) => {
       if (error.error) {
         showErrorPopup("Error: " + error.error);
-      } else {
-        window.location.reload();
       }
       console.error(`Error:`, error);
     })
     .finally(() => {
       hideLoader();
+    });
+}
+
+function handleCompanyData(leadId) {
+  const apiEndpoint = `index.php?module=si_Email_Writer&action=getCompanyData&to_pdf=1&leadId=${leadId}`;
+  fetch(apiEndpoint)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Request failed");
+      }
+    })
+    .then((data) => {
+      if (data) {
+        const linkedinProfile = data.si_company_linkedin_profile;
+        const companyDescription = data.si_company_description;
+        const accountId = data.accountId;
+
+        if (linkedinProfile) {
+          formatHref("si_company_linkedin_profile", linkedinProfile);
+        }
+
+        if (companyDescription) {
+          const companyBioElement = document.getElementById(
+            "si_company_description"
+          );
+          companyBioElement.innerHTML = companyDescription;
+        }
+
+        if (accountId) {
+          formatHref("account_name", "index.php?module=Accounts&action=DetailView&record="+ accountId);
+        }
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+      if (error.error) {
+        showErrorPopup("Error fetching data: " + error.message);
+      }
     });
 }
 
@@ -176,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(field, { childList: true, subtree: true });
   });
 
+  getCompanyData();
   appendButtons();
   styleLoader();
 });
@@ -183,11 +222,12 @@ document.addEventListener("DOMContentLoaded", function () {
 function appendButtons() {
   const si_email_body = document.getElementById("si_email_body").innerHTML;
   const si_email_status = document.getElementById("si_email_status").value;
+  const si_email_verified = document.getElementById("si_email_verified").value;
 
   let buttonConfig = {};
 
   if (!si_email_body) {
-    if (si_email_status === "data_entered") {
+    if (si_email_status === "data_entered" && si_email_verified == "Verified") {
       buttonConfig = {
         id: "writeemail",
         value: "Write First Email",
@@ -267,6 +307,11 @@ function writeEmailRequest() {
   handleEmailRequest(apiEndpoint, "Writing Email Request Successful");
 }
 
+function getCompanyData() {
+  const leadId = document.querySelector('input[name="record"]').value;
+  handleCompanyData(leadId);
+}
+
 function formatHref(elementId, val) {
   const hrefElement = document.getElementById(elementId);
   hrefElement.href = val;
@@ -274,7 +319,7 @@ function formatHref(elementId, val) {
   if (hrefElement.tagName === "INPUT") {
     hrefElement.innerHTML = val;
   } else {
-    hrefElement.innerHTML = `<a target='_blank' href='${val}'>${val}</a>`;
+    hrefElement.innerHTML = `<a target='_blank' href='${val}'>${hrefElement.innerHTML}</a>`;
   }
 }
 

@@ -6,6 +6,37 @@ use si_Email_Writer\Sugar\Helpers\DBHelper;
 class si_Email_WriterHook
 {
     /**
+     * This function associates a lead with an account based on company linkedin url
+     *
+     *
+     * @param  object  $bean    bean
+     * @param  string  $event   sugar status
+     * @access public
+     */
+    function linkAccountToLead($bean, $event)
+    {
+        if ($bean->si_conversation_history == '') {
+            $bean->si_conversation_history = null;
+        }
+
+        if (empty($bean->si_company_linkedin_profile) && empty($bean->website)) {
+            return false;
+        }
+
+        if (!empty($bean->si_company_linkedin_profile))
+            $account = DBHelper::select("accounts", "id", ["si_linkedin_profile" => ["=", $bean->si_company_linkedin_profile]]);
+
+        if (empty($account) && !empty($bean->website))
+            $account = DBHelper::select("accounts", "id", ["website" => ["=", $bean->website]]);
+
+        if (!empty($account)) {
+            $bean->account_id = $account[0]['id'];
+            $bean->si_company_linkedin_profile = '';
+            $bean->website = '';
+        }
+    }
+
+    /**
      * This function sets status when the linkedin bio is added in a lead
      *
      *
