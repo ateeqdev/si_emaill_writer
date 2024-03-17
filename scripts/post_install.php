@@ -61,7 +61,9 @@ function post_install()
         if (createJOB('SIEmailWriter - Send Folloup Email', 'function::si_sendFollowupEmail', '*::*::*::*::*') === true) {
             $GLOBALS['log']->fatal('SIEmailWriter - Send Followup Email created');
         }
+        addActionsForSuiteCRM8();
         addFieldsToLayout();
+        addButtonsToLeadsView();
         redirectToLicense();
         $GLOBALS['log']->fatal("SIEmailWriter installed successfully...");
     } catch (Exception $ex) {
@@ -99,6 +101,98 @@ function addFieldsToLayout()
     $installer_func->addFieldsToLayout(['Leads' => 'si_email_writer_leads_1_name']);
     $installer_func->removeScriptFromLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
     $installer_func->addScriptToLayout(['Leads' => 'custom/modules/Leads/js/si_Email_Writer.js']);
+    $installer_func->addButtonToLayout([
+        'Leads' => [
+            "write-first-email" => [
+                "key" => "write-first-email",
+                "display" => "hide",
+                "asyncProcess" => true,
+                "labelKey" => "LBL_SI_WRITE_FIRST_EMAIL",
+                "modes" => ["detail", "edit", "create"],
+                "acl" => ["edit"],
+                "displayLogic" => [
+                    "write_first_email_visibility" => [
+                        "modes" => [
+                            0 => "detail",
+                            1 => "edit",
+                            2 => "create",
+                        ],
+                        "params" => [
+                            "activeOnFields" => [
+                                "si_email_status" => ["data_entered"],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            "approve-email" => [
+                "key" => "approve-email",
+                "display" => "hide",
+                "asyncProcess" => true,
+                "labelKey" => "LBL_SI_APPROVE_EMAIL",
+                "modes" => ["detail", "edit", "create"],
+                "acl" => ["edit"],
+                "displayLogic" => [
+                    "approve_email_visibility" => [
+                        "modes" => [
+                            0 => "detail",
+                            1 => "edit",
+                            2 => "create",
+                        ],
+                        "params" => [
+                            "activeOnFields" => [
+                                "si_email_status" => ["ready_for_approval","followup_written"],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            "send-email" => [
+                "key" => "send-email",
+                "display" => "hide",
+                "asyncProcess" => true,
+                "labelKey" => "LBL_SI_SEND_EMAIL",
+                "modes" => ["detail", "edit", "create"],
+                "acl" => ["edit"],
+                "displayLogic" => [
+                    "send_email_visibility" => [
+                        "modes" => [
+                            0 => "detail",
+                            1 => "edit",
+                            2 => "create",
+                        ],
+                        "params" => [
+                            "activeOnFields" => [
+                                "si_email_status" => ["approved","followup_approved"],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            "write-followup-email" => [
+                "key" => "write-followup-email",
+                "display" => "hide",
+                "asyncProcess" => true,
+                "labelKey" => "LBL_SI_WRITE_FOLLOWUP_EMAIL",
+                "modes" => ["detail", "edit", "create"],
+                "acl" => ["edit"],
+                "displayLogic" => [
+                    "approve_email_visibility" => [
+                        "modes" => [
+                            0 => "detail",
+                            1 => "edit",
+                            2 => "create",
+                        ],
+                        "params" => [
+                            "activeOnFields" => [
+                                "si_email_status" => ["followup_required"],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ]);
     $search_func->removeFieldFromSearch('si_email_status', MB_ADVANCEDSEARCH);
     $search_func->addFieldToSearch([
         'label' => 'LBL_SI_EMAIL_STATUS',
@@ -247,5 +341,34 @@ function redirectToLicense()
                 app.router.navigate('#bwc/index.php?module=si_Email_Writer&action=license', {trigger:true});
             }});
             </script>";
+    }
+}
+
+/**
+ * This function will copy the required 
+ * Files in Extensions folder for SuiteCRM
+ *
+ * @return void
+ */
+function addActionsForSuiteCRM8()
+{
+    try {
+        $sourceDir = 'custom/suitecrm8/extensions/customButton/modules/Leads/Service';
+        $files = scandir($sourceDir);
+        chdir('../../extensions');
+        mkdir('customButton/modules/Leads/Service', 0777, true);
+        $destinationDir = 'customButton/modules/Leads/Service';
+        foreach ($files as $file) {
+            if ($file !== '.' && $file !== '..') {
+                $sourceFile = '../public/legacy/' . $sourceDir . '/' . $file;
+                $destinationFile = $destinationDir . '/' . $file;
+                if (!copy($sourceFile, $destinationFile)) {
+                    $GLOBALS['log']->fatal('Failed to copy ' . $file);
+                }
+            }
+        }
+        chdir('../public/legacy');
+    } catch (Exception $ex) {
+        $GLOBALS['log']->fatal("SIEmailWriter Exception in " . __FILE__ . ":" . __LINE__ . ": " . $ex->getMessage());
     }
 }

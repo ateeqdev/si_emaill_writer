@@ -95,6 +95,6 @@ class HandleSending
     private static function sendError($error)
     {
         $GLOBALS['log']->fatal("si_Email_Writer Error in " . __FILE__ . ":" . __LINE__ . ": " . $error);
-        return json_encode(['error' => $error]);
+        return ['error' => $error];
     }
 }

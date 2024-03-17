@@ -50,6 +50,23 @@ class si_Email_WriterModuleInstaller extends ModuleInstaller
             }
         }
     }
+    function addButtonToLayout($buttonsAddition){
+        $invalidModules = array(
+            'emails',
+            'kbdocuments'
+        );
+        foreach($buttonsAddition as $deployedModuleName => $buttons){
+            if(!in_array(strtolower($deployedModuleName), $invalidModules)){
+                foreach(array(MB_DETAILVIEW) as $view){
+                    $parser = new si_Email_WriterGridLayoutMetaDataParser($view, $deployedModuleName);
+                    foreach($buttons as $name => $params){
+                        $parser->addRecordActionButton($name, $params);
+                    }
+                    $parser->handleSave(false);
+                }
+            }
+        }
+    }
     function removeScriptFromLayout($layoutAdditions)
     {
 

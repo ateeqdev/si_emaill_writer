@@ -3,6 +3,7 @@
 $dictionary["Lead"]["fields"]["si_email_status"] = array(
     "name" => "si_email_status",
     "label" => "LBL_SI_EMAIL_STATUS",
+    "vname" => "LBL_SI_EMAIL_STATUS",
     'options' => 'si_email_status_dom',
     'type' => 'enum',
     'default' => 'New',

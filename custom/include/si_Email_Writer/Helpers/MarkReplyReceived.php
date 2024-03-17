@@ -46,7 +46,7 @@ class MarkReplyReceived
                     if (!$leadId)
                         continue;
 
-                    $bean = \BeanFactory::retrieveBean($module, $leadId, array('disable_row_level_security' => true));
+                    $bean = \BeanFactory::getBean($module, $leadId, array('disable_row_level_security' => true));
                     $bean->si_email_status = 'reply_received';
                     $bean->save();
                 }

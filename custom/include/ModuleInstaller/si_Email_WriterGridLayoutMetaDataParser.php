@@ -56,6 +56,19 @@ class si_Email_WriterGridLayoutMetaDataParser extends GridLayoutMetaDataParser
         return true;
     }
 
+    /**
+     * Add buttons on Leads Action View
+     *
+     * @return void
+     */
+    public function addRecordActionButton($name, $params){
+        if(!isset($this->_viewdefs['recordActions']['actions'])){
+            return false;
+        }
+        $this->_viewdefs['recordActions']['actions'][$name] = $params;
+        return true;
+    }
+
     public function removeScript($fileToRemove)
     {
         if (!isset($this->_viewdefs['templateMeta']['includes'])) {

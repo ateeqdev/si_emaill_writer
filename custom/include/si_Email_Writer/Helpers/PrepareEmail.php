@@ -108,6 +108,7 @@ class PrepareEmail
                 $emailType = 'first';
 
             $bean->load_relationship('accounts');
+            $accountDescription ='';
             if ($bean->accounts) {
                 $relatedAccount = $bean->accounts->get();
             }
